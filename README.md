@@ -1,53 +1,3 @@
-<div id="top"></div>
-
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
-<p align="center">
-  <a href="https://github.com/Drumpy/vrttv-boilerplate/stargazers">
-    <img src="https://img.shields.io/github/stars/Drumpy/vrttv-boilerplate.svg?style=for-the-badge" />
-  </a>
-  <a href="https://github.com/Drumpy/vrttv-boilerplate/issues">
-    <img src="https://img.shields.io/github/issues/Drumpy/vrttv-boilerplate.svg?style=for-the-badge" />
-  </a>
-</p>
-
-<!-- PROJECT LOGO -->
-<div align="center">
-  <a href="#">
-    <img src="https://i.ibb.co/mqPXzct/VRTTV-Banner.png" alt="VRTTV Banner">
-  </a>
-
-  <h2 align="center">VRTTV Boilerplate</h2>
-  <p align="center">
-    Avoid setting up a project from scratch. Start using VRTTV 🎉
-    <br />
-    <br />
-    <a href="https://vrttv-boilerplate.vercel.app/">View Demo</a>
-    ·
-    <a href="https://github.com/Drumpy/vrttv-boilerplate/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/Drumpy/vrttv-boilerplate/issues">Request Feature</a>
-  </p>
-</div>
-
-<!-- ABOUT THE PROJECT -->
-
-# 🤔 What’s this?
-
-Are you tired of always creating the same structure from scratch for your projects? Me too. 🥱
-
-This is my _go-to_ when I start a new project on front-end development.
-
-If you found it useful somehow, I would be grateful if you could leave a star in the project's GitHub repository 💚
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 # 🔮 What’s inside?
 
 - ⚡ [Vite](https://vitejs.dev/) - Next generation frontend tooling.
@@ -92,20 +42,10 @@ You need this technologies :
 
 ## 💻 Run Locally
 
-1. Option 1: Generate a new repository with this template
-
-- [Use this template](https://github.com/Drumpy/vrttv-boilerplate/generate)
-
-1. Option 2: Copy just the project scaffolding.
+1.  Clone the entire repository.
 
 ```bash
-npx --yes degit Drumpy/vrttv-boilerplate your-folder-name
-```
-
-1. Option 3: Clone the entire repository.
-
-```bash
-git clone https://github.com/Drumpy/vrttv-boilerplate
+git clone https://github.com/mospolytech-finapp/web.git
 ```
 
 2. Go to the project directory.
@@ -159,16 +99,6 @@ ORG_ID
 PROJECT_ID
 ```
 
-### 💡 **Tip!**
-
-You can skip GitHub Action execution by adding **[skip ci]** to your commit message.
-
-```bash
-style: change the colors of the theme [skip ci]
-```
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 ## 🐕‍🦺 Setup Husky
 
 1. Run Husky command.
@@ -193,27 +123,23 @@ feat: added navbar component
 fix(navbar): fixed all the broken links
 ```
 
-### 👇 Creating a commit as an example
-
-<img src="https://i.ibb.co/1dBhQ51/Windows-Terminal-wmp-Pxe1-Q3u.gif"/>
-
 ### 📜 Conventional Commit Rules
 
 Use this table as a reference when writing commits. Husky will be in charge of checking that the rules will be followed.
 
-| Commit Type | Title                    | Description                                                                                                 | Emoji |
-| ----------- | ------------------------ | ----------------------------------------------------------------------------------------------------------- | :---: |
-| `feat`      | Features                 | A new feature                                                                                               |  ✨   |
-| `fix`       | Bug Fixes                | A bug fix                                                                                                   |  🐛   |
-| `docs`      | Documentation            | Documentation only changes                                                                                  |  📝   |
-| `style`     | Styles                   | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)      |  🎨   |
-| `refactor`  | Code Refactoring         | A code change that neither fixes a bug nor adds a feature                                                   |  ♻️   |
-| `perf`      | Performance Improvements | A code change that improves performance                                                                     |  ⚡   |
-| `test`      | Tests                    | Adding missing tests or correcting existing tests                                                           |  ✅   |
-| `build`     | Builds                   | Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)         |  🚨   |
-| `ci`        | Continuous Integrations  | Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs) |  👷   |
-| `chore`     | Chores                   | Other changes that don't modify src or test files                                                           |  ➕   |
-| `revert`    | Reverts                  | Reverts a previous commit                                                                                   |  ⏪   |
+| Commit Type | Title                    | Description                                                                                                 |
+| ----------- | ------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `feat`      | Features                 | A new feature                                                                                               |
+| `fix`       | Bug Fixes                | A bug fix                                                                                                   |
+| `docs`      | Documentation            | Documentation only changes                                                                                  |
+| `style`     | Styles                   | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)      |
+| `refactor`  | Code Refactoring         | A code change that neither fixes a bug nor adds a feature                                                   |
+| `perf`      | Performance Improvements | A code change that improves performance                                                                     |
+| `test`      | Tests                    | Adding missing tests or correcting existing tests                                                           |
+| `build`     | Builds                   | Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)         |
+| `ci`        | Continuous Integrations  | Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs) |
+| `chore`     | Chores                   | Other changes that don't modify src or test files                                                           |
+| `revert`    | Reverts                  | Reverts a previous commit                                                                                   |
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -227,19 +153,3 @@ Use this table as a reference when writing commits. Husky will be in charge of c
 - 🔗 Deploy to Vercel
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- CONTACT -->
-
-# 📧 Contact
-
-Diego Do Santos - ddosantos@hotmail.com
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[contributors-shield]: https://img.shields.io/github/contributors/Drumpy/vite-boilerplate.svg?style=for-the-badge
-[contributors-url]: https://github.com/Drumpy/vrttv-boilerplate/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Drumpy/vrttv-boilerplate.svg?style=for-the-badge
-[product-screenshot]: https://i.ibb.co/zf7gjMR/Card-Outline.png
