@@ -1,8 +1,5 @@
-import react from '@/Assets/images/react.svg'
-import tailwindcss from '@/Assets/images/tailwindcss.svg'
-import typescript from '@/Assets/images/typescript.svg'
-import vercel from '@/Assets/images/vercel.svg'
-import vite from '@/Assets/images/vite.svg'
+import Input from './ui/Input'
+import Button from './ui/Button'
 
 function App() {
   return (
@@ -11,6 +8,20 @@ function App() {
         <h1 className="text-7xl font-bold tracking-wide">
           COINSTAT
           <span className="block text-3xl italic">start of development</span>
+          <form action="" method="Post">
+            <Input
+              name="login"
+              placeholder="Введите адрес электронной почты или номер телефона"
+              type="text"
+            />
+            <Input name="sdv" type="checkbox" />
+            <label className="flex flex-col content-center items-center" htmlFor="password">
+              <span>Пароль</span>
+              <Input name="password" placeholder="Введите пароль" type="password" />
+            </label>
+
+            <Button>Войти</Button>
+          </form>
         </h1>
       </section>
     </main>
