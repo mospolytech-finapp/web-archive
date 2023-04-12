@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 
-interface Input {
+interface InputProps {
   name: string
   type: string
   placeholder?: string
 }
 
-const Input = ({ ...props }: Input) => {
+const Input = ({ ...props }: InputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   function togglePasswordVisibility() {
@@ -25,19 +25,15 @@ const Input = ({ ...props }: Input) => {
                   placeholder={props.placeholder}
                   type={isPasswordVisible ? 'text' : 'password'}
                 />
-                {isPasswordVisible ? (
-                  <img
-                    alt="скрыть пароль"
-                    src="src/assets/images/close_eye.svg"
-                    onClick={togglePasswordVisibility}
-                  />
-                ) : (
-                  <img
-                    alt="показать пароль"
-                    src="src/assets/images/open_eye.svg"
-                    onClick={togglePasswordVisibility}
-                  />
-                )}
+                <img
+                  alt={isPasswordVisible ? 'скрыть пароль' : 'показать пароль'}
+                  src={
+                    isPasswordVisible
+                      ? 'src/assets/images/close_eye.svg'
+                      : 'src/assets/images/open_eye.svg'
+                  }
+                  onClick={togglePasswordVisibility}
+                />
               </div>
             )
 
