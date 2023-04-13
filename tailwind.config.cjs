@@ -3,9 +3,15 @@
 module.exports = {
   content: ['./*.html', './src/**/*.{js,ts,jsx,tsx,css}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'light-gray': '#BBB7B7',
+        'light-green': '#02C98D',
+        'light-blue': '#3589D7'
+      }
+    },
     fontFamily: {
-      sans: ['CascadiaCodePL', 'system-ui']
+      sans: ['Gilroy', 'sans-serif']
     }
   },
   plugins: []
