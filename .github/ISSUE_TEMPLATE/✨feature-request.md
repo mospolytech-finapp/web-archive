@@ -1,7 +1,7 @@
 ---
 name: "✨Feature request"
 about: Предложите идею для этого проекта
-title: "✨ [Описание идем]"
+title: "✨ [Описание идеи]"
 labels: enhancement
 assignees: DimDimich-creator
 
