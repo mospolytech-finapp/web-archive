@@ -5,7 +5,7 @@ interface Button {
 const Button = ({ ...props }: Button) => {
   return (
     <button
-      className="from-light-green to-light-blue max-h-12 w-full rounded-full bg-gradient-to-r py-3 text-xl font-normal text-white"
+      className="from-light-green to-light-blue max-h-12 w-full rounded-full bg-gradient-to-r py-3 text-xl font-light text-white"
       type="submit"
     >
       {props.children}
