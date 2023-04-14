@@ -30,7 +30,7 @@ const AuthForm = () => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <fieldset className="grid">
-        <legend className="from-light-green to-light-blue mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
+        <legend className="from-light-green-text to-light-blue-text mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
           Вход
         </legend>
         <label className="mb-3.5 flex flex-col items-start justify-start" htmlFor="email">
