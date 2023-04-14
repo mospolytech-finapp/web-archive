@@ -6,7 +6,7 @@ import Input from './ui/Input'
 import Button from './ui/Button'
 
 const schema = z.object({
-  login: z.string().min(1, { message: 'Неверный логин или пароль' }),
+  email: z.string().email({ message: 'Неверный логин или пароль' }),
   password: z.string().min(3, { message: 'Неверный логин или пароль' }),
   remember_password: z.boolean()
 })
@@ -33,27 +33,27 @@ const AuthForm = () => {
         <legend className="from-light-green to-light-blue mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
           Вход
         </legend>
-        <label className="mb-3 flex flex-col items-start justify-start" htmlFor="login">
-          <span className="mb-3 text-xs uppercase text-[#2B2B2B] md:text-base">
-            АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ ИЛИ НОМЕР ТЕЛЕФОНА
+        <label className="mb-3.5 flex flex-col items-start justify-start" htmlFor="email">
+          <span className="mb-2.5 text-xs uppercase text-[#2B2B2B] md:text-base">
+            АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ
           </span>
-          <Input id="login" name="login" register={register} type="text" />
+          <Input id="email" name="email" register={register} type="email" />
         </label>
-        <label className="mb-3 flex flex-col items-start justify-start" htmlFor="password">
-          <span className="mb-3 text-xs uppercase text-[#2B2B2B] md:text-base">ПАРОЛЬ</span>
+        <label className="mb-2 flex flex-col items-start justify-start" htmlFor="password">
+          <span className="mb-2.5 text-xs uppercase text-[#2B2B2B] md:text-base">ПАРОЛЬ</span>
           <Input id="password" name="password" register={register} type="password" />
         </label>
         <div className="mb-6 flex justify-between">
-          {(errors.login?.message || errors.password?.message) && (
+          {(errors.email?.message || errors.password?.message) && (
             <p className="text-normal text-xs text-[#FF6F6F] md:text-base">
-              {errors.login?.message || errors.password?.message}
+              {errors.email?.message || errors.password?.message}
             </p>
           )}
           <a className="text-xs text-[#7C7C7C] md:text-base" href="#">
             Забыли пароль?
           </a>
         </div>
-        <label className="mb-9 flex items-center" htmlFor="remember_password">
+        <label className="mb-8 flex items-center" htmlFor="remember_password">
           <Input
             id="remember_password"
             name="remember_password"
@@ -66,7 +66,7 @@ const AuthForm = () => {
         </label>
         <Button>Войти</Button>
       </fieldset>
-      <div className="mt-6 flex items-center justify-between">
+      <div className="mt-5 flex items-center justify-between">
         <a className="text-xs font-light text-[#07836C] md:text-base" href="#">
           Нужна учетная запись?
         </a>
