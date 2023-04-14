@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
+import { Link } from 'react-router-dom'
 
 import Input from './ui/Input'
 import Button from './ui/Button'
@@ -95,9 +96,9 @@ const RegisterForm = () => {
         <Button>Продолжить</Button>
       </fieldset>
       <div className="mt-4 flex items-center justify-between">
-        <a className="text-xs font-light text-[#07836C] md:text-base" href="#">
+        <Link className="text-xs font-light text-[#07836C] md:text-base" to="/auth">
           Уже зарегистрированы?
-        </a>
+        </Link>
         <button className="text-xs font-light text-[#3076B8] md:text-base">Связаться с нами</button>
       </div>
     </form>
