@@ -34,13 +34,13 @@ const AuthForm = () => {
           Вход
         </legend>
         <label className="mb-3 flex flex-col items-start justify-start" htmlFor="login">
-          <span className="mb-3 text-xs text-[#2B2B2B] md:text-base ">
+          <span className="mb-3 text-xs uppercase text-[#2B2B2B] md:text-base">
             АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ ИЛИ НОМЕР ТЕЛЕФОНА
           </span>
           <Input id="login" name="login" register={register} type="text" />
         </label>
         <label className="mb-3 flex flex-col items-start justify-start" htmlFor="password">
-          <span className="mb-3 text-xs text-[#2B2B2B] md:text-base">ПАРОЛЬ</span>
+          <span className="mb-3 text-xs uppercase text-[#2B2B2B] md:text-base">ПАРОЛЬ</span>
           <Input id="password" name="password" register={register} type="password" />
         </label>
         <div className="mb-6 flex justify-between">
@@ -70,9 +70,7 @@ const AuthForm = () => {
         <a className="text-xs font-light text-[#07836C] md:text-base" href="#">
           Нужна учетная запись?
         </a>
-        <a className="text-xs font-light text-[#3076B8] md:text-base" href="#">
-          Связаться с нами
-        </a>
+        <button className="text-xs font-light text-[#3076B8] md:text-base">Связаться с нами</button>
       </div>
     </form>
   )
