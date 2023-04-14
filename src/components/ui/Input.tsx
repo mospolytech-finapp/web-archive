@@ -12,8 +12,9 @@ interface InputProps {
 const Input = ({ ...props }: InputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
-  function togglePasswordVisibility(e: { preventDefault: () => void }) {
+  function togglePasswordVisibility(e) {
     e.preventDefault()
+    e.stopPropagation()
     setIsPasswordVisible((prevState) => !prevState)
   }
 
