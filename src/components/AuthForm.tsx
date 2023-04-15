@@ -25,9 +25,6 @@ const AuthForm = () => {
   })
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  function toggleModalVisibility(e) {
-    setIsModalOpen((prevState) => !prevState)
-  }
   const onSubmit = (data: object) => {
     console.log(data)
   }
@@ -80,7 +77,7 @@ const AuthForm = () => {
         </Link>
         <button
           className="text-xs font-light text-[#3076B8] md:text-base"
-          onClick={toggleModalVisibility}
+          onClick={() => setIsModalOpen(true)}
         >
           Связаться с нами
         </button>

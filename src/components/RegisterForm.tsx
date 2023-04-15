@@ -30,9 +30,6 @@ const RegisterForm = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  function toggleModalVisibility(e) {
-    setIsModalOpen((prevState) => !prevState)
-  }
   const onSubmit = (data: object) => {
     console.log(data)
   }
@@ -155,7 +152,7 @@ const RegisterForm = () => {
         </Link>
         <button
           className="text-sm font-light text-[#3076B8] md:text-base"
-          onClick={toggleModalVisibility}
+          onClick={() => setIsModalOpen(true)}
         >
           Связаться с нами
         </button>
