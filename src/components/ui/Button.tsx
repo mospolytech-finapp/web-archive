@@ -1,11 +1,13 @@
 interface Button {
+  disable?: boolean
   children: string
 }
 
 const Button = ({ ...props }: Button) => {
   return (
     <button
-      className="from-light-green to-light-blue max-h-12 w-full rounded-full bg-gradient-to-r py-3 text-xl font-light text-white"
+      className="from-light-green to-light-blue max-h-12 w-full rounded-full bg-gradient-to-r py-3 text-base font-light text-white disabled:bg-gray-500 disabled:bg-none md:text-xl"
+      disabled={props.disable}
       type="submit"
     >
       {props.children}
