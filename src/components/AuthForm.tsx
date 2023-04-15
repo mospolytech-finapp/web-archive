@@ -10,7 +10,7 @@ import ModalContact from './ui/ModalContact'
 
 const schema = z.object({
   email: z.string().email({ message: 'Неверный логин или пароль' }),
-  password: z.string().min(3, { message: 'Неверный логин или пароль' }),
+  password: z.string().nonempty({ message: 'Неверный логин или пароль' }),
   remember_password: z.boolean()
 })
 
@@ -20,7 +20,7 @@ const AuthForm = () => {
     handleSubmit,
     formState: { errors, isValid }
   } = useForm({
-    mode: 'onChange',
+    mode: 'onBlur',
     resolver: zodResolver(schema)
   })
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -62,7 +62,7 @@ const AuthForm = () => {
         </label>
         <div className="mb-6 flex justify-between">
           {!isValid && (
-            <p className="text-normal text-xs text-[#FF6F6F] md:text-base">
+            <p className="text-xs text-[#FF6F6F] md:text-base">
               {errors.email?.message || errors.password?.message}
             </p>
           )}

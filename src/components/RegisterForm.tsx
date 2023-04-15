@@ -129,7 +129,7 @@ const RegisterForm = () => {
         </label>
         <div className="mb-4 flex flex-wrap justify-between">
           {!isValid && (
-            <p className="text-normal text-sm text-[#FF6F6F] md:text-base">
+            <p className="text-sm text-[#FF6F6F] md:text-base">
               {errors.surname?.message ||
                 errors.name?.message ||
                 errors.password?.message ||
