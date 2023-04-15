@@ -20,7 +20,7 @@ const AuthForm = () => {
     handleSubmit,
     formState: { errors, isValid }
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
     resolver: zodResolver(schema)
   })
   const [isModalOpen, setIsModalOpen] = useState(false)
