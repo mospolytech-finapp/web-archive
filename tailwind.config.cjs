@@ -18,7 +18,9 @@ module.exports = {
         'light-green': '#02C98D',
         'light-blue': '#3589D7',
         'light-green-text': '#009A6C',
-        'light-blue-text': '#3076B8'
+        'light-blue-text': '#3076B8',
+        error: '#FFD9D9',
+        'light-red': '#FF9494'
       }
     },
     fontFamily: {

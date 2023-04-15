@@ -43,14 +43,26 @@ const RegisterForm = () => {
           htmlFor="surname"
         >
           <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Фамилия*</span>
-          <Input id="surname" name="surname" register={register} type="text" />
+          <Input
+            error={errors.surname ? true : false}
+            id="surname"
+            name="surname"
+            register={register}
+            type="text"
+          />
         </label>
         <label
           className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
           htmlFor="name"
         >
           <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Имя*</span>
-          <Input id="name" name="name" register={register} type="text" />
+          <Input
+            error={errors.name ? true : false}
+            id="name"
+            name="name"
+            register={register}
+            type="text"
+          />
         </label>
         <label
           className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
@@ -64,14 +76,26 @@ const RegisterForm = () => {
           htmlFor="password"
         >
           <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Пароль*</span>
-          <Input id="password" name="password" register={register} type="password" />
+          <Input
+            error={errors.password ? true : false}
+            id="password"
+            name="password"
+            register={register}
+            type="password"
+          />
         </label>
         <label
           className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
           htmlFor="email"
         >
           <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">E-mail*</span>
-          <Input id="email" name="email" register={register} type="email" />
+          <Input
+            error={errors.email ? true : false}
+            id="email"
+            name="email"
+            register={register}
+            type="email"
+          />
         </label>
         <label
           className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
@@ -80,7 +104,13 @@ const RegisterForm = () => {
           <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">
             Дата рождения*
           </span>
-          <Input id="date" name="date" register={register} type="date" />
+          <Input
+            error={errors.date ? true : false}
+            id="date"
+            name="date"
+            register={register}
+            type="date"
+          />
         </label>
         <label className="mb-3 flex flex-col items-start justify-start sm:mb-2" htmlFor="gender">
           <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Пол</span>
