@@ -2,9 +2,11 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
 import Input from './ui/Input'
 import Button from './ui/Button'
+import ModalContact from './ui/ModalContact'
 
 const schema = z.object({
   email: z.string().email({ message: 'Неверный логин или пароль' }),
@@ -21,6 +23,11 @@ const AuthForm = () => {
     mode: 'onBlur',
     resolver: zodResolver(schema)
   })
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  function toggleModalVisibility(e) {
+    setIsModalOpen((prevState) => !prevState)
+  }
   const onSubmit = (data: object) => {
     console.log(data)
   }
@@ -71,8 +78,14 @@ const AuthForm = () => {
         <Link className="text-xs font-light text-[#07836C] md:text-base" to="/register">
           Нужна учетная запись?
         </Link>
-        <button className="text-xs font-light text-[#3076B8] md:text-base">Связаться с нами</button>
+        <button
+          className="text-xs font-light text-[#3076B8] md:text-base"
+          onClick={toggleModalVisibility}
+        >
+          Связаться с нами
+        </button>
       </div>
+      <ModalContact open={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </form>
   )
 }
