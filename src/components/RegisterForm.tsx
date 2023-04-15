@@ -12,11 +12,7 @@ const schema = z.object({
   patronymic: z.string(),
   password: z.string().min(8, { message: 'Заполните обязательные поля' }),
   email: z.string().email({ message: 'Неверный адрес эл. почты' }),
-  date: z.coerce
-    .date()
-    .max(new Date(new Date().getFullYear() - 14, new Date().getMonth(), new Date().getDate()), {
-      message: 'Возраст должен быть более 14 лет'
-    }),
+  date: z.coerce.date(),
   gender: z.string()
 })
 
@@ -69,7 +65,7 @@ const RegisterForm = () => {
         <label className="mb-3 flex flex-col items-start justify-start" htmlFor="gender">
           <span className="text-[#2B2B2B] sm:text-base md:text-xl">Пол</span>
           <select
-            className="text-light-gray max-h-12 w-full appearance-none rounded-full bg-[#ECECEC] py-3 px-6 font-normal sm:text-base md:text-xl "
+            className="text-light-gray max-h-12 w-full appearance-none rounded-full bg-[#ECECEC] py-3 px-6 font-normal sm:text-base md:text-xl"
             {...register('gender')}
           >
             <option value="male">Мужской</option>
@@ -83,7 +79,7 @@ const RegisterForm = () => {
             errors.password?.message ||
             errors.email?.message ||
             errors.date?.message) && (
-            <p className="text-normal text-xs text-[#FF6F6F] md:text-base">
+            <p className="text-normal text-sm text-[#FF6F6F] md:text-base">
               {errors.surname?.message ||
                 errors.name?.message ||
                 errors.password?.message ||
@@ -91,15 +87,15 @@ const RegisterForm = () => {
                 errors.date?.message}
             </p>
           )}
-          <span className="text-xs text-[#7C7C7C] md:text-base">*Обязательное поле для ввода</span>
+          <span className="text-sm text-[#7C7C7C] md:text-base">*Обязательное поле для ввода</span>
         </div>
         <Button>Продолжить</Button>
       </fieldset>
       <div className="mt-4 flex items-center justify-between">
-        <Link className="text-xs font-light text-[#07836C] md:text-base" to="/auth">
+        <Link className="text-sm font-light text-[#07836C] md:text-base" to="/auth">
           Уже зарегистрированы?
         </Link>
-        <button className="text-xs font-light text-[#3076B8] md:text-base">Связаться с нами</button>
+        <button className="text-sm font-light text-[#3076B8] md:text-base">Связаться с нами</button>
       </div>
     </form>
   )

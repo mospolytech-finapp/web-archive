@@ -69,7 +69,7 @@ const Input = ({ ...props }: InputProps) => {
             return (
               <input
                 {...props.register(props.name)}
-                className="text-light-gray placeholder:text-light-gray max-h-12 w-full rounded-full bg-[#ECECEC] py-4 px-6  text-xl font-normal"
+                className="text-light-gray placeholder:text-light-gray max-h-12 w-full rounded-full bg-[#ECECEC] py-4  px-6 text-xl font-normal"
                 id={props.id}
                 name={props.name}
                 placeholder={props.placeholder}

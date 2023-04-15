@@ -27,7 +27,7 @@ const AuthForm = () => {
 
   return (
     <form
-      className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:mx-0 md:max-w-md md:px-12 md:py-14"
+      className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-md md:px-12 md:py-14"
       onSubmit={handleSubmit(onSubmit)}
     >
       <fieldset className="grid">

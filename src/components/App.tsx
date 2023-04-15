@@ -5,8 +5,8 @@ import RegisterForm from './RegisterForm'
 
 function App() {
   return (
-    <main className="grid min-h-screen place-content-center bg-gradient-to-b from-blue-700 to-blue-800">
-      <section className="flex flex-col items-center justify-center">
+    <main className="grid min-h-screen place-content-center bg-[url('./src/assets/images/login_background.svg')] from-blue-700 to-blue-800 bg-cover">
+      <section>
         <Routes>
           <Route element={<AuthForm />} path="/auth" />
           <Route element={<RegisterForm />} path="/register" />
