@@ -9,20 +9,20 @@ import Button from './ui/Button'
 import ModalContact from './ui/ModalContact'
 
 const schema = z.object({
-  surname: z.string().min(1, { message: 'Заполните обязательные поля' }),
-  name: z.string().min(1, { message: 'Заполните обязательные поля' }),
-  patronymic: z.string(),
+  surname: z.string().nonempty({ message: 'Заполните обязательные поля' }),
+  name: z.string().nonempty({ message: 'Заполните обязательные поля' }),
+  patronymic: z.string().optional(),
   password: z.string().min(8, { message: 'Заполните обязательные поля' }),
   email: z.string().email({ message: 'Неверный адрес эл. почты' }),
   date: z.coerce.date(),
-  gender: z.string()
+  gender: z.string().optional()
 })
 
 const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isValid }
   } = useForm({
     mode: 'onBlur',
     resolver: zodResolver(schema)
@@ -125,15 +125,10 @@ const RegisterForm = () => {
           >
             <option value="male">Мужской</option>
             <option value="female">Женский</option>
-            <option value="other">Другой</option>
           </select>
         </label>
         <div className="mb-4 flex flex-wrap justify-between">
-          {(errors.surname?.message ||
-            errors.name?.message ||
-            errors.password?.message ||
-            errors.email?.message ||
-            errors.date?.message) && (
+          {!isValid && (
             <p className="text-normal text-sm text-[#FF6F6F] md:text-base">
               {errors.surname?.message ||
                 errors.name?.message ||
@@ -144,7 +139,7 @@ const RegisterForm = () => {
           )}
           <span className="text-sm text-[#7C7C7C] md:text-base">*Обязательное поле для ввода</span>
         </div>
-        <Button>Продолжить</Button>
+        <Button disable={!isValid}>Продолжить</Button>
       </fieldset>
       <div className="mt-3 flex flex-wrap items-center justify-between lg:mt-4">
         <Link className="text-sm font-light text-[#07836C] md:text-base" to="/auth">

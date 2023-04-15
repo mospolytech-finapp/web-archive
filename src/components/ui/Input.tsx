@@ -28,6 +28,7 @@ const Input = ({ ...props }: InputProps) => {
               <div className="flex w-full content-center items-center">
                 <input
                   {...props.register(props.name)}
+                  aria-invalid={props.error}
                   className={`text-light-gray placeholder:text-light-gray -mr-10 max-h-12 w-full rounded-full py-4 px-6 text-xl font-normal ${
                     props.error ? 'bg-error border-light-red border-2' : 'bg-[#ECECEC]}'
                   }`}
@@ -72,6 +73,7 @@ const Input = ({ ...props }: InputProps) => {
             return (
               <input
                 {...props.register(props.name)}
+                aria-invalid={props.error}
                 className={`text-light-gray placeholder:text-light-gray max-h-12 w-full rounded-full py-4 px-6 text-xl font-normal ${
                   props.error ? 'bg-error border-light-red border-2' : 'bg-[#ECECEC]}'
                 }`}

@@ -18,7 +18,7 @@ const AuthForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isValid }
   } = useForm({
     mode: 'onBlur',
     resolver: zodResolver(schema)
@@ -42,14 +42,26 @@ const AuthForm = () => {
           <span className="mb-2.5 text-xs uppercase text-[#2B2B2B] md:text-base">
             АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ
           </span>
-          <Input id="email" name="email" register={register} type="email" />
+          <Input
+            error={errors.email ? true : false}
+            id="email"
+            name="email"
+            register={register}
+            type="email"
+          />
         </label>
         <label className="mb-2 flex flex-col items-start justify-start" htmlFor="password">
           <span className="mb-2.5 text-xs uppercase text-[#2B2B2B] md:text-base">ПАРОЛЬ</span>
-          <Input id="password" name="password" register={register} type="password" />
+          <Input
+            error={errors.password ? true : false}
+            id="password"
+            name="password"
+            register={register}
+            type="password"
+          />
         </label>
         <div className="mb-6 flex justify-between">
-          {(errors.email?.message || errors.password?.message) && (
+          {!isValid && (
             <p className="text-normal text-xs text-[#FF6F6F] md:text-base">
               {errors.email?.message || errors.password?.message}
             </p>
@@ -69,7 +81,7 @@ const AuthForm = () => {
             Запомнить аккаунт
           </span>
         </label>
-        <Button>Войти</Button>
+        <Button disable={!isValid}>Войти</Button>
       </fieldset>
       <div className="mt-5 flex items-center justify-between">
         <Link className="text-xs font-light text-[#07836C] md:text-base" to="/register">
