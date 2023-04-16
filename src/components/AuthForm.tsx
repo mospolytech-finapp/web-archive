@@ -61,9 +61,9 @@ const AuthForm = () => {
           />
         </label>
         <div className="mb-6 flex justify-between">
-          {!isValid && (
+          {(errors.email || errors.password) && (
             <p className="text-xs text-[#FF6F6F] md:text-base">
-              {errors.email?.message || errors.password?.message}
+              {errors.email?.message?.toString() || errors.password?.message?.toString()}
             </p>
           )}
           <a className="text-xs text-[#7C7C7C] md:text-base" href="#">

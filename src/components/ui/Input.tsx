@@ -13,7 +13,7 @@ interface InputProps {
 const Input = ({ ...props }: InputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
-  function togglePasswordVisibility(e) {
+  function togglePasswordVisibility(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
     e.stopPropagation()
     setIsPasswordVisible((prevState) => !prevState)

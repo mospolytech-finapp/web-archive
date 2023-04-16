@@ -13,7 +13,7 @@ const schema = z.object({
   name: z.string().nonempty({ message: 'Заполните обязательные поля' }),
   patronymic: z.string().optional(),
   password: z.string().min(8, { message: 'Заполните обязательные поля' }),
-  email: z.string().email({ message: 'Неверный адрес эл. почты' }),
+  email: z.string().email({ message: 'Заполните обязательные поля' }),
   date: z.coerce.date(),
   gender: z.string().optional()
 })
@@ -128,13 +128,17 @@ const RegisterForm = () => {
           </select>
         </label>
         <div className="mb-4 flex flex-wrap justify-between">
-          {!isValid && (
+          {(errors.surname?.message ||
+            errors.name?.message ||
+            errors.password?.message ||
+            errors.email?.message ||
+            errors.date?.message) && (
             <p className="text-sm text-[#FF6F6F] md:text-base">
-              {errors.surname?.message ||
-                errors.name?.message ||
-                errors.password?.message ||
-                errors.email?.message ||
-                errors.date?.message}
+              {errors.surname?.message?.toString() ||
+                errors.name?.message?.toString() ||
+                errors.password?.message?.toString() ||
+                errors.email?.message?.toString() ||
+                errors.date?.message?.toString()}
             </p>
           )}
           <span className="text-sm text-[#7C7C7C] md:text-base">*Обязательное поле для ввода</span>
