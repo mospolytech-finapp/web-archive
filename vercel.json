@@ -4,5 +4,11 @@
   "github": {
     "silent": true,
     "enabled": true
-  }
+  },
+  "routes": [
+    {
+      "src": "/[^.]+",
+      "dest": "/"
+    }
+  ]
 }
