@@ -5,9 +5,6 @@
     "silent": true,
     "enabled": true
   },
-  "build": {
-    "base": "./"
-  },
   "routes": [
     {
       "src": "/[^.]+",

@@ -45,5 +45,6 @@ export default defineConfig({
       { find: '@/Assets', replacement: '/src/assets' },
       { find: '@/Components', replacement: '/src/components' }
     ]
-  }
+  },
+  base: './'
 })
