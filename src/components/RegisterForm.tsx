@@ -12,7 +12,7 @@ const schema = z.object({
   surname: z.string().nonempty({ message: 'Заполните обязательные поля' }),
   name: z.string().nonempty({ message: 'Заполните обязательные поля' }),
   patronymic: z.string().optional(),
-  password: z.string().min(8, { message: 'Заполните обязательные поля' }),
+  password: z.string().nonempty(),
   email: z.string().email({ message: 'Заполните обязательные поля' }),
   date: z.coerce.date(),
   gender: z.string().optional()
