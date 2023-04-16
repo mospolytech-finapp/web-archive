@@ -46,5 +46,7 @@ export default defineConfig({
       { find: '@/Components', replacement: '/src/components' }
     ]
   },
-  base: './'
+  build: {
+    assetsInlineLimit: 0,
+  }
 })
