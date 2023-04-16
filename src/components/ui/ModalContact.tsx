@@ -7,6 +7,7 @@ interface ModalContact {
 
 const ModalContact = ({ ...props }: ModalContact) => {
   const dialogRef = useRef(null)
+  const dialogContentRef = useRef(null)
 
   useEffect(() => {
     if (dialogRef.current) {
@@ -33,7 +34,7 @@ const ModalContact = ({ ...props }: ModalContact) => {
   })
 
   document.querySelector('main')?.addEventListener('click', (e) => {
-    if (props.open && !e.target.contains(dialogRef.current)) {
+    if (props.open && !dialogContentRef.current.contains(e.target)) {
       handleClose()
     }
   })
@@ -46,7 +47,10 @@ const ModalContact = ({ ...props }: ModalContact) => {
         role="dialog"
       >
         <div className="fixed top-0 left-0 z-10 h-screen w-screen backdrop-blur backdrop-opacity-40" />
-        <div className="z-20 flex flex-col gap-6 rounded-3xl bg-[#2A2A2A] bg-opacity-50 px-10 py-4 backdrop-blur backdrop-opacity-80 sm:py-10 sm:px-16 md:px-9 md:py-14 lg:py-9 lg:px-14">
+        <div
+          ref={dialogContentRef}
+          className="z-20 flex flex-col gap-6 rounded-3xl bg-[#2A2A2A] bg-opacity-50 px-10 py-4 backdrop-blur backdrop-opacity-80 sm:py-10 sm:px-16 md:px-9 md:py-14 lg:py-9 lg:px-14"
+        >
           <div className="flex justify-between gap-20 sm:gap-28">
             <span className="bg-gradient-to-r from-[#C3FFED] to-[#AED8FF] bg-clip-text text-xl font-bold text-transparent sm:text-2xl">
               Связаться с нами
