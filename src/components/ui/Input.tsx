@@ -37,11 +37,7 @@ const Input = ({ ...props }: InputProps) => {
           <button onClick={togglePasswordVisibility}>
             <img
               alt={isPasswordVisible ? 'скрыть пароль' : 'показать пароль'}
-              src={
-                isPasswordVisible
-                  ? 'src/assets/images/open_eye.svg'
-                  : 'src/assets/images/open_eye.svg'
-              }
+              src={isPasswordVisible ? 'images/close_eye.svg' : 'images/open_eye.svg'}
             />
           </button>
         </div>
@@ -53,7 +49,7 @@ const Input = ({ ...props }: InputProps) => {
           {...props.register(props.name)}
           className="peer relative h-5 w-5 shrink-0 appearance-none rounded-sm border
                   bg-[#ECECEC]
-                  checked:bg-[url('./src/assets/images/check_mark.svg')]
+                  checked:bg-[url('images/check_mark.svg')]
                   checked:bg-[length:20px]
                   checked:bg-no-repeat
                   checked:content-['']
