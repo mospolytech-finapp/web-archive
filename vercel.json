@@ -5,13 +5,13 @@
     "silent": true,
     "enabled": true
   },
+  "build": {
+    "base": "./"
+  },
   "routes": [
     {
       "src": "/[^.]+",
       "dest": "/"
     }
-  ],
-  "build": {
-    "base": "./"
-  }
+  ]
 }
