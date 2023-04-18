@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react'
+import crossIcon from 'assets/images/cross.svg'
+import copyIcon from 'assets/images/copy_icon.svg'
 
 interface ModalContact {
   open: boolean
@@ -59,7 +61,7 @@ const ModalContact = ({ ...props }: ModalContact) => {
             Связаться с нами
           </span>
           <button autoFocus className="p-2 focus:border-2" onClick={handleClose}>
-            <img alt="Close modal" src="images/cross.svg" />
+            <img alt="Close modal" src={crossIcon} />
           </button>
         </div>
         <div className="flex flex-col justify-between gap-1">
@@ -74,7 +76,7 @@ const ModalContact = ({ ...props }: ModalContact) => {
               HelpMe@FINAPP.COM
             </a>
             <button onClick={() => navigator.clipboard.writeText('HelpMe@FINAPP.COM')}>
-              <img src="images/copy_icon.svg" />
+              <img src={copyIcon} />
             </button>
           </div>
         </div>
@@ -87,7 +89,7 @@ const ModalContact = ({ ...props }: ModalContact) => {
               89996663132
             </a>
             <button onClick={() => navigator.clipboard.writeText('89996663132')}>
-              <img src="images/copy_icon.svg" />
+              <img src={copyIcon} />
             </button>
           </div>
         </div>
