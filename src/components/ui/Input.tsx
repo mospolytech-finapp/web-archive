@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { FieldValues, UseFormRegister } from 'react-hook-form'
 
+import closeEye from '../../assets/images/close_eye.svg'
+import openEye from '../../assets/images/open_eye.svg'
+
 interface InputProps {
   id: string
   name: string
@@ -37,11 +40,7 @@ const Input = ({ ...props }: InputProps) => {
           <button onClick={togglePasswordVisibility}>
             <img
               alt={isPasswordVisible ? 'скрыть пароль' : 'показать пароль'}
-              src={
-                isPasswordVisible
-                  ? 'src/assets/images/close_eye.svg'
-                  : 'src/assets/images/open_eye.svg'
-              }
+              src={isPasswordVisible ? closeEye : openEye}
             />
           </button>
         </div>
@@ -53,7 +52,7 @@ const Input = ({ ...props }: InputProps) => {
           {...props.register(props.name)}
           className="peer relative h-5 w-5 shrink-0 appearance-none rounded-sm border
                   bg-[#ECECEC]
-                  checked:bg-[url('./src/assets/images/check_mark.svg')]
+                  checked:bg-[url('assets/images/check_mark.svg')]
                   checked:bg-[length:20px]
                   checked:bg-no-repeat
                   checked:content-['']
