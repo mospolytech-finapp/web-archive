@@ -19,10 +19,8 @@
   - 🪝 pre-commit
 - 🚫 [Lint Staged](https://github.com/okonet/lint-staged) - Запуск линтеров на файлы, которые находятся в стейдже git.
 - ✍️ [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) с 🎉 [Gitmoji](https://gitmoji.dev/) - Спецификация для добавления человекочитаемого и машинно-читаемого значения в сообщения коммитов.
-- 🚦 [GitHub Actions](https://github.com/features/actions) -  Автоматизируйте свой рабочий процесс на GitHub.
+- 🚦 [GitHub Actions](https://github.com/features/actions) - Автоматизируйте свой рабочий процесс на GitHub.
 - 🔺 [Vercel](https://vercel.com/) - Разверните свое приложение на Vertical.
-
-
 
 <!-- GETTING STARTED -->
 
@@ -105,7 +103,5 @@ fix(navbar): fixed all the broken links
 | `ci`        | Continuous Integrations  | Изменения в нашей конфигурации CI-системы или скриптах (например, Travis, Circle, BrowserStack, SauceLabs). |
 | `chore`     | Chores                   | Другие изменения, которые не изменяют файлы src или test.                                                   |
 | `revert`    | Reverts                  | Отменяет предыдущий коммит.                                                                                 |
-
-
 
 <p align="right">(<a href="#top">back to top</a>)</p>

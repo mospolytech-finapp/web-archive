@@ -31,10 +31,10 @@ const AuthForm = () => {
 
   return (
     <form
-      className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-md md:px-12 md:py-14"
+      className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <fieldset className="grid">
+      <fieldset className="mb-5 grid lg:mb-4">
         <legend className="from-light-green-text to-light-blue-text mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
           Вход
         </legend>
@@ -62,7 +62,7 @@ const AuthForm = () => {
         </label>
         <div className="mb-6 flex justify-between">
           {(errors.email || errors.password) && (
-            <p className="text-xs text-[#FF6F6F] md:text-base">
+            <p className="text-xs text-[#FF6F6F] md:mr-5 md:text-base">
               {errors.email?.message?.toString() || errors.password?.message?.toString()}
             </p>
           )}
@@ -83,13 +83,17 @@ const AuthForm = () => {
         </label>
         <Button disable={!isValid}>Войти</Button>
       </fieldset>
-      <div className="mt-5 flex items-center justify-between">
-        <Link className="text-xs font-light text-[#07836C] md:text-base" to="/register">
+      <div className="flex items-center justify-between">
+        <Link className="mr-5 text-xs font-light text-[#07836C] md:text-base" to="/register">
           Нужна учетная запись?
         </Link>
         <button
           className="text-xs font-light text-[#3076B8] md:text-base"
-          onClick={() => setIsModalOpen(true)}
+          onClick={(event) => {
+            event.stopPropagation()
+            event.preventDefault()
+            setIsModalOpen(true)
+          }}
         >
           Связаться с нами
         </button>
