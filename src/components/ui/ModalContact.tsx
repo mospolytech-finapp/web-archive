@@ -76,7 +76,13 @@ const ModalContact = ({ ...props }: ModalContact) => {
             >
               HelpMe@FINAPP.COM
             </a>
-            <button onClick={() => navigator.clipboard.writeText('HelpMe@FINAPP.COM')}>
+            <button
+              onClick={(event) => {
+                event.preventDefault()
+                event.stopPropagation()
+                navigator.clipboard.writeText('HelpMe@FINAPP.COM')
+              }}
+            >
               <img src={copyIcon} />
             </button>
           </div>
@@ -89,7 +95,13 @@ const ModalContact = ({ ...props }: ModalContact) => {
             <a className="text-base font-normal text-white underline" href="tel:89996663132">
               89996663132
             </a>
-            <button onClick={() => navigator.clipboard.writeText('89996663132')}>
+            <button
+              onClick={(event) => {
+                event.preventDefault()
+                event.stopPropagation()
+                navigator.clipboard.writeText('89996663132')
+              }}
+            >
               <img src={copyIcon} />
             </button>
           </div>
