@@ -1,9 +1,4 @@
 {
-  "name": "vrttv-boilerplate",
-  "author": {
-    "name": "Diego Do Santos",
-    "url": "https://github.com/drumpy"
-  },
   "private": true,
   "version": "0.0.0",
   "type": "module",
