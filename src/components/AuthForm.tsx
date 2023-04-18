@@ -34,7 +34,7 @@ const AuthForm = () => {
       className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <fieldset className="mb-5 grid lg:mb-4">
+      <fieldset className="mb-5 grid w-72 md:w-96 lg:mb-4">
         <legend className="from-light-green-text to-light-blue-text mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
           Вход
         </legend>
@@ -60,7 +60,7 @@ const AuthForm = () => {
             type="password"
           />
         </label>
-        <div className="mb-6 flex justify-between">
+        <div className="mb-6 flex min-w-full justify-between">
           {(errors.email || errors.password) && (
             <p className="text-xs text-[#FF6F6F] md:mr-5 md:text-base">
               {errors.email?.message?.toString() || errors.password?.message?.toString()}
