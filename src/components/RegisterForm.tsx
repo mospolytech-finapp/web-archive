@@ -12,7 +12,7 @@ const schema = z.object({
   surname: z.string().nonempty({ message: 'Заполните обязательные поля' }),
   name: z.string().nonempty({ message: 'Заполните обязательные поля' }),
   patronymic: z.string().optional(),
-  password: z.string().nonempty(),
+  password: z.string().nonempty({ message: 'Заполните обязательные поля' }),
   email: z.string().email({ message: 'Заполните обязательные поля' }),
   date: z.coerce.date(),
   gender: z.string().optional()
@@ -36,10 +36,10 @@ const RegisterForm = () => {
 
   return (
     <form
-      className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 py-16 px-8 font-sans font-normal tracking-normal sm:mx-0 md:max-w-md md:px-14 md:py-8 xl:px-11 xl:py-14"
+      className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 py-16 px-8 font-sans font-normal tracking-normal sm:mx-0 md:max-w-lg md:px-14 md:py-8 xl:px-11 xl:py-14"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <fieldset className="grid">
+      <fieldset className="mb-5 grid lg:mb-4">
         <legend className="from-light-green-text to-light-blue-text mb-4 bg-gradient-to-r bg-clip-text text-center text-xl font-medium text-transparent sm:text-2xl md:mb-10">
           Создать учетную запись
         </legend>
@@ -127,26 +127,13 @@ const RegisterForm = () => {
             <option value="female">Женский</option>
           </select>
         </label>
-        <div className="mb-4 flex flex-wrap justify-between">
-          {(errors.surname?.message ||
-            errors.name?.message ||
-            errors.password?.message ||
-            errors.email?.message ||
-            errors.date?.message) && (
-            <p className="text-sm text-[#FF6F6F] md:text-base">
-              {errors.surname?.message?.toString() ||
-                errors.name?.message?.toString() ||
-                errors.password?.message?.toString() ||
-                errors.email?.message?.toString() ||
-                errors.date?.message?.toString()}
-            </p>
-          )}
-          <span className="text-sm text-[#7C7C7C] md:text-base">*Обязательное поле для ввода</span>
-        </div>
+        <span className="mb-4 text-sm text-[#7C7C7C] md:text-base">
+          *Обязательное поле для ввода
+        </span>
         <Button disable={!isValid}>Продолжить</Button>
       </fieldset>
-      <div className="mt-3 flex flex-wrap items-center justify-between lg:mt-4">
-        <Link className="text-sm font-light text-[#07836C] md:text-base" to="/auth">
+      <div className="flex flex-wrap items-center justify-between">
+        <Link className="mr-5 text-sm font-light text-[#07836C] md:text-base" to="/auth">
           Уже зарегистрированы?
         </Link>
         <button
