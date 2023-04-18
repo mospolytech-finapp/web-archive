@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
-import crossIcon from 'assets/images/cross.svg'
-import copyIcon from 'assets/images/copy_icon.svg'
+
+import crossIcon from '../../assets/images/cross.svg'
+import copyIcon from '../../assets/images/copy_icon.svg'
 
 interface ModalContact {
   open: boolean
