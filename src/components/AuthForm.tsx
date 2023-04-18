@@ -89,7 +89,11 @@ const AuthForm = () => {
         </Link>
         <button
           className="text-xs font-light text-[#3076B8] md:text-base"
-          onClick={() => setIsModalOpen(true)}
+          onClick={(event) => {
+            event.stopPropagation()
+            event.preventDefault()
+            setIsModalOpen(true)
+          }}
         >
           Связаться с нами
         </button>

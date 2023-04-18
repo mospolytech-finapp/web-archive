@@ -143,7 +143,12 @@ const RegisterForm = () => {
           Связаться с нами
         </button>
       </div>
-      <ModalContact open={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <ModalContact
+        open={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false)
+        }}
+      />
     </form>
   )
 }
