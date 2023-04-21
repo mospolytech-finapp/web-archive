@@ -61,7 +61,7 @@ const ModalContact = ({ ...props }: ModalContact) => {
           <span className="bg-gradient-to-r from-[#C3FFED] to-[#AED8FF] bg-clip-text text-xl font-bold text-transparent sm:text-2xl">
             Связаться с нами
           </span>
-          <button autoFocus className="p-2 focus:border-2" onClick={handleClose}>
+          <button autoFocus focus-visible className="p-2" onClick={handleClose}>
             <img alt="Close modal" src={crossIcon} />
           </button>
         </div>
