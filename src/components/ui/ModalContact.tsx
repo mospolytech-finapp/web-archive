@@ -55,13 +55,13 @@ const ModalContact = ({ ...props }: ModalContact) => {
       <div className="fixed top-0 left-0 z-10 h-screen w-screen backdrop-blur backdrop-opacity-40" />
       <div
         ref={dialogContentRef}
-        className="z-20 flex flex-col gap-6 rounded-3xl bg-[#2A2A2A]/50 px-10 py-4 backdrop-blur backdrop-opacity-80 sm:py-10 sm:px-16 md:px-9 md:py-14 lg:py-9 lg:px-14"
+        className="z-20 flex flex-col gap-6 rounded-3xl bg-[#2A2A2A]/50 px-5 py-4 backdrop-blur backdrop-opacity-80 sm:py-10 sm:px-16 md:px-9 md:py-14 lg:py-9 lg:px-14"
       >
-        <div className="flex justify-between gap-20 sm:gap-28">
+        <div className="gap-15 flex justify-between sm:gap-28">
           <span className="bg-gradient-to-r from-[#C3FFED] to-[#AED8FF] bg-clip-text text-xl font-bold text-transparent sm:text-2xl">
             Связаться с нами
           </span>
-          <button autoFocus className="p-2 focus:border-2" onClick={handleClose}>
+          <button autoFocus focus-visible className="p-2" onClick={handleClose}>
             <img alt="Close modal" src={crossIcon} />
           </button>
         </div>
@@ -76,7 +76,13 @@ const ModalContact = ({ ...props }: ModalContact) => {
             >
               HelpMe@FINAPP.COM
             </a>
-            <button onClick={() => navigator.clipboard.writeText('HelpMe@FINAPP.COM')}>
+            <button
+              onClick={(event) => {
+                event.preventDefault()
+                event.stopPropagation()
+                navigator.clipboard.writeText('HelpMe@FINAPP.COM')
+              }}
+            >
               <img src={copyIcon} />
             </button>
           </div>
@@ -89,7 +95,13 @@ const ModalContact = ({ ...props }: ModalContact) => {
             <a className="text-base font-normal text-white underline" href="tel:89996663132">
               89996663132
             </a>
-            <button onClick={() => navigator.clipboard.writeText('89996663132')}>
+            <button
+              onClick={(event) => {
+                event.preventDefault()
+                event.stopPropagation()
+                navigator.clipboard.writeText('89996663132')
+              }}
+            >
               <img src={copyIcon} />
             </button>
           </div>
