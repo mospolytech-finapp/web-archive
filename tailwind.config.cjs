@@ -19,6 +19,9 @@ module.exports = {
         'light-blue': '#3589D7',
         'light-green-text': '#009A6C',
         'light-blue-text': '#3076B8',
+        'blue-focus': '#245786',
+        'purple-active-link': '#6C39BB',
+        'pink-active-link': '#E5AEFF',
         error: '#FFD9D9',
         'light-red': '#FF9494'
       }
