@@ -13,6 +13,9 @@ module.exports = {
       //
       //   'desktop': '1280px'
       // },
+      boxShadow: {
+        custom: 'inset 0px 6px 6px rgba(0, 0, 0, 0.25)'
+      },
       colors: {
         'light-gray': '#BBB7B7',
         'light-green': '#02C98D',
