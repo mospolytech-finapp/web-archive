@@ -66,7 +66,10 @@ const AuthForm = () => {
               {errors.email?.message?.toString() || errors.password?.message?.toString()}
             </p>
           )}
-          <a className="text-xs text-[#7C7C7C] md:text-base" href="#">
+          <a
+            className="focus:border-blue-focus text-xs text-[#7C7C7C] focus:border-2 focus:outline-0 md:text-base"
+            href="#"
+          >
             Забыли пароль?
           </a>
         </div>
