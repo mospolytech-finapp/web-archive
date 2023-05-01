@@ -3,12 +3,12 @@ import IUserData from 'types/user'
 import http from '../services/http-common'
 
 class UserDataService {
-  register(data: IUserData) {
-    return http.post('/auth/registration/', data)
+  async register(data: IUserData) {
+    return await http.post('/auth/registration/', data)
   }
 
-  login(data: IUserData) {
-    return http.post('/auth/token/', data)
+  async login(data: IUserData) {
+    return await http.post('/auth/token/', data)
   }
 }
 
