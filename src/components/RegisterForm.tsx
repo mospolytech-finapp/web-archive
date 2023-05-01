@@ -1,20 +1,23 @@
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import axios from 'axios'
+
+import UserDataService from '../services/user-service'
 
 import Input from './ui/Input'
 import Button from './ui/Button'
 import ModalContact from './ui/ModalContact'
 
 const schema = z.object({
-  surname: z.string().nonempty({ message: 'Заполните обязательные поля' }),
-  name: z.string().nonempty({ message: 'Заполните обязательные поля' }),
-  patronymic: z.string().optional(),
+  last_name: z.string().nonempty({ message: 'Заполните обязательные поля' }),
+  first_name: z.string().nonempty({ message: 'Заполните обязательные поля' }),
+  middle_name: z.string().optional(),
   password: z.string().nonempty({ message: 'Заполните обязательные поля' }),
   email: z.string().email({ message: 'Заполните обязательные поля' }),
-  date: z.coerce.date(),
+  date_of_birth: z.coerce.date(),
   gender: z.string().optional()
 })
 
@@ -29,9 +32,33 @@ const RegisterForm = () => {
   })
 
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [regError, setRegError] = useState('')
 
-  const onSubmit = (data: object) => {
-    console.log(data)
+  const onSubmit = (data: FieldValues) => {
+    UserDataService.register({
+      email: data.email,
+      password: data.password,
+      last_name: data.last_name,
+      first_name: data.first_name,
+      middle_name: data.middle_name != null ? data.middle_name : '',
+      date_of_birth: `${data.date_of_birth.getFullYear()}-${
+        data.date_of_birth.getMonth() + 1
+      }-${data.date_of_birth.getDate()}`
+    })
+      .then((response) => {
+        console.log(response.data)
+        setRegError('')
+
+        return response
+      })
+      .catch((err) => {
+        if (axios.isAxiosError(err)) {
+          setRegError(err.response?.data[Object.keys(err.response?.data)[0]][0].toString())
+          console.log(regError)
+        } else {
+          console.log(err)
+        }
+      })
   }
 
   return (
@@ -45,36 +72,36 @@ const RegisterForm = () => {
         </legend>
         <label
           className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
-          htmlFor="surname"
+          htmlFor="last_name"
         >
           <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Фамилия*</span>
           <Input
-            error={errors.surname ? true : false}
-            id="surname"
-            name="surname"
+            error={errors.last_name ? true : false}
+            id="last_name"
+            name="last_name"
             register={register}
             type="text"
           />
         </label>
         <label
           className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
-          htmlFor="name"
+          htmlFor="first_name"
         >
           <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Имя*</span>
           <Input
-            error={errors.name ? true : false}
-            id="name"
-            name="name"
+            error={errors.first_name ? true : false}
+            id="first_name"
+            name="first_name"
             register={register}
             type="text"
           />
         </label>
         <label
           className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
-          htmlFor="patronymic"
+          htmlFor="middle_name"
         >
           <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Отчество</span>
-          <Input id="patronymic" name="patronymic" register={register} type="text" />
+          <Input id="middle_name" name="middle_name" register={register} type="text" />
         </label>
         <label
           className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
@@ -104,15 +131,15 @@ const RegisterForm = () => {
         </label>
         <label
           className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
-          htmlFor="date"
+          htmlFor="date_of_birth"
         >
           <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">
             Дата рождения*
           </span>
           <Input
-            error={errors.date ? true : false}
-            id="date"
-            name="date"
+            error={errors.date_of_birth ? true : false}
+            id="date_of_birth"
+            name="date_of_birth"
             register={register}
             type="date"
           />
