@@ -42,5 +42,16 @@ export default defineConfig({
   build: {
     assetsInlineLimit: 0
   },
-  base: './'
+  base: './',
+  define: {
+    'process.env': {}
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: process.env.API_URL,
+        changeOrigin: true
+      }
+    }
+  }
 })
