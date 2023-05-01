@@ -17,8 +17,7 @@ const schema = z.object({
   middle_name: z.string().optional(),
   password: z.string().nonempty({ message: 'Заполните обязательные поля' }),
   email: z.string().email({ message: 'Заполните обязательные поля' }),
-  date_of_birth: z.coerce.date(),
-  gender: z.string().optional()
+  date_of_birth: z.coerce.date()
 })
 
 const RegisterForm = () => {
@@ -143,16 +142,6 @@ const RegisterForm = () => {
             register={register}
             type="date"
           />
-        </label>
-        <label className="mb-3 flex flex-col items-start justify-start sm:mb-2" htmlFor="gender">
-          <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Пол</span>
-          <select
-            className="text-light-gray max-h-12 w-full appearance-none rounded-full bg-[#ECECEC] py-3 px-6 font-normal sm:text-base md:text-xl"
-            {...register('gender')}
-          >
-            <option value="male">Мужской</option>
-            <option value="female">Женский</option>
-          </select>
         </label>
         <span className="mb-4 text-sm text-[#7C7C7C] md:text-base">
           *Обязательное поле для ввода
