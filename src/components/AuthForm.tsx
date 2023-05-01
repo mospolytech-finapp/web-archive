@@ -1,15 +1,18 @@
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import axios from 'axios'
+
+import UserDataService from '../services/user-service'
 
 import Input from './ui/Input'
 import Button from './ui/Button'
 import ModalContact from './ui/ModalContact'
 
 const schema = z.object({
-  email: z.string().email({ message: 'Неверный логин или пароль' }),
+  username: z.string().email({ message: 'Неверный логин или пароль' }),
   password: z.string().nonempty({ message: 'Неверный логин или пароль' }),
   remember_password: z.boolean()
 })
@@ -24,28 +27,45 @@ const AuthForm = () => {
     resolver: zodResolver(schema)
   })
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [loginError, setLoginError] = useState('')
 
-  const onSubmit = (data: object) => {
-    console.log(data)
+  const onSubmit = (data: FieldValues) => {
+    UserDataService.login({
+      username: data.username,
+      password: data.password
+    })
+      .then((response) => {
+        console.log(response.data)
+        setLoginError('')
+
+        return response
+      })
+      .catch((err) => {
+        if (axios.isAxiosError(err)) {
+          setLoginError(err.response?.data.errors[0].detail.toString())
+        } else {
+          console.log(err)
+        }
+      })
   }
 
   return (
     <form
-      className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14"
+      className="rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14"
       onSubmit={handleSubmit(onSubmit)}
     >
       <fieldset className="mb-5 grid w-72 md:w-96 lg:mb-4">
         <legend className="from-light-green-text to-light-blue-text mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
           Вход
         </legend>
-        <label className="mb-3.5 flex flex-col items-start justify-start" htmlFor="email">
+        <label className="mb-3.5 flex flex-col items-start justify-start" htmlFor="username">
           <span className="mb-2.5 text-xs uppercase text-[#2B2B2B] md:text-base">
             АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ
           </span>
           <Input
-            error={errors.email ? true : false}
-            id="email"
-            name="email"
+            error={errors.username ? true : false}
+            id="username"
+            name="username"
             register={register}
             type="email"
           />
@@ -61,12 +81,17 @@ const AuthForm = () => {
           />
         </label>
         <div className="mb-6 flex min-w-full justify-between">
-          {(errors.email || errors.password) && (
+          {(errors.username || errors.password || loginError) && (
             <p className="text-xs text-[#FF6F6F] md:mr-5 md:text-base">
-              {errors.email?.message?.toString() || errors.password?.message?.toString()}
+              {errors.username?.message?.toString() ||
+                errors.password?.message?.toString() ||
+                loginError}
             </p>
           )}
-          <a className="text-xs text-[#7C7C7C] md:text-base" href="#">
+          <a
+            className="focus:border-blue-focus text-xs text-[#7C7C7C] focus:border-2 focus:outline-0 md:text-base"
+            href="#"
+          >
             Забыли пароль?
           </a>
         </div>
