@@ -5,5 +5,5 @@ export default interface IUserData {
   last_name?: string
   first_name?: string
   middle_name?: string
-  date_of_birth?: Date
+  date_of_birth?: string
 }
