@@ -30,8 +30,6 @@ const AuthForm = () => {
   const [loginError, setLoginError] = useState('')
 
   const onSubmit = (data: FieldValues) => {
-    console.log(process.env)
-    console.log(import.meta.env)
     UserDataService.login({
       username: data.username,
       password: data.password
