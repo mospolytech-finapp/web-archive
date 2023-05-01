@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import axios from 'axios'
 
 import UserDataService from '../services/user-service'
 
@@ -26,6 +27,7 @@ const AuthForm = () => {
     resolver: zodResolver(schema)
   })
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [loginError, setLoginError] = useState('')
 
   const onSubmit = (data: FieldValues) => {
     UserDataService.login({
@@ -34,13 +36,17 @@ const AuthForm = () => {
     })
       .then((response) => {
         console.log(response.data)
+        setLoginError('')
 
         return response
       })
-      .catch((err: Error) => {
-        console.log(err)
+      .catch((err) => {
+        if (axios.isAxiosError(err)) {
+          setLoginError(err.response?.data.errors[0].detail.toString())
+        } else {
+          console.log(err)
+        }
       })
-    console.log(data)
   }
 
   return (
@@ -75,9 +81,11 @@ const AuthForm = () => {
           />
         </label>
         <div className="mb-6 flex min-w-full justify-between">
-          {(errors.username || errors.password) && (
+          {(errors.username || errors.password || loginError) && (
             <p className="text-xs text-[#FF6F6F] md:mr-5 md:text-base">
-              {errors.username?.message?.toString() || errors.password?.message?.toString()}
+              {errors.username?.message?.toString() ||
+                errors.password?.message?.toString() ||
+                loginError}
             </p>
           )}
           <a className="text-xs text-[#7C7C7C] md:text-base" href="#">

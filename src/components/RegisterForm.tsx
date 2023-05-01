@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import axios from 'axios'
 
 import UserDataService from '../services/user-service'
 
@@ -31,6 +32,7 @@ const RegisterForm = () => {
   })
 
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [regError, setRegError] = useState('')
 
   const onSubmit = (data: FieldValues) => {
     UserDataService.register({
@@ -45,13 +47,18 @@ const RegisterForm = () => {
     })
       .then((response) => {
         console.log(response.data)
+        setRegError('')
 
         return response
       })
-      .catch((err: Error) => {
-        console.log(err)
+      .catch((err) => {
+        if (axios.isAxiosError(err)) {
+          setRegError(err.response?.data[Object.keys(err.response?.data)[0]][0].toString())
+          console.log(regError)
+        } else {
+          console.log(err)
+        }
       })
-    console.log(data)
   }
 
   return (
