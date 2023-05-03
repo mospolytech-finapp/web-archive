@@ -43,80 +43,59 @@ const RegisterForm = () => {
         <legend className="from-light-green-text to-light-blue-text mb-4 bg-gradient-to-r bg-clip-text text-center text-xl font-medium text-transparent sm:text-2xl md:mb-10">
           Создать учетную запись
         </legend>
-        <label
-          className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
-          htmlFor="surname"
-        >
-          <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Фамилия*</span>
-          <Input
-            error={errors.surname ? true : false}
-            id="surname"
-            name="surname"
-            register={register}
-            type="text"
-          />
-        </label>
-        <label
-          className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
-          htmlFor="name"
-        >
-          <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Имя*</span>
-          <Input
-            error={errors.name ? true : false}
-            id="name"
-            name="name"
-            register={register}
-            type="text"
-          />
-        </label>
-        <label
-          className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
-          htmlFor="patronymic"
-        >
-          <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Отчество</span>
-          <Input id="patronymic" name="patronymic" register={register} type="text" />
-        </label>
-        <label
-          className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
-          htmlFor="password"
-        >
-          <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Пароль*</span>
-          <Input
-            error={errors.password ? true : false}
-            id="password"
-            name="password"
-            register={register}
-            type="password"
-          />
-        </label>
-        <label
-          className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
-          htmlFor="email"
-        >
-          <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">E-mail*</span>
-          <Input
-            error={errors.email ? true : false}
-            id="email"
-            name="email"
-            register={register}
-            type="email"
-          />
-        </label>
-        <label
-          className="mb-2 flex flex-col items-start justify-start sm:mb-1 lg:mb-3"
-          htmlFor="date"
-        >
-          <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">
-            Дата рождения*
-          </span>
-          <Input
-            error={errors.date ? true : false}
-            id="date"
-            name="date"
-            register={register}
-            type="date"
-          />
-        </label>
+        <Input
+          error={errors.surname ? true : false}
+          id="surname"
+          label="Фамилия*"
+          name="surname"
+          placeholder=""
+          register={register}
+          type="text"
+        />
+        <Input
+          error={errors.name ? true : false}
+          id="name"
+          label="Имя*"
+          name="name"
+          placeholder=""
+          register={register}
+          type="text"
+        />
+        <Input
+          id="patronymic"
+          label="Отчество"
+          name="patronymic"
+          placeholder=""
+          register={register}
+          type="text"
+        />
+        <Input
+          error={errors.password ? true : false}
+          id="password"
+          label="Пароль*"
+          name="password"
+          placeholder=""
+          register={register}
+          type="password"
+        />
+        <Input
+          error={errors.email ? true : false}
+          id="email"
+          label="E-mail*"
+          name="email"
+          placeholder=""
+          register={register}
+          type="email"
+        />
+        <Input
+          error={errors.date ? true : false}
+          id="date"
+          label="Дата рождения*"
+          name="date"
+          placeholder=""
+          register={register}
+          type="date"
+        />
         <label className="mb-3 flex flex-col items-start justify-start sm:mb-2" htmlFor="gender">
           <span className="mb-1 text-[#2B2B2B] sm:text-base md:text-xl xl:mb-0">Пол</span>
           <select
@@ -139,7 +118,13 @@ const RegisterForm = () => {
           )}
           <span className="text-sm text-[#7C7C7C] md:text-base">*Обязательное поле для ввода</span>
         </div>
-        <Button disable={!isValid}>Продолжить</Button>
+        <Button
+          background="from-light-green to-light-blue bg-gradient-to-r"
+          disable={!isValid}
+          textColor="text-white"
+        >
+          {'Продолжить'}
+        </Button>
       </fieldset>
       <div className="mt-3 flex flex-wrap items-center justify-between lg:mt-4">
         <Link className="text-sm font-light text-[#07836C] md:text-base" to="/auth">

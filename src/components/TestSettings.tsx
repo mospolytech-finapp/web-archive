@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
 import ModalInputsBtns from './ui/ModalInputsBtns'
-import ModalBtns from './ui/ModalBtns'
+import ModalBtns from './ui/modals/ModalBtns'
 
 const schema = z.object({
   email: z.string().email({ message: 'Неверный логин или пароль' }),
@@ -24,7 +24,6 @@ const AuthForm = () => {
   })
   const [isModalInputOpen, setIsModalInputOpen] = useState(false)
   const [isModalBtnOpen, setIsModalBtnOpen] = useState(false)
-  const [modalType, setModalType] = useState('inputs')
 
   const onSubmit = (data: object) => {
     console.log(data)
@@ -64,10 +63,11 @@ const AuthForm = () => {
           {
             background: 'from-light-green to-light-blue bg-gradient-to-r',
             textColor: 'text-white',
-            children: 'Отправить',
+            children: 'Назад',
             onClick: () => console.log('Submitted')
           }
         ]}
+        close="Назад"
         inputs={[
           { id: '', label: 'Имя', placeholder: 'имяяя', name: 'name', type: 'text' },
           { id: '', label: 'Имя', placeholder: 'имяяя', name: 'name', type: 'password' },
@@ -89,10 +89,11 @@ const AuthForm = () => {
           {
             background: 'from-light-red to-light-blue bg-gradient-to-r',
             textColor: 'text-white',
-            children: 'Отправить',
+            children: 'Назад',
             onClick: () => console.log('Submitted')
           }
         ]}
+        close="Назад"
         direction="flex-col"
         open={isModalBtnOpen}
         title="Модальное окно с кнопками"
