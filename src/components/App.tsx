@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import AuthForm from './AuthForm'
 import RegisterForm from './RegisterForm'
+import TestSettings from './TestSettings'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Routes>
           <Route element={<AuthForm />} path="/auth" />
           <Route element={<RegisterForm />} path="/register" />
+          <Route element={<TestSettings />} path="/settings" />
         </Routes>
       </section>
     </main>
