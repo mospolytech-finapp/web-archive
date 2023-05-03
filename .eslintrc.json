@@ -53,7 +53,7 @@
     "import/newline-after-import": "error",
     "import/no-duplicates": "error",
     "tailwindcss/classnames-order": "warn",
-    "tailwindcss/no-custom-classname": "warn",
+    "tailwindcss/no-custom-classname": "off",
     "tailwindcss/no-contradicting-classname": "error",
     "prettier/prettier": [
       "warn",
