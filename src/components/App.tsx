@@ -2,17 +2,25 @@ import { Route, Routes } from 'react-router-dom'
 
 import AuthForm from './AuthForm'
 import RegisterForm from './RegisterForm'
+import Goals from './Goals'
 import TestSettings from './TestSettings'
 import GoalDonutChart from './ui/GoalDonutChart'
 import GoalProgressBar from './ui/GoalProgressBar'
 
 function App() {
   return (
-    <main className="grid min-h-screen place-content-center bg-[url('assets/images/login_background.svg')] from-blue-700 to-blue-800 bg-cover">
+    <main
+      className="
+    grid
+    min-h-screen
+    place-content-center
+    bg-[url('assets/images/login_background.svg')] from-blue-700 to-blue-800 bg-cover"
+    >
       <section>
         <Routes>
           <Route element={<AuthForm />} path="/auth" />
           <Route element={<RegisterForm />} path="/register" />
+          <Route element={<Goals />} path="/goals" />
           <Route element={<TestSettings />} path="/settings" />
           <Route element={<GoalDonutChart percent={100} />} path="/donut" />
           <Route

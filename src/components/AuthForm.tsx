@@ -104,7 +104,7 @@ const AuthForm = () => {
           background="from-light-green to-light-blue bg-gradient-to-r"
           disable={!isValid}
           textColor="text-white"
-          onClick={() => console.log('submit')}
+          onClick={() => null}
         >
           {'Войти'}
         </Button>

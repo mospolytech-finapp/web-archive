@@ -9,6 +9,8 @@ interface InputProps {
   register: UseFormRegister<FieldValues>
   placeholder?: string
   error?: boolean
+  value?: string
+  disabled?: true
 }
 
 const Input = ({ ...props }: InputProps) => {
