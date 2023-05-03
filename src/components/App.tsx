@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import AuthForm from './AuthForm'
 import RegisterForm from './RegisterForm'
+import TestSettings from './TestSettings'
 import GoalDonutChart from './ui/GoalDonutChart'
 import GoalProgressBar from './ui/GoalProgressBar'
 
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route element={<AuthForm />} path="/auth" />
           <Route element={<RegisterForm />} path="/register" />
+          <Route element={<TestSettings />} path="/settings" />
           <Route element={<GoalDonutChart percent={100} />} path="/donut" />
           <Route
             element={

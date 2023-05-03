@@ -1,31 +1,22 @@
 interface Button {
   disable?: boolean
   children: string
+  background: string
+  textColor: string
+  onClick: () => void
 }
 
 const Button = ({ ...props }: Button) => {
   return (
     <button
-      className="
-      from-light-green to-light-blue
-      active:shadow-custom
-      focus:border-blue-focus
-      max-h-12
-      w-full
-      rounded-full
-      bg-gradient-to-r
-      py-3
-      text-base
-      font-light
-      text-white
-      focus:border-2
-      focus:outline-0
-      disabled:bg-gray-500
-      disabled:bg-none
-      md:text-xl
-      "
+      className={`${props.background} max-h-12 flex-1 rounded-full py-3 px-2 text-base font-light ${props.textColor} mx-2 mt-3 disabled:bg-gray-500 disabled:bg-none sm:mx-5 md:text-xl`}
       disabled={props.disable}
       type="submit"
+      onClick={(event) => {
+        event.stopPropagation()
+        event.preventDefault()
+        props.onClick()
+      }}
     >
       {props.children}
     </button>
