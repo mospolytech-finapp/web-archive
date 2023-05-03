@@ -58,28 +58,24 @@ const AuthForm = () => {
         <legend className="from-light-green-text to-light-blue-text mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
           Вход
         </legend>
-        <label className="mb-3.5 flex flex-col items-start justify-start" htmlFor="email">
-          <span className="mb-2.5 text-xs uppercase text-[#2B2B2B] md:text-base">
-            АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ
-          </span>
-          <Input
-            error={errors.email ? true : false}
-            id="email"
-            name="email"
-            register={register}
-            type="email"
-          />
-        </label>
-        <label className="mb-2 flex flex-col items-start justify-start" htmlFor="password">
-          <span className="mb-2.5 text-xs uppercase text-[#2B2B2B] md:text-base">ПАРОЛЬ</span>
-          <Input
-            error={errors.password ? true : false}
-            id="password"
-            name="password"
-            register={register}
-            type="password"
-          />
-        </label>
+        <Input
+          error={errors.email ? true : false}
+          id="email"
+          label="АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ"
+          name="email"
+          placeholder=""
+          register={register}
+          type="email"
+        />
+        <Input
+          error={errors.password ? true : false}
+          id="password"
+          label="ПАРОЛЬ"
+          name="password"
+          placeholder=""
+          register={register}
+          type="password"
+        />
         <div className="mb-6 flex justify-between">
           {!isValid && (
             <p className="text-xs text-[#FF6F6F] md:text-base">
