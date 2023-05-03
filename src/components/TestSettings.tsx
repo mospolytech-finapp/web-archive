@@ -4,7 +4,7 @@ import * as z from 'zod'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
-import ModalInputsBtns from './ui/ModalInputsBtns'
+import ModalInputsBtns from './ui/modals/ModalInputsBtns'
 import ModalBtns from './ui/modals/ModalBtns'
 
 const schema = z.object({

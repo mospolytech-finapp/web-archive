@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 
-import Input from './Input'
-import Button from './Button'
+import Input from '../Input'
+import Button from '../Button'
 
 interface ModalProps {
   open: boolean
