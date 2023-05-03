@@ -7,10 +7,9 @@ const Button = ({ ...props }: Button) => {
   return (
     <button
       className="
-      from-light-green to-light-blue
-      active:shadow-custom
+      from-light-green
+      to-light-blue active:shadow-custom
       focus:border-blue-focus
-      max-h-12
       w-full
       rounded-full
       bg-gradient-to-r

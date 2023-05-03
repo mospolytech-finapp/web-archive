@@ -11,6 +11,8 @@ interface InputProps {
   register: UseFormRegister<FieldValues>
   placeholder?: string
   error?: boolean
+  value?: string
+  disabled?: true
 }
 
 const Input = ({ ...props }: InputProps) => {
@@ -74,13 +76,18 @@ const Input = ({ ...props }: InputProps) => {
         <input
           {...props.register(props.name)}
           aria-invalid={props.error}
-          className={`text-light-gray placeholder:text-light-gray focus:border-blue-focus max-h-12 w-full rounded-full py-4 px-6 text-xl font-normal focus:border-2 focus:outline-0 ${
+          className={`text-light-gray placeholder:text-light-gray focus:border-blue-focus max-h-12
+          w-full rounded-full py-4 px-6 text-xl font-normal focus:border-2 focus:outline-0 ${
             props.error ? 'bg-error border-light-red border-2' : 'bg-[#ECECEC]}'
-          }`}
+          }
+          ${props?.disabled ? 'disabled disabled:bg-white' : ''}
+          `}
+          disabled={props.disabled}
           id={props.id}
           name={props.name}
           placeholder={props.placeholder}
           type={props.type}
+          value={props.value}
         />
       )
   }
