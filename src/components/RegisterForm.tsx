@@ -1,21 +1,23 @@
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import axios from 'axios'
+
+import UserDataService from '../services/user-service'
 
 import Input from './ui/Input'
 import Button from './ui/Button'
-import ModalContact from './ui/ModalContact'
+import ModalContact from './ui/modals/ModalContact'
 
 const schema = z.object({
-  surname: z.string().nonempty({ message: 'Заполните обязательные поля' }),
-  name: z.string().nonempty({ message: 'Заполните обязательные поля' }),
-  patronymic: z.string().optional(),
-  password: z.string().min(8, { message: 'Заполните обязательные поля' }),
-  email: z.string().email({ message: 'Неверный адрес эл. почты' }),
-  date: z.coerce.date(),
-  gender: z.string().optional()
+  last_name: z.string().nonempty({ message: 'Заполните обязательные поля' }),
+  first_name: z.string().nonempty({ message: 'Заполните обязательные поля' }),
+  middle_name: z.string().optional(),
+  password: z.string().nonempty({ message: 'Заполните обязательные поля' }),
+  email: z.string().email({ message: 'Заполните обязательные поля' }),
+  date_of_birth: z.coerce.date()
 })
 
 const RegisterForm = () => {
@@ -29,17 +31,41 @@ const RegisterForm = () => {
   })
 
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [regError, setRegError] = useState('')
 
-  const onSubmit = (data: object) => {
-    console.log(data)
+  const onSubmit = (data: FieldValues) => {
+    UserDataService.register({
+      email: data.email,
+      password: data.password,
+      last_name: data.last_name,
+      first_name: data.first_name,
+      middle_name: data.middle_name != null ? data.middle_name : '',
+      date_of_birth: `${data.date_of_birth.getFullYear()}-${
+        data.date_of_birth.getMonth() + 1
+      }-${data.date_of_birth.getDate()}`
+    })
+      .then((response) => {
+        console.log(response.data)
+        setRegError('')
+
+        return response
+      })
+      .catch((err) => {
+        if (axios.isAxiosError(err)) {
+          setRegError(err.response?.data[Object.keys(err.response?.data)[0]][0].toString())
+          console.log(regError)
+        } else {
+          console.log(err)
+        }
+      })
   }
 
   return (
     <form
-      className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 py-16 px-8 font-sans font-normal tracking-normal sm:mx-0 md:max-w-md md:px-14 md:py-8 xl:px-11 xl:py-14"
+      className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 py-16 px-8 font-sans font-normal tracking-normal sm:mx-0 md:max-w-lg md:px-14 md:py-8 xl:px-11 xl:py-14"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <fieldset className="grid">
+      <fieldset className="mb-5 grid lg:mb-4">
         <legend className="from-light-green-text to-light-blue-text mb-4 bg-gradient-to-r bg-clip-text text-center text-xl font-medium text-transparent sm:text-2xl md:mb-10">
           Создать учетную запись
         </legend>
@@ -126,18 +152,27 @@ const RegisterForm = () => {
           {'Продолжить'}
         </Button>
       </fieldset>
-      <div className="mt-3 flex flex-wrap items-center justify-between lg:mt-4">
-        <Link className="text-sm font-light text-[#07836C] md:text-base" to="/auth">
+      <div className="flex flex-wrap items-center justify-between">
+        <Link className="mr-5 text-sm font-light text-[#07836C] md:text-base" to="/auth">
           Уже зарегистрированы?
         </Link>
         <button
           className="text-sm font-light text-[#3076B8] md:text-base"
-          onClick={() => setIsModalOpen(true)}
+          onClick={(event) => {
+            event.stopPropagation()
+            event.preventDefault()
+            setIsModalOpen(true)
+          }}
         >
           Связаться с нами
         </button>
       </div>
-      <ModalContact open={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <ModalContact
+        open={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false)
+        }}
+      />
     </form>
   )
 }

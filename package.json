@@ -1,9 +1,4 @@
 {
-  "name": "vrttv-boilerplate",
-  "author": {
-    "name": "Diego Do Santos",
-    "url": "https://github.com/drumpy"
-  },
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -26,6 +21,9 @@
   ],
   "dependencies": {
     "@hookform/resolvers": "^3.0.1",
+    "@types/axios": "^0.14.0",
+    "axios": "^1.3.6",
+    "dotenv": "^16.0.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.43.9",

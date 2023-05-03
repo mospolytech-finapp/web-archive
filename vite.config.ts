@@ -39,11 +39,8 @@ export default defineConfig({
   css: {
     postcss
   },
-  resolve: {
-    alias: [
-      { find: '@/', replacement: '/src' },
-      { find: '@/Assets', replacement: '/src/assets' },
-      { find: '@/Components', replacement: '/src/components' }
-    ]
-  }
+  build: {
+    assetsInlineLimit: 0
+  },
+  base: './'
 })

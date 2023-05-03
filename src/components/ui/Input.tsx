@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { FieldValues, UseFormRegister } from 'react-hook-form'
 
+import closeEye from '../../assets/images/close_eye.svg'
+import openEye from '../../assets/images/open_eye.svg'
+
 interface InputProps {
   id: string
   name: string
