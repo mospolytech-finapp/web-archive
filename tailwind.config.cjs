@@ -13,6 +13,9 @@ module.exports = {
       //
       //   'desktop': '1280px'
       // },
+      backgroundImage: {
+        'goal-bg': "url('/src/assets/images/goal-bg.svg')"
+      },
       boxShadow: {
         custom: 'inset 0px 6px 6px rgba(0, 0, 0, 0.25)'
       },
