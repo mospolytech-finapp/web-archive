@@ -18,14 +18,17 @@ const GoalDonutChart = ({ percent }: GoalDonutChartProps) => {
   }
 
   const getGradientBackground = (canvas: HTMLCanvasElement) => {
+    if (!canvas) return 'rgba(138, 138, 138, 1)'
     const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!
 
     const gradientSize = canvas.width / 1.4
     const gradientObject = ctx.createLinearGradient(0, gradientSize, gradientSize, 0)
 
-    gradientObject?.addColorStop(0, gradient.startColor)
-    gradientObject?.addColorStop(0.7, gradient.middleColor)
-    gradientObject?.addColorStop(1, gradient.endColor)
+    if (gradientObject) {
+      gradientObject.addColorStop(0, gradient.startColor)
+      gradientObject.addColorStop(0.7, gradient.middleColor)
+      gradientObject.addColorStop(1, gradient.endColor)
+    }
 
     return gradientObject
   }
@@ -67,15 +70,19 @@ const GoalDonutChart = ({ percent }: GoalDonutChartProps) => {
     const responsiveSize = window.innerWidth / 5.7
 
     if (chartRef.current) {
-      chartRef.current.canvas.width = responsiveSize
-      chartRef.current.canvas.height = responsiveSize
-      chartRef.current.canvas.style.width = `${responsiveSize}px`
-      chartRef.current.canvas.style.height = `${responsiveSize}px`
-      chartRef.current.data.datasets[0].backgroundColor = [
-        'rgba(138, 138, 138, 1)',
-        getGradientBackground(document.querySelector('canvas') ?? document.createElement('canvas'))
-      ]
-      chartRef.current.resize()
+      const { canvas } = chartRef.current
+
+      if (canvas) {
+        canvas.width = responsiveSize
+        canvas.height = responsiveSize
+        canvas.style.width = `${responsiveSize}px`
+        canvas.style.height = `${responsiveSize}px`
+        chartRef.current.data.datasets[0].backgroundColor = [
+          'rgba(138, 138, 138, 1)',
+          getGradientBackground(canvas)
+        ]
+        chartRef.current.resize()
+      }
     }
   }
 

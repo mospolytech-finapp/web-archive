@@ -12,11 +12,11 @@ function App() {
         <Routes>
           <Route element={<AuthForm />} path="/auth" />
           <Route element={<RegisterForm />} path="/register" />
-          <Route element={<GoalDonutChart percent={50} />} path="/donut" />
+          <Route element={<GoalDonutChart percent={100} />} path="/donut" />
           <Route
             element={
               <div className="w-96">
-                <GoalProgressBar progress={60} progressText="345 050" />
+                <GoalProgressBar progress={90} progressText="345 050" />
               </div>
             }
             path="/progress"
