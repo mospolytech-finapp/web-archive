@@ -8,7 +8,15 @@ import ModalContact from './ui/ModalContact'
 import GoalDonutChart from './ui/GoalDonutChart'
 import GoalProgressBar from './ui/GoalProgressBar'
 
-const schema = z.object({})
+const schema = z.object({
+  start_date: z.string(),
+  finish_date: z.string(),
+  goal_amount: z.string(),
+  current_amount: z.string(),
+  hh: z.string(),
+  dd: z.string(),
+  mm: z.string()
+})
 
 const tmpData = {
   start_date: '16.04.2023',
