@@ -5,18 +5,19 @@ import { useState } from 'react'
 
 import Input from './ui/Input'
 import ModalContact from './ui/ModalContact'
+import GoalDonutChart from './ui/GoalDonutChart'
+import GoalProgressBar from './ui/GoalProgressBar'
 
-const schema = z.object({
-  // username: z.string().email({message: 'Неверный логин или пароль'}),
-  // password: z.string().nonempty({message: 'Неверный логин или пароль'}),
-  // remember_password: z.boolean()
-})
+const schema = z.object({})
 
 const tmpData = {
   start_date: '16.04.2023',
   finish_date: '29.11.2023',
   goal_amount: '2 345 000',
-  current_amount: '1 999 542'
+  current_amount: '1 999 542',
+  hh: '07',
+  dd: '13',
+  mm: '07'
 }
 const Goals = () => {
   const {
@@ -71,7 +72,125 @@ const Goals = () => {
         </h2>
       </div>
       <div className="flex flex-col gap-28 xl:flex-row">
-        <div className="w-46 mx-auto h-40 bg-[#D2D2D2] md:w-96 xl:m-0" />
+        <div
+          className="
+        max-w-xs
+        mx-auto
+        {/*bg-[#D2D2D2] */}
+        flex
+        justify-start
+        items-center
+        flex-col
+        md:w-96
+        xl:m-0"
+        >
+          <div
+            className="
+          mb-10
+          max-w-xs"
+          >
+            <GoalDonutChart percent={100} />
+          </div>
+          <div className="mx-auto mb-14 w-fit">
+            <span
+              className="
+            text-3xl
+            font-light
+            "
+            >
+              Осталось:
+            </span>
+            <span
+              className="
+            relative
+            text-5xl
+            font-light
+            after:absolute
+            after:-bottom-3
+            after:left-0
+            after:text-sm
+            after:content-['месяцев']
+            "
+            >
+              {tmpData.mm}
+            </span>
+            <span
+              className="
+            relative
+            text-5xl
+            font-light
+            before:content-[':']
+            after:absolute
+            after:-bottom-3
+            after:left-4
+            after:text-sm
+            after:content-['дней']
+            "
+            >
+              {tmpData.dd}
+            </span>
+            <span
+              className="
+            relative
+            text-5xl
+            font-light
+            before:content-[':']
+            after:absolute
+            after:-bottom-3
+            after:left-4
+            after:text-sm
+            after:content-['часов']
+            "
+            >
+              {tmpData.hh}
+            </span>
+          </div>
+          <div className="mb-6 w-60 md:w-80">
+            <GoalProgressBar progress={90} progressText="345 050" />
+          </div>
+          <div
+            className="flex
+          w-full
+          items-center
+          justify-between
+          gap-6
+          md:ml-6
+          "
+          >
+            <a
+              className="
+            max-w-12
+            w-full
+            rounded-3xl
+            bg-[#202020]
+            py-3
+            text-center
+            text-2xl
+            font-extrabold
+            text-white
+            "
+              href="#"
+            >
+              Вычесть
+            </a>
+            <a
+              className="
+            max-w-12
+            w-full
+            rounded-3xl
+            bg-[#202020]
+            py-3
+            text-center
+            text-2xl
+            font-extrabold
+            text-white
+            "
+              href="#"
+            >
+              Пополнить
+            </a>
+          </div>
+        </div>
         <form
           className="rounded-3xl bg-[#E5E5E5CC]/50
         font-sans
@@ -165,8 +284,8 @@ const Goals = () => {
             <div className="flex justify-between gap-8">
               <button
                 className="
-              from-light-green to-light-blue
-              active:shadow-custom
+              from-light-green
+              to-light-blue active:shadow-custom
               focus:border-blue-focus
               w-full
               rounded-full

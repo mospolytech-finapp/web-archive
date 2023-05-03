@@ -3,6 +3,8 @@ import { Route, Routes } from 'react-router-dom'
 import AuthForm from './AuthForm'
 import RegisterForm from './RegisterForm'
 import Goals from './Goals'
+import GoalDonutChart from './ui/GoalDonutChart'
+import GoalProgressBar from './ui/GoalProgressBar'
 
 function App() {
   return (
@@ -18,6 +20,15 @@ function App() {
           <Route element={<AuthForm />} path="/auth" />
           <Route element={<RegisterForm />} path="/register" />
           <Route element={<Goals />} path="/goals" />
+          <Route element={<GoalDonutChart percent={100} />} path="/donut" />
+          <Route
+            element={
+              <div className="w-96">
+                <GoalProgressBar progress={90} progressText="345 050" />
+              </div>
+            }
+            path="/progress"
+          />
         </Routes>
       </section>
     </main>

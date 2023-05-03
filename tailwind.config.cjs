@@ -29,7 +29,13 @@ module.exports = {
         'purple-active-link': '#6C39BB',
         'pink-active-link': '#E5AEFF',
         error: '#FFD9D9',
-        'light-red': '#FF9494'
+        'light-red': '#FF9494',
+        'progressbar-completed-green': {
+          from: '#01c88c',
+          to: '#1c8d6b'
+        },
+        'progressbar-nocompleted-green': '#01533A',
+        'progressbar-nocompleted-black': '#708880'
       }
     },
     fontFamily: {
