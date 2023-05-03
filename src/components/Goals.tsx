@@ -28,10 +28,7 @@ const tmpData = {
   mm: '07'
 }
 const Goals = () => {
-  const {
-    register,
-    formState: { errors, isValid }
-  } = useForm({
+  const { register } = useForm({
     resolver: zodResolver(schema)
   })
   const [isModalOpen, setIsModalOpen] = useState(false)
