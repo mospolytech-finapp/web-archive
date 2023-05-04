@@ -46,8 +46,8 @@ const Input = ({ ...props }: InputProps) => {
                 alt={isPasswordVisible ? 'скрыть пароль' : 'показать пароль'}
                 src={
                   isPasswordVisible
-                    ? 'src/assets/images/close_eye.svg'
-                    : 'src/assets/images/open_eye.svg'
+                    ? './src/assets/images/close_eye.svg'
+                    : './src/assets/images/open_eye.svg'
                 }
               />
             </button>
