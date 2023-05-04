@@ -12,7 +12,7 @@ interface ModalProps {
 }
 
 const ModalBtns = ({ ...props }: ModalProps) => {
-  const dialogRef = useRef<HTMLDivElement>(null)
+  const dialogRef = useRef<HTMLDialogElement>(null)
   const dialogContentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
