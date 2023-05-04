@@ -61,15 +61,22 @@ const Input = ({ ...props }: InputProps) => {
         <div className="mb-5 flex items-center">
           <input
             {...props.register(props.name)}
-            className={`peer checked:bg-[url(' relative h-5 w-5 shrink-0 appearance-none
-              rounded-sm
-              border
-              bg-[#ECECEC]${checkMark}')]
+            className={`
+              peer
+              checked:bg-[url('${checkMark}')]
+              relative
+              h-5
+              w-5
+              shrink-0
+              appearance-none
+              rounded-sm border
+              bg-[#ECECEC]
               checked:bg-[length:20px]
               checked:bg-no-repeat
               checked:content-['']
               hover:ring
-              hover:ring-gray-300`}
+              hover:ring-gray-300
+            `}
             disabled={props.disabled}
             id={props.id}
             name={props.name}
