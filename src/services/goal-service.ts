@@ -16,8 +16,8 @@ class GoalDataService {
     return await http.post<IGoalData>('/finance/goals/', data)
   }
 
-  async update(data: IGoalData, id: number) {
-    return await http.put<IGoalData>(`/finance/goals/${id}`, data)
+  async update(data: IGoalData) {
+    return await http.put<IGoalData>(`/finance/goals/${data.id}`, data)
   }
 
   async delete(id: number) {
