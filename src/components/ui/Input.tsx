@@ -3,7 +3,7 @@ import { FieldValues, UseFormRegister } from 'react-hook-form'
 
 import closeEye from '../../assets/images/close_eye.svg'
 import openEye from '../../assets/images/open_eye.svg'
-import checkMark from '../../assets/images/check_mark.svg'
+// import checkMark from '../../assets/images/check_mark.svg' в идеале лучше сделать через import
 
 interface InputProps {
   id: string
@@ -63,14 +63,15 @@ const Input = ({ ...props }: InputProps) => {
             {...props.register(props.name)}
             className={`
               peer
-              checked:bg-[url('${checkMark}')]
               relative
               h-5
               w-5
               shrink-0
               appearance-none
-              rounded-sm border
+              rounded-sm
+              border
               bg-[#ECECEC]
+              checked:bg-[url('assets/images/check_mark.svg')]
               checked:bg-[length:20px]
               checked:bg-no-repeat
               checked:content-['']
