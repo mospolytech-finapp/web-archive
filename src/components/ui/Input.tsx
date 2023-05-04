@@ -3,6 +3,7 @@ import { FieldValues, UseFormRegister } from 'react-hook-form'
 
 import closeEye from '../../assets/images/close_eye.svg'
 import openEye from '../../assets/images/open_eye.svg'
+import checkMark from '../../assets/images/check_mark.svg'
 
 interface InputProps {
   id: string
@@ -39,6 +40,7 @@ const Input = ({ ...props }: InputProps) => {
               className={`text-true-gray-900 placeholder:text-light-gray -mr-10 max-h-12 w-full rounded-full py-4 px-6 pr-12 text-xl font-normal ${
                 props.error ? 'bg-error border-light-red border-2' : 'bg-[#ECECEC]}'
               }`}
+              disabled={props.disabled}
               id={props.id}
               name={props.name}
               placeholder={props.placeholder}
@@ -59,15 +61,16 @@ const Input = ({ ...props }: InputProps) => {
         <div className="mb-5 flex items-center">
           <input
             {...props.register(props.name)}
-            className="peer relative h-5 w-5 shrink-0 appearance-none rounded-sm
-                    border
-                    bg-[#ECECEC]
-                    checked:bg-[url('./src/assets/images/check_mark.svg')]
-                    checked:bg-[length:20px]
-                    checked:bg-no-repeat
-                    checked:content-['']
-                    hover:ring
-                    hover:ring-gray-300"
+            className={`peer checked:bg-[url(' relative h-5 w-5 shrink-0 appearance-none
+              rounded-sm
+              border
+              bg-[#ECECEC]${checkMark}')]
+              checked:bg-[length:20px]
+              checked:bg-no-repeat
+              checked:content-['']
+              hover:ring
+              hover:ring-gray-300`}
+            disabled={props.disabled}
             id={props.id}
             name={props.name}
             placeholder={props.placeholder}
@@ -94,6 +97,7 @@ const Input = ({ ...props }: InputProps) => {
             className={`text-true-gray-900 placeholder:text-light-gray max-h-12 w-full rounded-full py-4 px-6 text-lg font-normal ${
               props.error ? 'bg-error border-light-red border-2' : 'bg-[#ECECEC]}'
             }`}
+            disabled={props.disabled}
             id={props.id}
             name={props.name}
             placeholder={props.placeholder}

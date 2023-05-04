@@ -62,6 +62,7 @@ const ModalBtns = ({ ...props }: ModalProps) => {
       ref={dialogRef}
       className="inset-0 flex items-center justify-center bg-transparent"
       role="dialog"
+      onClick={handleBackdropClick}
     >
       <div className="fixed top-0 left-0 z-10 h-screen w-screen backdrop-blur backdrop-opacity-40" />
       <div
