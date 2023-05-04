@@ -72,7 +72,7 @@ const AuthForm = () => {
         inputs={[
           { id: '', label: 'Имя', placeholder: 'имяяя', name: 'name', type: 'text' },
           { id: '', label: 'Имя', placeholder: 'имяяя', name: 'name', type: 'password' },
-          { id: '', label: 'Имя', placeholder: 'имяяя', name: 'name', type: 'checkbox' }
+          { id: '', label: 'Имя', placeholder: 'имяяя', name: 'поле', type: 'checkbox' }
         ]}
         open={isModalInputOpen}
         title="Заголовок модального окна"

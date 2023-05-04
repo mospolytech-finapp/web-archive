@@ -42,6 +42,15 @@ const ModalBtns = ({ ...props }: ModalProps) => {
       handleClose()
     }
   })
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (
+      props.open &&
+      dialogContentRef.current &&
+      !dialogContentRef.current.contains(e.target as Node)
+    ) {
+      handleClose()
+    }
+  }
 
   document.querySelector('main')?.addEventListener('click', (e) => {
     if (

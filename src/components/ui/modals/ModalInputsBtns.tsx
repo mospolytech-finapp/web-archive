@@ -22,15 +22,29 @@ const ModalInputsBtns = ({ ...props }: ModalProps) => {
     formState: { errors }
   } = useForm()
 
-  useEffect(() => {
-    if (dialogRef.current) {
-      if (props.open) {
-        dialogRef.current.showModal()
-      } else {
-        dialogRef.current.close()
+  const ModalInputsBtns = ({ open, onClose }: ModalProps) => {
+    // ...
+    useEffect(() => {
+      function Close() {
+        if (dialogRef.current) {
+          dialogRef.current.close()
+        }
+        onClose()
       }
-    }
-  }, [props.open])
+      if (dialogRef.current) {
+        if (open) {
+          dialogRef.current.showModal()
+        } else {
+          dialogRef.current.close()
+        }
+        dialogRef.current?.addEventListener('click', (e) => {
+          if (e.target instanceof Node && !dialogRef.current?.contains(e.target)) {
+            Close()
+          }
+        })
+      }
+    }, [open, onClose])
+  }
 
   function handleClose() {
     if (dialogRef.current) {
@@ -50,15 +64,20 @@ const ModalInputsBtns = ({ ...props }: ModalProps) => {
     }
   })
 
-  document.querySelector('main')?.addEventListener('click', (e) => {
-    if (
-      props.open &&
-      dialogContentRef.current &&
-      !dialogContentRef.current.contains(e.target as Node)
-    ) {
-      handleClose()
-    }
-  })
+  const mainElement = document.querySelector('main')
+
+  if (mainElement) {
+    mainElement.addEventListener('click', (e) => {
+      if (
+        props.open &&
+        dialogRef.current &&
+        e.target instanceof Node &&
+        !dialogRef.current.contains(e.target as Node)
+      ) {
+        handleClose()
+      }
+    })
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()

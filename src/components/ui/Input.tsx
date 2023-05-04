@@ -36,7 +36,7 @@ const Input = ({ ...props }: InputProps) => {
             <input
               {...props.register(props.name)}
               aria-invalid={props.error}
-              className={`text-true-gray-900 placeholder:text-light-gray -mr-10 max-h-12 w-full rounded-full py-4 px-6 text-xl font-normal ${
+              className={`text-true-gray-900 placeholder:text-light-gray -mr-10 max-h-12 w-full rounded-full py-4 px-6 pr-12 text-xl font-normal ${
                 props.error ? 'bg-error border-light-red border-2' : 'bg-[#ECECEC]}'
               }`}
               id={props.id}
