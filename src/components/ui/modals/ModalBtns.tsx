@@ -34,7 +34,7 @@ const ModalBtns = ({ ...props }: ModalProps) => {
   }
 
   function onClick() {
-    // здесь действие при нажатии на кнопку
+    // здесь действие при нажатии на кнопку..
   }
 
   document.addEventListener('keydown', (e) => {
@@ -51,16 +51,6 @@ const ModalBtns = ({ ...props }: ModalProps) => {
       handleClose()
     }
   }
-
-  document.querySelector('main')?.addEventListener('click', (e) => {
-    if (
-      props.open &&
-      dialogContentRef.current &&
-      !dialogContentRef.current.contains(e.target as Node)
-    ) {
-      handleClose()
-    }
-  })
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
