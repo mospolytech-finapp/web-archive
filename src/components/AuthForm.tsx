@@ -58,28 +58,24 @@ const AuthForm = () => {
         <legend className="from-light-green-text to-light-blue-text mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
           Вход
         </legend>
-        <label className="mb-3.5 flex flex-col items-start justify-start" htmlFor="username">
-          <span className="mb-2.5 text-xs uppercase text-[#2B2B2B] md:text-base">
-            АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ
-          </span>
-          <Input
-            error={errors.username ? true : false}
-            id="username"
-            name="username"
-            register={register}
-            type="email"
-          />
-        </label>
-        <label className="mb-2 flex flex-col items-start justify-start" htmlFor="password">
-          <span className="mb-2.5 text-xs uppercase text-[#2B2B2B] md:text-base">ПАРОЛЬ</span>
-          <Input
-            error={errors.password ? true : false}
-            id="password"
-            name="password"
-            register={register}
-            type="password"
-          />
-        </label>
+        <Input
+          error={errors.username ? true : false}
+          id="username"
+          label="Адрес электронной почты"
+          name="username"
+          placeholder=""
+          register={register}
+          type="email"
+        />
+        <Input
+          error={errors.password ? true : false}
+          id="password"
+          label="Пароль"
+          name="password"
+          placeholder=""
+          register={register}
+          type="password"
+        />
         <div className="mb-6 flex min-w-full justify-between">
           {(errors.username || errors.password || loginError) && (
             <p className="text-xs text-[#FF6F6F] md:mr-5 md:text-base">
@@ -95,18 +91,23 @@ const AuthForm = () => {
             Забыли пароль?
           </a>
         </div>
-        <label className="mb-8 flex items-center" htmlFor="remember_password">
-          <Input
-            id="remember_password"
-            name="remember_password"
-            register={register}
-            type="checkbox"
-          />
-          <span className="ml-3 text-xs font-light text-[#2B2B2B] md:text-base">
-            Запомнить аккаунт
-          </span>
-        </label>
-        <Button disable={!isValid}>Войти</Button>
+        <Input
+          error={errors.password ? true : false}
+          id="remember_password"
+          label="Запомнить аккаунт"
+          name="remember_password"
+          placeholder=""
+          register={register}
+          type="checkbox"
+        />
+        <Button
+          background="from-light-green to-light-blue bg-gradient-to-r"
+          disable={!isValid}
+          textColor="text-white"
+          onClick={() => null}
+        >
+          {'Войти'}
+        </Button>
       </fieldset>
       <div className="flex items-center justify-between">
         <Link className="mr-5 text-xs font-light text-[#07836C] md:text-base" to="/register">

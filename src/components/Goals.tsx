@@ -211,82 +211,44 @@ const Goals = () => {
         "
         >
           <fieldset className="grid w-72 md:w-96">
-            <label className="mb-2 flex flex-col items-start justify-start" htmlFor="start_date">
-              <span
-                className="mb-1
-          text-xs
-          font-light
-          text-[#2B2B2B]
-          md:text-2xl
-          "
-              >
-                Дата открытия
-              </span>
-              <Input
-                disabled={true}
-                id="start_date"
-                name="start_date"
-                register={register}
-                type="text"
-                value={tmpData.start_date}
-              />
-            </label>
-            <label className="mb-2 flex flex-col items-start justify-start" htmlFor="finish_date">
-              <span
-                className="mb-1 text-xs  font-light
-          text-[#2B2B2B]
-          md:text-2xl
-          "
-              >
-                Дата достижения
-              </span>
-              <Input
-                disabled={true}
-                id="finish_date"
-                name="finish_date"
-                register={register}
-                type="text"
-                value={tmpData.finish_date}
-              />
-            </label>
-            <label className="mb-2 flex flex-col items-start justify-start" htmlFor="goal_amount">
-              <span
-                className="mb-1 text-xs  font-light text-[#2B2B2B]
-          md:text-2xl"
-              >
-                Сумма цели
-              </span>
-              <Input
-                disabled={true}
-                id="goal_amount"
-                name="goal_amount"
-                register={register}
-                type="text"
-                value={tmpData.goal_amount}
-              />
-            </label>
-            <label
-              className="mb-11 flex flex-col items-start justify-start"
-              htmlFor="current_amount"
-            >
-              <span
-                className="mb-1 text-xs  font-light
-          text-[#2B2B2B]
-          md:text-2xl
-          "
-              >
-                Сумма (факт)
-              </span>
-              <Input
-                disabled={true}
-                id="current_amount"
-                name="current_amount"
-                register={register}
-                type="text"
-                value={tmpData.current_amount}
-              />
-            </label>
+            <Input
+              disabled={true}
+              id="start_date"
+              label="Дата открытия"
+              name="start_date"
+              register={register}
+              type="text"
+              value={tmpData.start_date}
+            />
+            <Input
+              disabled={true}
+              id="finish_date"
+              label="Дата достижения"
+              name="finish_date"
+              register={register}
+              type="text"
+              value={tmpData.finish_date}
+            />
+            <Input
+              disabled={true}
+              id="goal_amount"
+              label="Сумма цели"
+              name="goal_amount"
+              register={register}
+              type="text"
+              value={tmpData.goal_amount}
+            />
+            <Input
+              disabled={true}
+              id="current_amount"
+              label="Сумма (факт)"
+              name="current_amount"
+              register={register}
+              type="text"
+              value={tmpData.current_amount}
+            />
             <div className="flex justify-between gap-8">
+              {/* To-do сделать button через Компонент Button.tsx */}
               <button
                 className="
               from-light-green
