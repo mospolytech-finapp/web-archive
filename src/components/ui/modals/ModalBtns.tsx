@@ -77,7 +77,7 @@ const ModalBtns = ({ ...props }: ModalProps) => {
               className="absolute top-2 right-2 p-2 focus:outline-none focus-visible:outline-white"
               onClick={handleClose}
             >
-              <img alt="Close modal" src="src/assets/images/cross.svg" />
+              <img alt="Close modal" src="/assets/images/cross.svg" />
             </button>
           ) : null}
         </div>
