@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import Input from '../Input'
 import Button from '../Button'
+import crossIcon from '../../../assets/images/cross.svg'
 
 interface ModalProps {
   open: boolean
@@ -103,7 +104,7 @@ const ModalInputsBtns = ({ ...props }: ModalProps) => {
               className="absolute top-2 right-2 p-2 focus:outline-none focus-visible:outline-white"
               onClick={handleClose}
             >
-              <img alt="Close modal" src="/assets/images/cross.svg" />
+              <img alt="Close modal" src={crossIcon} />
             </button>
           ) : null}
         </div>

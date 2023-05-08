@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import Input from '../Input'
 import Button from '../Button'
 import Select from '../Select'
+import crossIcon from '../../../assets/images/cross.svg'
 
 interface ModalProps {
   open: boolean
@@ -96,7 +97,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
               className="absolute top-2 right-2 p-2 focus:outline-none focus-visible:outline-white"
               onClick={handleClose}
             >
-              <img alt="Close modal" className="w-4" src="src/assets/images/black_cross.svg" />
+              <img alt="Close modal" className="w-4" src={crossIcon} />
             </button>
           ) : null}
         </div>
