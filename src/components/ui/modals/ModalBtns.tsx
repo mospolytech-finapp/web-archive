@@ -93,6 +93,7 @@ const ModalBtns = ({ ...props }: ModalProps) => {
                 } else {
                   onClick()
                 }
+                button.onClick()
               }}
             >
               {button.children}
