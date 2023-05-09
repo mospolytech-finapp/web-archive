@@ -5,7 +5,6 @@ import { useState } from 'react'
 
 import settings_img from '../assets/images/settings.svg'
 
-import Input from './ui/Input'
 import ModalTransaction from './ui/modals/ModalTransactions'
 import ModalBtns from './ui/modals/ModalBtns'
 import Button from './ui/Button'
@@ -39,6 +38,7 @@ const Transactions = () => {
   const [isModalAddOpen, setIsModalAddOpen] = useState(false)
   const [isModalMoreOpen, setIsModalMoreOpen] = useState(false)
   const [isModalBtnOpen, setIsModalBtnOpen] = useState(false)
+  const [isModalFilterOpen, setIsModalFilterOpen] = useState(false)
 
   const handleModalClose = () => {
     setIsModalBtnOpen(false)
@@ -97,7 +97,9 @@ const Transactions = () => {
           <Button
             background="from-light-green to-light-blue bg-gradient-to-r"
             textColor="text-white"
-            onClick={() => null}
+            onClick={() => {
+              setIsModalFilterOpen(true)
+            }}
           >
             {'Фильтры'}
           </Button>
@@ -146,6 +148,70 @@ const Transactions = () => {
               '              from-light-green\n' +
               '              to-light-blue active:shadow-custom',
             textColor: 'text-white',
+            children: 'Сохранить',
+            onClick: () => console.log('Submitted')
+          },
+          {
+            background:
+              'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
+            textColor: 'text-white',
+            children: 'Отмена',
+            onClick: () => console.log('Submitted')
+          }
+        ]}
+        close="Отмена"
+        filter={true}
+        inputs={[
+          {
+            id: 'name',
+            label: 'Название',
+            placeholder: 'Магнит',
+            name: 'name',
+            type: 'text'
+          }
+        ]}
+        open={isModalFilterOpen}
+        select={[
+          {
+            id: 'type',
+            label: 'Тип',
+            placeholder: 'Выберете тип',
+            name: 'type',
+            options: [
+              { value: 'доходы', label: 'доходы' },
+              { value: 'расходы', label: 'расходы' }
+            ]
+          },
+          {
+            id: 'category',
+            label: 'Категория',
+            placeholder: 'Выберете категорию',
+            name: 'category',
+            options: [
+              { value: 'Путешествия', label: 'Путешествия' },
+              { value: 'Транспорт', label: 'Транспорт' },
+              { value: 'Образование', label: 'Образование' },
+              { value: 'Одежда', label: 'Одежда' },
+              { value: 'Подписки', label: 'Подписки' },
+              { value: 'Животные', label: 'Животные' },
+              { value: 'Продукты', label: 'Продукты' },
+              { value: 'Еда', label: 'Еда' },
+              { value: 'Развлечения', label: 'Развлечения' },
+              { value: 'Прочее', label: 'Прочее' }
+            ]
+          }
+        ]}
+        title={'Фильтры'}
+        onClose={() => setIsModalFilterOpen(false)}
+      />
+      <ModalTransaction
+        buttons={[
+          {
+            background:
+              'bg-gradient-to-r\n' +
+              '              from-light-green\n' +
+              '              to-light-blue active:shadow-custom',
+            textColor: 'text-white',
             children: 'Добавить',
             onClick: () => console.log('Submitted')
           },
@@ -158,9 +224,10 @@ const Transactions = () => {
           }
         ]}
         close="Отмена"
+        filter={false}
         inputs={[
           {
-            id: '',
+            id: 'name',
             label: 'Название',
             placeholder: 'Магнит',
             name: 'name',
@@ -170,20 +237,20 @@ const Transactions = () => {
         open={isModalAddOpen}
         select={[
           {
-            id: '',
+            id: 'type',
             label: 'Тип',
             placeholder: 'Выберете тип',
-            name: 'start_date',
+            name: 'type',
             options: [
               { value: 'доходы', label: 'доходы' },
               { value: 'расходы', label: 'расходы' }
             ]
           },
           {
-            id: '',
+            id: 'category',
             label: 'Категория',
             placeholder: 'Выберете категорию',
-            name: 'start_date',
+            name: 'category',
             options: [
               { value: 'Путешествия', label: 'Путешествия' },
               { value: 'Транспорт', label: 'Транспорт' },
@@ -221,9 +288,10 @@ const Transactions = () => {
           }
         ]}
         close=""
+        filter={false}
         inputs={[
           {
-            id: '',
+            id: 'name',
             label: 'Название',
             placeholder: 'Магнит',
             name: 'name',
@@ -233,20 +301,20 @@ const Transactions = () => {
         open={isModalMoreOpen}
         select={[
           {
-            id: '',
+            id: 'type',
             label: 'Тип',
             placeholder: 'Выберете тип',
-            name: 'start_date',
+            name: 'type',
             options: [
               { value: 'доходы', label: 'доходы' },
               { value: 'расходы', label: 'расходы' }
             ]
           },
           {
-            id: '',
+            id: 'category',
             label: 'Категория',
             placeholder: 'Выберете категорию',
-            name: 'start_date',
+            name: 'category',
             options: [
               { value: 'Путешествия', label: 'Путешествия' },
               { value: 'Транспорт', label: 'Транспорт' },

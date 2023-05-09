@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { SetStateAction, useState, useEffect } from 'react'
 import { FieldValues, UseFormRegister } from 'react-hook-form'
+
+import arrow from '../../assets/images/select_arrow.svg'
 
 interface SelectProps {
   id: string
@@ -9,21 +11,60 @@ interface SelectProps {
   placeholder?: string
   error?: boolean
   value?: string
-  disabled?: true
+  disabled?: boolean
   options: Array<{ value: string; label: string }>
 }
 
-const Select = ({ ...props }: SelectProps) => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+const getCategoryOptions = (selectedType: string) => {
+  let categoryOptions: { value: string; label: string }[] = []
 
-  function togglePasswordVisibility(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsPasswordVisible((prevState) => !prevState)
+  if (selectedType === 'доходы') {
+    categoryOptions = [
+      { value: 'Зарплата', label: 'Зарплата' },
+      { value: 'Подарки', label: 'Подарки' },
+      { value: 'Дивиденды', label: 'Дивиденды' }
+    ]
+  } else if (selectedType === 'расходы') {
+    categoryOptions = [
+      { value: 'Путешествия', label: 'Путешествия' },
+      { value: 'Транспорт', label: 'Транспорт' },
+      { value: 'Образование', label: 'Образование' },
+      { value: 'Одежда', label: 'Одежда' },
+      { value: 'Подписки', label: 'Подписки' },
+      { value: 'Животные', label: 'Животные' },
+      { value: 'Продукты', label: 'Продукты' },
+      { value: 'Еда', label: 'Еда' },
+      { value: 'Развлечения', label: 'Развлечения' },
+      { value: 'Прочее', label: 'Прочее' }
+    ]
   }
 
+  return categoryOptions
+}
+
+const Select = ({ ...props }: SelectProps) => {
+  const [selectedType, setSelectedType] = useState('')
+
+  const handleTypeChange = (event: { target: { value: SetStateAction<string> } }) => {
+    if (event.target.value === 'доходы' || event.target.value === 'расходы') {
+      setSelectedType(event.target.value)
+    }
+  }
+
+  useEffect(() => {
+    const categories = document.querySelector('#category')
+
+    if (categories !== null) {
+      categories.innerHTML = getCategoryOptions(selectedType)
+        .map(
+          (option) => `<option key=${option.value} value=${option.value}>${option.label}</option>`
+        )
+        .join('')
+    }
+  }, [selectedType])
+
   return (
-    <div className="mb-2">
+    <div className="relative mb-2">
       <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={props.name}>
         {props.label}
       </label>
@@ -34,19 +75,28 @@ const Select = ({ ...props }: SelectProps) => {
           props.error ? 'bg-error border-light-red border-2' : 'bg-[#ECECEC]}'
         }
         ${props.disabled ? 'bg-white text-black/50' : ''}
+        appearance-none
         `}
         disabled={props.disabled}
         id={props.id}
         name={props.name}
         value={props.value}
+        onChange={handleTypeChange}
       >
         <option value="">{props.placeholder}</option>
-        {props.options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
+        {props.id != 'type'
+          ? getCategoryOptions(selectedType).map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))
+          : props.options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
       </select>
+      <img alt="select arrow" className="absolute top-11 right-5" src={arrow} />
     </div>
   )
 }

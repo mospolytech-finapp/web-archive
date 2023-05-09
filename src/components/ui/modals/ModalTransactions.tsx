@@ -20,6 +20,7 @@ interface ModalProps {
   buttons: { background: string; textColor: string; children: string; onClick: () => void }[]
   title: string
   close: string
+  filter: boolean
 }
 
 const ModalTransactions = ({ ...props }: ModalProps) => {
@@ -126,59 +127,122 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
               type={input.type}
             />
           ))}
-          <div className="flex flex-col md:flex-row md:justify-between md:gap-10">
-            <div className="mb-2 flex w-32 flex-col">
-              <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'name'}>
-                {'Дата'}
-              </label>
-              <input
-                className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
+          {props.filter === false ? (
+            <>
+              <div className="flex flex-col md:flex-row md:justify-between md:gap-10">
+                <div className="mb-2 flex w-24 flex-col sm:w-32">
+                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'date'}>
+                    {'Дата'}
+                  </label>
+                  <input
+                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
                 `}
-                id={'date'}
-                name={'date'}
-                placeholder={'25.04.2023'}
-                type={'text'}
-              />
-            </div>
-            <div className="mb-2 flex w-32 flex-col">
-              <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'name'}>
-                {'Время'}
-              </label>
-              <input
-                className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
+                    id={'date'}
+                    name={'date'}
+                    placeholder={'25.04.2023'}
+                    type={'date'}
+                  />
+                </div>
+                <div className="mb-2 flex w-24 flex-col sm:w-32">
+                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'time'}>
+                    {'Время'}
+                  </label>
+                  <input
+                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
                 `}
-                id={'date'}
-                name={'date'}
-                placeholder={'14:39'}
-                type={'text'}
-              />
-            </div>
-            <div className="mb-2 flex w-32 flex-col">
-              <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'name'}>
-                {'Сумма'}
-              </label>
-              <input
-                className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
+                    id={'time'}
+                    name={'time'}
+                    placeholder={'14:39'}
+                    type={'time'}
+                  />
+                </div>
+                <div className="mb-2 flex w-24 flex-col sm:w-32">
+                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'amount'}>
+                    {'Сумма'}
+                  </label>
+                  <input
+                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
                 `}
-                id={'date'}
-                name={'date'}
-                placeholder={'1213'}
-                type={'text'}
-              />
-            </div>
-          </div>
-          <div className="mb-2 flex flex-col">
-            <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'name'}>
-              {'Описание'}
-            </label>
-            <textarea
-              className={`text-true-gray-900 placeholder:text-light-gray resize-none rounded-3xl py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
+                    id={'amount'}
+                    name={'amount'}
+                    placeholder={'1213'}
+                    type={'number'}
+                  />
+                </div>
+              </div>
+              <div className="mb-2 flex flex-col">
+                <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'description'}>
+                  {'Описание'}
+                </label>
+                <textarea
+                  className={`text-true-gray-900 placeholder:text-light-gray resize-none rounded-3xl py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
+                `}
+                  id={'description'}
+                  name={'description'}
+                  placeholder={'1213'}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex flex-row justify-around">
+                <div className="mb-2 flex w-24 flex-col sm:w-32">
+                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'from'}>
+                    {'От:'}
+                  </label>
+                  <input
+                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
               `}
-              id={'date'}
-              name={'date'}
-              placeholder={'1213'}
-            />
-          </div>
+                    id={'from'}
+                    name={'from'}
+                    placeholder={'100 руб.'}
+                    type={'number'}
+                  />
+                </div>
+                <div className="mb-2 flex w-24 flex-col sm:w-32">
+                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'up'}>
+                    {'До:'}
+                  </label>
+                  <input
+                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
+              `}
+                    id={'up'}
+                    name={'up'}
+                    placeholder={'5000 руб.'}
+                    type={'number'}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-row justify-around">
+                <div className="mb-2 flex w-32 flex-col">
+                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'date'}>
+                    {'Дата'}
+                  </label>
+                  <input
+                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
+                `}
+                    id={'date'}
+                    name={'date'}
+                    placeholder={'25.04.2023'}
+                    type={'date'}
+                  />
+                </div>
+                <div className="mb-2 flex w-32 flex-col">
+                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'time'}>
+                    {'Время'}
+                  </label>
+                  <input
+                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
+                `}
+                    id={'time'}
+                    name={'time'}
+                    placeholder={'14:39'}
+                    type={'time'}
+                  />
+                </div>
+              </div>
+            </>
+          )}
           <div className="flex flex-row justify-center">
             {props.buttons.map((button, index) => (
               <Button
