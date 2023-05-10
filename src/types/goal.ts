@@ -1,8 +1,8 @@
 export default interface IGoalData {
-  id: number
+  id?: number
   name: string
-  opening_date?: Date
-  achievement_date: Date
+  opening_date?: string
+  achievement_date: string
   amount_target: number
-  amount_now: number
+  amount_now?: number
 }

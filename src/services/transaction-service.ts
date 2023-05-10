@@ -16,7 +16,7 @@ class TransactionDataService {
   }
 
   async update(data: ITransactionData) {
-    return await http.post<ITransactionData>(`/finance/transactions/${data.id}`, data)
+    return await http.put<ITransactionData>(`/finance/transactions/${data.id}`, data)
   }
 
   async delete(id: number) {

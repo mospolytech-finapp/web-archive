@@ -45,7 +45,7 @@ const RegisterForm = () => {
       }-${data.date_of_birth.getDate()}`
     })
       .then((response) => {
-        console.log(response.data)
+        localStorage.setItem('token', response.data.token)
         setRegError('')
 
         return response
