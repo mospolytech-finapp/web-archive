@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import Input from '../Input'
 import Button from '../Button'
 import Select from '../Select'
-import crossIcon from '../../../assets/images/cross.svg'
+import crossIcon from '../../../assets/images/black_cross.svg'
 
 interface ModalProps {
   open: boolean
@@ -130,7 +130,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
           {props.filter === false ? (
             <>
               <div className="flex flex-col md:flex-row md:justify-between md:gap-10">
-                <div className="mb-2 flex w-24 flex-col sm:w-32">
+                <div className="mb-2 flex flex-col md:w-32">
                   <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'date'}>
                     {'Дата'}
                   </label>
@@ -143,7 +143,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     type={'date'}
                   />
                 </div>
-                <div className="mb-2 flex w-24 flex-col sm:w-32">
+                <div className="mb-2 flex flex-col md:w-32">
                   <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'time'}>
                     {'Время'}
                   </label>
@@ -156,7 +156,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     type={'time'}
                   />
                 </div>
-                <div className="mb-2 flex w-24 flex-col sm:w-32">
+                <div className="mb-2 flex flex-col md:w-32">
                   <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'amount'}>
                     {'Сумма'}
                   </label>
@@ -214,7 +214,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                 </div>
               </div>
               <div className="flex flex-row justify-around">
-                <div className="mb-2 flex w-32 flex-col">
+                <div className="mb-2 flex w-24 flex-col sm:w-32">
                   <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'date'}>
                     {'Дата'}
                   </label>
@@ -227,7 +227,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     type={'date'}
                   />
                 </div>
-                <div className="mb-2 flex w-32 flex-col">
+                <div className="mb-2 flex w-24 flex-col sm:w-32">
                   <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'time'}>
                     {'Время'}
                   </label>

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import Input from '../Input'
 import Button from '../Button'
-import crossIcon from '../../../assets/images/cross.svg'
+import crossIcon from '../../../assets/images/black_cross.svg'
 
 interface ModalProps {
   open: boolean

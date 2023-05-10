@@ -112,7 +112,7 @@ const Transactions = () => {
           >
             {'Добавить'}
           </Button>
-          <img alt="параметры" className="mt-3" src={settings_img} />
+          <img alt="параметры" className="mt-3 w-4" src={settings_img} />
         </div>
       </div>
       <ModalBtns
