@@ -50,9 +50,9 @@ const Transactions = () => {
       className="
       h-screen
       w-screen bg-white
-      px-3
+      {/*px-3*/}
       pt-9
-      sm:px-10
+      {/*sm:px-10*/}
     "
     >
       <div
