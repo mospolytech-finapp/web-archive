@@ -1,7 +1,9 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+
+import GoalDataService from '../services/goal-service'
 
 import Input from './ui/Input'
 import GoalDonutChart from './ui/GoalDonutChart'
@@ -9,15 +11,18 @@ import GoalProgressBar from './ui/GoalProgressBar'
 import ModalInputsBtns from './ui/modals/ModalInputsBtns'
 import ModalBtns from './ui/modals/ModalBtns'
 
-const schema = z.object({
+const goalSchema = z.object({
   goal_name: z.string(),
   start_date: z.string(),
   finish_date: z.string(),
   goal_amount: z.string(),
-  current_amount: z.string(),
-  hh: z.string(),
-  dd: z.string(),
-  mm: z.string()
+  current_amount: z.string()
+})
+
+const goalBalanceSchema = z.object({
+  date: z.date(),
+  time: z.string().datetime(),
+  amount: z.number()
 })
 
 const tmpData = {
@@ -32,7 +37,7 @@ const tmpData = {
 }
 const Goals = () => {
   const { register } = useForm({
-    resolver: zodResolver(schema)
+    resolver: zodResolver(goalSchema)
   })
   const [isModalInputDeleteOpen, setIsModalInputDeleteOpen] = useState(false)
   const [isModalInputDepositOpen, setIsModalInputDepositOpen] = useState(false)
@@ -399,6 +404,7 @@ const Goals = () => {
               }
             ]}
             open={isModalInputDeleteOpen}
+            schema={goalSchema}
             title={tmpData.goal_name}
             onClose={() => setIsModalInputDeleteOpen(false)}
           />
@@ -446,6 +452,7 @@ const Goals = () => {
               }
             ]}
             open={isModalInputDepositOpen}
+            schema={goalBalanceSchema}
             title={'Пополнить цель "' + `${tmpData.goal_name}` + '"'}
             onClose={() => setIsModalInputDepositOpen(false)}
           />
@@ -493,6 +500,7 @@ const Goals = () => {
               }
             ]}
             open={isModalInputSubtractOpen}
+            schema={goalBalanceSchema}
             title={'Вычесть из цели "' + `${tmpData.goal_name}` + '"'}
             onClose={() => setIsModalInputSubtractOpen(false)}
           />

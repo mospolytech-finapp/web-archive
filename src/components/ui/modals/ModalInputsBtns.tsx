@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { Schema } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import Input from '../Input'
 import Button from '../Button'
@@ -10,6 +12,7 @@ interface ModalProps {
   onClose: () => void
   inputs: { id: string; label: string; placeholder: string; name: string; type: string }[]
   buttons: { background: string; textColor: string; children: string; onClick: () => void }[]
+  schema: Schema
   title: string
   close: string
 }
@@ -21,31 +24,10 @@ const ModalInputsBtns = ({ ...props }: ModalProps) => {
   const {
     register,
     formState: { errors }
-  } = useForm()
-
-  const ModalInputsBtns = ({ open, onClose }: ModalProps) => {
-    // ...
-    useEffect(() => {
-      function Close() {
-        if (dialogRef.current) {
-          dialogRef.current.close()
-        }
-        onClose()
-      }
-      if (dialogRef.current) {
-        if (open) {
-          dialogRef.current.showModal()
-        } else {
-          dialogRef.current.close()
-        }
-        dialogRef.current?.addEventListener('click', (e) => {
-          if (e.target instanceof Node && !dialogRef.current?.contains(e.target)) {
-            Close()
-          }
-        })
-      }
-    }, [open, onClose])
-  }
+  } = useForm({
+    mode: 'onBlur',
+    resolver: zodResolver(props.schema)
+  })
 
   function handleClose() {
     if (dialogRef.current) {
