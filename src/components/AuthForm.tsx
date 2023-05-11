@@ -36,7 +36,7 @@ const AuthForm = () => {
       password: data.password
     })
       .then((response) => {
-        console.log(response.data)
+        localStorage.setItem('token', response.data.token)
         setLoginError('')
 
         return response
@@ -44,8 +44,9 @@ const AuthForm = () => {
       .catch((err) => {
         if (axios.isAxiosError(err)) {
           setLoginError(err.response?.data.errors[0].detail.toString())
+          console.error(loginError)
         } else {
-          console.log(err)
+          console.error(err)
         }
       })
   }
