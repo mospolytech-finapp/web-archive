@@ -21,7 +21,7 @@ const schema = z.object({
 const AuthForm = () => {
   const {
     register,
-    handleSubmit,
+    watch,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onBlur',
@@ -30,34 +30,29 @@ const AuthForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [loginError, setLoginError] = useState('')
 
-  const onSubmit = (data: FieldValues) => {
-    UserDataService.login({
-      username: data.username,
-      password: data.password
-    })
-      .then((response) => {
-        localStorage.setItem('token', response.data.token)
-        setLoginError('')
+  const onSubmit = async (data: FieldValues) => {
+    try {
+      const response = await UserDataService.login({
+        username: data.username,
+        password: data.password
+      })
 
-        return response
-      })
-      .catch((err) => {
-        if (axios.isAxiosError(err)) {
-          setLoginError(err.response?.data.errors[0].detail.toString())
-          console.error(loginError)
-        } else {
-          console.error(err)
-        }
-      })
+      localStorage.setItem('token', response.data.token)
+      setLoginError('')
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setLoginError(err.response?.data.errors[0].detail.toString())
+        console.error(loginError)
+      } else {
+        console.error(err)
+      }
+    }
   }
 
   return (
     <>
       <Header />
-      <form
-        className="mt-28 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="mt-28 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14">
         <fieldset className="mb-5 grid w-72 md:w-96 lg:mb-4">
           <legend className="from-light-green-text to-light-blue-text mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
             Вход
@@ -108,7 +103,8 @@ const AuthForm = () => {
             background="from-light-green to-light-blue bg-gradient-to-r"
             disable={!isValid}
             textColor="text-white"
-            onClick={() => null}
+            // TODO: исправить отправку запросов, onSubmit
+            onClick={() => onSubmit(watch())}
           >
             {'Войти'}
           </Button>

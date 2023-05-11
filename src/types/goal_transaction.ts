@@ -1,6 +1,6 @@
 export default interface IGoalTransactionData {
-  id: number
-  goal: number
+  id?: number
+  goal?: number
   amount: number
   date: Date
   time: string

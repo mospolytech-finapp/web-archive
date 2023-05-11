@@ -12,15 +12,15 @@ class TransactionDataService {
   }
 
   async get(id: number) {
-    return await http.get<ITransactionData>(`/finance/transactions/${id}`)
+    return await http.get<ITransactionData>(`/finance/transactions/${id}/`)
   }
 
-  async update(data: ITransactionData) {
-    return await http.put<ITransactionData>(`/finance/transactions/${data.id}`, data)
+  async update(id: number, data: ITransactionData) {
+    return await http.put<ITransactionData>(`/finance/transactions/${id}/`, data)
   }
 
   async delete(id: number) {
-    return await http.delete(`/finance/transactions/${id}`)
+    return await http.delete(`/finance/transactions/${id}/`)
   }
 }
 

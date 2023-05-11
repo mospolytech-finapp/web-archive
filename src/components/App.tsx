@@ -21,7 +21,12 @@ function App() {
         <Routes>
           <Route element={<AuthForm />} path="/auth" />
           <Route element={<RegisterForm />} path="/register" />
-          <Route element={<Goals />} path="/goals" />
+          <Route
+            element={
+              <Goals achievement_date="2022-12-13" amount_target={1250000} id={14} name="Машина" />
+            }
+            path="/goals"
+          />
           <Route element={<TestHeader />} path="/header" />
           <Route element={<Transactions />} path="/transactions" />
           <Route element={<GoalDonutChart percent={100} />} path="/donut" />

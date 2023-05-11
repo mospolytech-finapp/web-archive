@@ -1,5 +1,5 @@
 export default interface IGoalData {
-  id?: number
+  id: number
   name: string
   opening_date?: string
   achievement_date: string

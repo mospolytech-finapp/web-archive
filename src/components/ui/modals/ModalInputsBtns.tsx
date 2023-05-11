@@ -1,7 +1,5 @@
 import React, { useRef } from 'react'
-import { useForm } from 'react-hook-form'
-import { Schema } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { FieldValues, UseFormRegister } from 'react-hook-form'
 
 import Input from '../Input'
 import Button from '../Button'
@@ -12,22 +10,14 @@ interface ModalProps {
   onClose: () => void
   inputs: { id: string; label: string; placeholder: string; name: string; type: string }[]
   buttons: { background: string; textColor: string; children: string; onClick: () => void }[]
-  schema: Schema
   title: string
   close: string
+  register: UseFormRegister<FieldValues>
 }
 
 const ModalInputsBtns = ({ ...props }: ModalProps) => {
   const dialogContentRef = useRef<HTMLDivElement>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
-
-  const {
-    register,
-    formState: { errors }
-  } = useForm({
-    mode: 'onBlur',
-    resolver: zodResolver(props.schema)
-  })
 
   function handleClose() {
     if (dialogRef.current) {
@@ -99,7 +89,7 @@ const ModalInputsBtns = ({ ...props }: ModalProps) => {
               label={input.label}
               name={input.name}
               placeholder={input.placeholder}
-              register={register}
+              register={props.register}
               type={input.type}
             />
           ))}
@@ -113,7 +103,7 @@ const ModalInputsBtns = ({ ...props }: ModalProps) => {
                   if (props.close === button.children) {
                     handleClose()
                   } else {
-                    onClick()
+                    button.onClick()
                   }
                 }}
               >

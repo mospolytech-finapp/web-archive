@@ -1,7 +1,8 @@
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { useState, useRef } from 'react'
+import { useState, useEffect } from 'react'
+import IGoalData from 'types/goal'
 
 import GoalDataService from '../services/goal-service'
 
@@ -12,11 +13,10 @@ import ModalInputsBtns from './ui/modals/ModalInputsBtns'
 import ModalBtns from './ui/modals/ModalBtns'
 
 const goalSchema = z.object({
-  goal_name: z.string(),
-  start_date: z.string(),
-  finish_date: z.string(),
-  goal_amount: z.string(),
-  current_amount: z.string()
+  name: z.string(),
+  opening_date: z.string(),
+  achievement_date: z.string(),
+  amount_target: z.string()
 })
 
 const goalBalanceSchema = z.object({
@@ -35,14 +35,70 @@ const tmpData = {
   dd: '13',
   mm: '07'
 }
-const Goals = () => {
-  const { register } = useForm({
+
+const Goals = ({ ...props }: IGoalData) => {
+  const modalEditForm = useForm({
     resolver: zodResolver(goalSchema)
   })
-  const [isModalInputDeleteOpen, setIsModalInputDeleteOpen] = useState(false)
-  const [isModalInputDepositOpen, setIsModalInputDepositOpen] = useState(false)
-  const [isModalInputSubtractOpen, setIsModalInputSubtractOpen] = useState(false)
-  const [isModalBtnOpen, setIsModalBtnOpen] = useState(false)
+
+  const modalDepositForm = useForm({
+    resolver: zodResolver(goalBalanceSchema)
+  })
+
+  const modalSubtractForm = useForm({
+    resolver: zodResolver(goalBalanceSchema)
+  })
+
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false)
+  const [isModalDepositOpen, setIsModalDepositOpen] = useState(false)
+  const [isModalSubtractOpen, setIsModalSubtractOpen] = useState(false)
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
+
+  useEffect(() => {
+    GoalDataService.get(props.id)
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err))
+  }, [])
+
+  const createTransaction = async (data: FieldValues) => {
+    try {
+      const response = await GoalDataService.createTransaction(props.id, {
+        date: data.date,
+        time: data.time,
+        amount: data.amount
+      })
+
+      console.log(response)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const deleteGoal = async () => {
+    try {
+      const response = await GoalDataService.delete(props.id)
+
+      console.log(response)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const updateGoal = async (data: FieldValues) => {
+    try {
+      const response = await GoalDataService.update(props.id, {
+        id: props.id,
+        name: data.name,
+        opening_date: data.opening_date,
+        achievement_date: data.achievement_date,
+        amount_target: data.amount_target
+      })
+
+      console.log(response)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   return (
     <div
@@ -192,7 +248,7 @@ const Goals = () => {
               onClick={(event) => {
                 event.stopPropagation()
                 event.preventDefault()
-                setIsModalInputSubtractOpen(true)
+                setIsModalSubtractOpen(true)
               }}
             >
               Вычесть
@@ -216,7 +272,7 @@ const Goals = () => {
               onClick={(event) => {
                 event.stopPropagation()
                 event.preventDefault()
-                setIsModalInputDepositOpen(true)
+                setIsModalDepositOpen(true)
               }}
             >
               Пополнить
@@ -240,28 +296,28 @@ const Goals = () => {
           <fieldset className="mb-11 grid w-72 md:w-96">
             <Input
               disabled={true}
-              id="start_date"
+              id="opening_date"
               label="Дата открытия"
-              name="start_date"
-              register={register}
+              name="opening_date"
+              register={modalEditForm.register}
               type="text"
               value={tmpData.start_date}
             />
             <Input
               disabled={true}
-              id="finish_date"
+              id="achievement_date"
               label="Дата достижения"
-              name="finish_date"
-              register={register}
+              name="achievement_date"
+              register={modalEditForm.register}
               type="text"
               value={tmpData.finish_date}
             />
             <Input
               disabled={true}
-              id="goal_amount"
+              id="amount_target"
               label="Сумма цели"
-              name="goal_amount"
-              register={register}
+              name="amount_target"
+              register={modalEditForm.register}
               type="text"
               value={tmpData.goal_amount}
             />
@@ -270,7 +326,7 @@ const Goals = () => {
               id="current_amount"
               label="Сумма (факт)"
               name="current_amount"
-              register={register}
+              register={modalEditForm.register}
               type="text"
               value={tmpData.current_amount}
             />
@@ -298,7 +354,7 @@ const Goals = () => {
               onClick={(event) => {
                 event.stopPropagation()
                 event.preventDefault()
-                setIsModalInputDeleteOpen(true)
+                setIsModalEditOpen(true)
               }}
             >
               Изменить
@@ -324,7 +380,7 @@ const Goals = () => {
               onClick={(event) => {
                 event.stopPropagation()
                 event.preventDefault()
-                setIsModalBtnOpen(true)
+                setIsModalDeleteOpen(true)
               }}
             >
               Удалить
@@ -339,21 +395,24 @@ const Goals = () => {
                   '              to-light-blue active:shadow-custom',
                 textColor: 'text-white',
                 children: 'Да',
-                onClick: () => console.log('Submitted')
+                onClick: () => {
+                  deleteGoal()
+                  setIsModalDeleteOpen(false)
+                }
               },
               {
                 background:
                   'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
                 textColor: 'text-white',
                 children: 'Отмена',
-                onClick: () => console.log('Submitted')
+                onClick: () => null
               }
             ]}
             close="Отмена"
             direction="flex-row"
-            open={isModalBtnOpen}
+            open={isModalDeleteOpen}
             title={'Удалить цель ' + `${tmpData.goal_name}` + '?'}
-            onClose={() => setIsModalBtnOpen(false)}
+            onClose={() => setIsModalDeleteOpen(false)}
           />
           <ModalInputsBtns
             buttons={[
@@ -362,7 +421,11 @@ const Goals = () => {
                   'from-light-green to-purple-active-link active:shadow-custom bg-gradient-to-r',
                 textColor: 'text-white',
                 children: 'Сохранить изменения',
-                onClick: () => console.log('Submitted')
+                onClick: () => {
+                  updateGoal(modalEditForm.watch())
+                  setIsModalEditOpen(false)
+                  modalEditForm.reset()
+                }
               }
             ]}
             close=""
@@ -371,28 +434,28 @@ const Goals = () => {
                 id: '',
                 label: 'Название цели',
                 placeholder: `${tmpData.goal_name}`,
-                name: 'goal_name',
+                name: 'name',
                 type: 'text'
               },
               {
                 id: '',
                 label: 'Дата открытия',
                 placeholder: `${tmpData.start_date}`,
-                name: 'start_date',
-                type: 'text'
+                name: 'opening_date',
+                type: 'date'
               },
               {
                 id: '',
                 label: 'Дата достижения',
                 placeholder: `${tmpData.finish_date}`,
-                name: 'finish_date',
-                type: 'text'
+                name: 'achievement_date',
+                type: 'date'
               },
               {
                 id: '',
                 label: 'Сумма цели',
                 placeholder: `${tmpData.goal_amount}`,
-                name: 'goal_amount',
+                name: 'amount_target',
                 type: 'text'
               },
               {
@@ -403,10 +466,10 @@ const Goals = () => {
                 type: 'text'
               }
             ]}
-            open={isModalInputDeleteOpen}
-            schema={goalSchema}
+            open={isModalEditOpen}
+            register={modalEditForm.register}
             title={tmpData.goal_name}
-            onClose={() => setIsModalInputDeleteOpen(false)}
+            onClose={() => setIsModalEditOpen(false)}
           />
           <ModalInputsBtns
             buttons={[
@@ -417,44 +480,50 @@ const Goals = () => {
                   '              to-light-blue active:shadow-custom',
                 textColor: 'text-white',
                 children: 'Да',
-                onClick: () => console.log('Submitted')
+                onClick: () => {
+                  createTransaction(modalDepositForm.watch())
+                  setIsModalDepositOpen(false)
+                  modalDepositForm.reset()
+                }
               },
               {
                 background:
                   'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
                 textColor: 'text-white',
                 children: 'Отмена',
-                onClick: () => console.log('Submitted')
+                onClick: () => null
               }
             ]}
             close="Отмена"
             inputs={[
               {
                 id: '',
-                label: '25.04.2023',
+                label: 'Дата операции',
                 placeholder: `${tmpData.start_date}`,
-                name: 'start_date',
-                type: 'text'
+                name: 'date',
+                type: 'date'
               },
               {
                 id: '',
-                label: 'Не указано',
+                label: 'Время операции',
                 placeholder: `${tmpData.finish_date}`,
-                name: 'finish_date',
-                type: 'text'
+                name: 'time',
+                type: 'time'
               },
               {
                 id: '',
                 label: 'Сумма операции',
                 placeholder: `2 345`,
-                name: 'current_amount',
+                name: 'amount',
                 type: 'text'
               }
             ]}
-            open={isModalInputDepositOpen}
-            schema={goalBalanceSchema}
+            open={isModalDepositOpen}
+            register={modalDepositForm.register}
             title={'Пополнить цель "' + `${tmpData.goal_name}` + '"'}
-            onClose={() => setIsModalInputDepositOpen(false)}
+            onClose={() => {
+              setIsModalDepositOpen(false)
+            }}
           />
           <ModalInputsBtns
             buttons={[
@@ -465,44 +534,48 @@ const Goals = () => {
                   '              to-light-blue active:shadow-custom',
                 textColor: 'text-white',
                 children: 'Да',
-                onClick: () => console.log('Submitted')
+                onClick: () => {
+                  createTransaction(modalSubtractForm.watch())
+                  setIsModalSubtractOpen(false)
+                  modalSubtractForm.reset()
+                }
               },
               {
                 background:
                   'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
                 textColor: 'text-white',
                 children: 'Отмена',
-                onClick: () => console.log('Submitted')
+                onClick: () => null
               }
             ]}
             close="Отмена"
             inputs={[
               {
                 id: '',
-                label: '25.04.2023',
+                label: 'Дата операции',
                 placeholder: `${tmpData.start_date}`,
-                name: 'start_date',
-                type: 'text'
+                name: 'date',
+                type: 'date'
               },
               {
                 id: '',
-                label: 'Не указано',
+                label: 'Время операции',
                 placeholder: `${tmpData.finish_date}`,
-                name: 'finish_date',
-                type: 'text'
+                name: 'time',
+                type: 'time'
               },
               {
                 id: '',
                 label: 'Сумма операции',
                 placeholder: `2 345`,
-                name: 'current_amount',
+                name: 'amount',
                 type: 'text'
               }
             ]}
-            open={isModalInputSubtractOpen}
-            schema={goalBalanceSchema}
+            open={isModalSubtractOpen}
+            register={modalSubtractForm.register}
             title={'Вычесть из цели "' + `${tmpData.goal_name}` + '"'}
-            onClose={() => setIsModalInputSubtractOpen(false)}
+            onClose={() => setIsModalSubtractOpen(false)}
           />
         </form>
       </div>
