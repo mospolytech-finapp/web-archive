@@ -4,7 +4,6 @@ import * as z from 'zod'
 import { useState } from 'react'
 
 import Input from './ui/Input'
-import ModalContact from './ui/ModalContact'
 import GoalDonutChart from './ui/GoalDonutChart'
 import GoalProgressBar from './ui/GoalProgressBar'
 import ModalInputsBtns from './ui/modals/ModalInputsBtns'
@@ -345,7 +344,7 @@ const Goals = () => {
                 onClick: () => console.log('Submitted')
               }
             ]}
-            close="Назад"
+            close="Отмена"
             direction="flex-row"
             open={isModalBtnOpen}
             title={'Удалить цель ' + `${tmpData.goal_name}` + '?'}
@@ -361,7 +360,7 @@ const Goals = () => {
                 onClick: () => console.log('Submitted')
               }
             ]}
-            close="Назад"
+            close=""
             inputs={[
               {
                 id: '',
@@ -422,7 +421,7 @@ const Goals = () => {
                 onClick: () => console.log('Submitted')
               }
             ]}
-            close="Назад"
+            close="Отмена"
             inputs={[
               {
                 id: '',
@@ -469,7 +468,7 @@ const Goals = () => {
                 onClick: () => console.log('Submitted')
               }
             ]}
-            close="Назад"
+            close="Отмена"
             inputs={[
               {
                 id: '',

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 
 import Button from '../Button'
+import crossIcon from '../../../assets/images/cross.svg'
 
 interface ModalProps {
   open: boolean
@@ -77,7 +78,7 @@ const ModalBtns = ({ ...props }: ModalProps) => {
               className="absolute top-2 right-2 p-2 focus:outline-none focus-visible:outline-white"
               onClick={handleClose}
             >
-              <img alt="Close modal" src="src/assets/images/cross.svg" />
+              <img alt="Close modal" src={crossIcon} />
             </button>
           ) : null}
         </div>
@@ -93,6 +94,7 @@ const ModalBtns = ({ ...props }: ModalProps) => {
                 } else {
                   onClick()
                 }
+                button.onClick()
               }}
             >
               {button.children}
