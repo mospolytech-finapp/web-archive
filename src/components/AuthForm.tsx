@@ -53,7 +53,6 @@ const AuthForm = () => {
 
   return (
     <>
-      <Header />
       <form
         className="mt-28 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14"
         onSubmit={handleSubmit(onSubmit)}
