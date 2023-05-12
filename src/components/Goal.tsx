@@ -27,17 +27,6 @@ const goalBalanceSchema = z.object({
   amount: z.number()
 })
 
-const tmpData = {
-  goal_name: 'Покупка машины',
-  start_date: '16.04.2023',
-  finish_date: '29.11.2023',
-  goal_amount: '2 345 000',
-  current_amount: '1 999 542',
-  hh: '07',
-  dd: '13',
-  mm: '07'
-}
-
 const Goal = ({ ...props }: IGoalData) => {
   const [goal, setGoal] = useState<IGoalData>({ ...props })
   const [time, setTime] = useState<Date>(new Date())
@@ -601,7 +590,6 @@ const Goal = ({ ...props }: IGoalData) => {
                     'amount',
                     -parseInt(modalSubtractForm.watch('amount'), 10)
                   )
-                  console.log(modalSubtractForm.watch(), modalSubtractForm.watch('amount'))
                   createTransaction(modalSubtractForm.watch())
                   setIsModalSubtractOpen(false)
                   modalSubtractForm.reset()

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, FieldValues, UseFormRegister } from 'react-hook-form'
 
 import Input from '../Input'
 import Button from '../Button'
@@ -21,16 +21,12 @@ interface ModalProps {
   title: string
   close: string
   filter: boolean
+  register: UseFormRegister<FieldValues>
 }
 
 const ModalTransactions = ({ ...props }: ModalProps) => {
   const dialogContentRef = useRef<HTMLDivElement>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
-
-  const {
-    register,
-    formState: { errors }
-  } = useForm()
 
   const ModalClose = ({ open, onClose }: ModalProps) => {
     // ...
@@ -112,7 +108,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
               name={select.name}
               options={select.options}
               placeholder={select.placeholder}
-              register={register}
+              register={props.register}
             />
           ))}
           {props.inputs.map((input, index) => (
@@ -123,7 +119,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
               label={input.label}
               name={input.name}
               placeholder={input.placeholder}
-              register={register}
+              register={props.register}
               type={input.type}
             />
           ))}
@@ -131,55 +127,46 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
             <>
               <div className="flex flex-col md:flex-row md:justify-between md:gap-10">
                 <div className="mb-2 flex flex-col md:w-32">
-                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'date'}>
-                    {'Дата'}
-                  </label>
-                  <input
-                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
-                `}
-                    id={'date'}
-                    name={'date'}
-                    placeholder={'25.04.2023'}
-                    type={'date'}
+                  <Input
+                    error={false}
+                    id="date"
+                    label="Дата"
+                    name="date"
+                    register={props.register}
+                    type="date"
                   />
                 </div>
                 <div className="mb-2 flex flex-col md:w-32">
-                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'time'}>
-                    {'Время'}
-                  </label>
-                  <input
-                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
-                `}
-                    id={'time'}
-                    name={'time'}
-                    placeholder={'14:39'}
-                    type={'time'}
+                  <Input
+                    error={false}
+                    id="time"
+                    label="Время"
+                    name="time"
+                    register={props.register}
+                    type="time"
                   />
                 </div>
                 <div className="mb-2 flex flex-col md:w-32">
-                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'amount'}>
-                    {'Сумма'}
-                  </label>
-                  <input
-                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
-                `}
-                    id={'amount'}
-                    name={'amount'}
+                  <Input
+                    error={false}
+                    id="amount"
+                    label="Сумма"
+                    name="amount"
                     placeholder={'1213'}
-                    type={'number'}
+                    register={props.register}
+                    type="number"
                   />
                 </div>
               </div>
               <div className="mb-2 flex flex-col">
-                <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'description'}>
-                  {'Описание'}
-                </label>
-                <textarea
-                  className={`text-true-gray-900 placeholder:text-light-gray resize-none rounded-3xl py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
-                `}
-                  id={'description'}
-                  name={'description'}
+                <Input
+                  error={false}
+                  id="description"
+                  label="Описание"
+                  name="description"
                   placeholder={'1213'}
+                  register={props.register}
+                  type="text"
                 />
               </div>
             </>
@@ -187,57 +174,47 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
             <>
               <div className="flex flex-row justify-around">
                 <div className="mb-2 flex w-24 flex-col sm:w-32">
-                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'from'}>
-                    {'От:'}
-                  </label>
-                  <input
-                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
-              `}
-                    id={'from'}
-                    name={'from'}
-                    placeholder={'100 руб.'}
-                    type={'number'}
+                  <Input
+                    error={false}
+                    id="amount_min"
+                    label="От:"
+                    name="amount_min"
+                    placeholder={'100 руб'}
+                    register={props.register}
+                    type="number"
                   />
                 </div>
                 <div className="mb-2 flex w-24 flex-col sm:w-32">
-                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'up'}>
-                    {'До:'}
-                  </label>
-                  <input
-                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
-              `}
-                    id={'up'}
-                    name={'up'}
-                    placeholder={'5000 руб.'}
-                    type={'number'}
+                  <Input
+                    error={false}
+                    id="amount_max"
+                    label="До:"
+                    name="amount_max"
+                    placeholder={'5000 руб'}
+                    register={props.register}
+                    type="number"
                   />
                 </div>
               </div>
               <div className="flex flex-row justify-around">
                 <div className="mb-2 flex w-24 flex-col sm:w-32">
-                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'date'}>
-                    {'Дата'}
-                  </label>
-                  <input
-                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
-                `}
-                    id={'date'}
-                    name={'date'}
-                    placeholder={'25.04.2023'}
-                    type={'date'}
+                  <Input
+                    error={false}
+                    id="date"
+                    label="Дата"
+                    name="date"
+                    register={props.register}
+                    type="date"
                   />
                 </div>
                 <div className="mb-2 flex w-24 flex-col sm:w-32">
-                  <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={'time'}>
-                    {'Время'}
-                  </label>
-                  <input
-                    className={`text-true-gray-900 placeholder:text-light-gray max-h-12 rounded-full py-4 px-6 text-base font-normal ${'bg-[#ECECEC]}'}
-                `}
-                    id={'time'}
-                    name={'time'}
-                    placeholder={'14:39'}
-                    type={'time'}
+                  <Input
+                    error={false}
+                    id="time"
+                    label="Время"
+                    name="time"
+                    register={props.register}
+                    type="time"
                   />
                 </div>
               </div>
