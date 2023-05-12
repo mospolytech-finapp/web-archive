@@ -44,7 +44,7 @@ const Header = () => {
           </Link>
           <Link
             className="flex h-8 flex-row items-center justify-center rounded-full bg-[#424242] px-2 text-xs text-white sm:w-40 sm:text-base"
-            to="/auth"
+            to="/profile"
           >
             <img alt="аккаунт" src={profile} />
             Аккаунт
