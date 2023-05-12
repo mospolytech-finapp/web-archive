@@ -36,7 +36,7 @@ const GoalDonutChart = ({ percent }: GoalDonutChartProps) => {
   const data = {
     datasets: [
       {
-        data: [100 - percent, percent],
+        data: [100 - Math.min(percent, 100), Math.min(percent, 100)],
         backgroundColor: [
           'rgba(138, 138, 138, 1)',
           getGradientBackground(

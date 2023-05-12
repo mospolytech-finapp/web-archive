@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import AuthForm from './AuthForm'
 import RegisterForm from './RegisterForm'
-import Goals from './Goals'
+import Goals from './Goal'
 import TestHeader from './TestHeader'
 import Transactions from './Transactions'
 import GoalDonutChart from './ui/GoalDonutChart'

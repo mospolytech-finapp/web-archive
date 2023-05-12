@@ -4,6 +4,7 @@ import * as z from 'zod'
 import { useState, useEffect } from 'react'
 import IGoalData from 'types/goal'
 
+import DateService from '../services/date-service'
 import GoalDataService from '../services/goal-service'
 
 import Input from './ui/Input'
@@ -16,7 +17,8 @@ const goalSchema = z.object({
   name: z.string(),
   opening_date: z.string(),
   achievement_date: z.string(),
-  amount_target: z.string()
+  amount_target: z.string(),
+  amount_now: z.string()
 })
 
 const goalBalanceSchema = z.object({
@@ -36,7 +38,10 @@ const tmpData = {
   mm: '07'
 }
 
-const Goals = ({ ...props }: IGoalData) => {
+const Goal = ({ ...props }: IGoalData) => {
+  const [goal, setGoal] = useState<IGoalData>({ ...props })
+  const [time, setTime] = useState<Date>(new Date())
+
   const modalEditForm = useForm({
     resolver: zodResolver(goalSchema)
   })
@@ -55,20 +60,50 @@ const Goals = ({ ...props }: IGoalData) => {
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
 
   useEffect(() => {
-    GoalDataService.get(props.id)
-      .then((response) => console.log(response))
-      .catch((err) => console.error(err))
+    async function fetchData() {
+      try {
+        const response = await GoalDataService.get(props.id)
+
+        setGoal({
+          id: response.data.id,
+          name: response.data.name,
+          opening_date: response.data.opening_date,
+          achievement_date: response.data.achievement_date,
+          amount_target: response.data.amount_target,
+          amount_now: response.data.amount_now
+        })
+        setTime(
+          DateService.dif(
+            new Date(response.data.opening_date),
+            new Date(response.data.achievement_date)
+          )
+        )
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchData()
   }, [])
 
   const createTransaction = async (data: FieldValues) => {
     try {
-      const response = await GoalDataService.createTransaction(props.id, {
+      const response = await GoalDataService.createTransaction(goal.id, {
         date: data.date,
         time: data.time,
         amount: data.amount
       })
 
-      console.log(response)
+      setGoal({
+        id: goal.id,
+        name: goal.name,
+        opening_date: goal.opening_date,
+        achievement_date: goal.achievement_date,
+        amount_target: goal.amount_target,
+        amount_now: Math.floor(
+          parseFloat(goal.amount_now ?? '0') + parseFloat(response.data.amount)
+        ).toString()
+      })
     } catch (err) {
       console.error(err)
     }
@@ -76,9 +111,7 @@ const Goals = ({ ...props }: IGoalData) => {
 
   const deleteGoal = async () => {
     try {
-      const response = await GoalDataService.delete(props.id)
-
-      console.log(response)
+      const response = await GoalDataService.delete(goal.id)
     } catch (err) {
       console.error(err)
     }
@@ -86,15 +119,29 @@ const Goals = ({ ...props }: IGoalData) => {
 
   const updateGoal = async (data: FieldValues) => {
     try {
-      const response = await GoalDataService.update(props.id, {
-        id: props.id,
+      const response = await GoalDataService.update(goal.id, {
+        id: goal.id,
         name: data.name,
         opening_date: data.opening_date,
         achievement_date: data.achievement_date,
-        amount_target: data.amount_target
+        amount_target: data.amount_target,
+        amount_now: data.amount_now
       })
 
-      console.log(response)
+      setGoal({
+        id: goal.id,
+        name: response.data.name,
+        opening_date: response.data.opening_date,
+        achievement_date: response.data.achievement_date,
+        amount_target: response.data.amount_target,
+        amount_now: response.data.amount_now
+      })
+      setTime(
+        DateService.dif(
+          new Date(response.data.opening_date),
+          new Date(response.data.achievement_date)
+        )
+      )
     } catch (err) {
       console.error(err)
     }
@@ -140,7 +187,7 @@ const Goals = ({ ...props }: IGoalData) => {
         md:text-4xl
         "
         >
-          {tmpData.goal_name}
+          {goal.name}
         </h2>
       </div>
       <div className="flex flex-col gap-28 xl:flex-row">
@@ -161,7 +208,11 @@ const Goals = ({ ...props }: IGoalData) => {
           mb-10
           max-w-xs"
           >
-            <GoalDonutChart percent={100} />
+            <GoalDonutChart
+              percent={Math.round(
+                (parseFloat(goal.amount_now ?? '0') / parseFloat(goal.amount_target)) * 100
+              )}
+            />
           </div>
           <div className="mx-auto mb-14 w-fit">
             <span
@@ -184,7 +235,10 @@ const Goals = ({ ...props }: IGoalData) => {
             after:content-['месяцев']
             "
             >
-              {tmpData.mm}
+              {`${time?.getMonth() + (time.getFullYear() - 1970) * 12 < 10 ? '0' : ''}${(
+                time?.getMonth() +
+                (time.getFullYear() - 1970) * 12
+              ).toString()}`}
             </span>
             <span
               className="
@@ -199,7 +253,7 @@ const Goals = ({ ...props }: IGoalData) => {
             after:content-['дней']
             "
             >
-              {tmpData.dd}
+              {`${time?.getDay() < 10 ? '0' : ''}${time?.getDay().toString()}`}
             </span>
             <span
               className="
@@ -214,11 +268,19 @@ const Goals = ({ ...props }: IGoalData) => {
             after:content-['часов']
             "
             >
-              {tmpData.hh}
+              {`${time?.getHours() < 10 ? '0' : ''}${time?.getHours().toString()}`}
             </span>
           </div>
           <div className="mb-6 w-60 md:w-80">
-            <GoalProgressBar progress={90} progressText="345 050" />
+            <GoalProgressBar
+              progress={Math.round(
+                (parseFloat(goal.amount_now ?? '0') / parseFloat(goal.amount_target)) * 100
+              )}
+              progressText={Math.max(
+                parseFloat(goal.amount_target) - parseFloat(goal.amount_now ?? '0'),
+                0
+              ).toLocaleString()}
+            />
           </div>
           <div
             className="flex
@@ -301,7 +363,7 @@ const Goals = ({ ...props }: IGoalData) => {
               name="opening_date"
               register={modalEditForm.register}
               type="text"
-              value={tmpData.start_date}
+              value={goal.opening_date?.split('-').reverse().join('.')}
             />
             <Input
               disabled={true}
@@ -310,7 +372,7 @@ const Goals = ({ ...props }: IGoalData) => {
               name="achievement_date"
               register={modalEditForm.register}
               type="text"
-              value={tmpData.finish_date}
+              value={goal.achievement_date.split('-').reverse().join('.')}
             />
             <Input
               disabled={true}
@@ -319,16 +381,16 @@ const Goals = ({ ...props }: IGoalData) => {
               name="amount_target"
               register={modalEditForm.register}
               type="text"
-              value={tmpData.goal_amount}
+              value={parseInt(goal.amount_target, 10).toLocaleString()}
             />
             <Input
               disabled={true}
-              id="current_amount"
+              id="amount_now"
               label="Сумма (факт)"
-              name="current_amount"
+              name="amount_now"
               register={modalEditForm.register}
               type="text"
-              value={tmpData.current_amount}
+              value={parseInt(goal.amount_now ?? '0', 10).toLocaleString()}
             />
           </fieldset>
           <div className="flex justify-between gap-8">
@@ -411,7 +473,7 @@ const Goals = ({ ...props }: IGoalData) => {
             close="Отмена"
             direction="flex-row"
             open={isModalDeleteOpen}
-            title={'Удалить цель ' + `${tmpData.goal_name}` + '?'}
+            title={'Удалить цель ' + `${goal.name}` + '?'}
             onClose={() => setIsModalDeleteOpen(false)}
           />
           <ModalInputsBtns
@@ -433,42 +495,42 @@ const Goals = ({ ...props }: IGoalData) => {
               {
                 id: '',
                 label: 'Название цели',
-                placeholder: `${tmpData.goal_name}`,
+                placeholder: `${goal.name}`,
                 name: 'name',
                 type: 'text'
               },
               {
                 id: '',
                 label: 'Дата открытия',
-                placeholder: `${tmpData.start_date}`,
+                placeholder: `${goal.opening_date}`,
                 name: 'opening_date',
                 type: 'date'
               },
               {
                 id: '',
                 label: 'Дата достижения',
-                placeholder: `${tmpData.finish_date}`,
+                placeholder: `${goal.achievement_date}`,
                 name: 'achievement_date',
                 type: 'date'
               },
               {
                 id: '',
                 label: 'Сумма цели',
-                placeholder: `${tmpData.goal_amount}`,
+                placeholder: `${goal.amount_target}`,
                 name: 'amount_target',
                 type: 'text'
               },
               {
                 id: '',
                 label: 'Накоплено',
-                placeholder: `${tmpData.current_amount}`,
-                name: 'current_amount',
+                placeholder: `${goal.amount_now}`,
+                name: 'amount_now',
                 type: 'text'
               }
             ]}
             open={isModalEditOpen}
             register={modalEditForm.register}
-            title={tmpData.goal_name}
+            title={goal.name}
             onClose={() => setIsModalEditOpen(false)}
           />
           <ModalInputsBtns
@@ -499,28 +561,28 @@ const Goals = ({ ...props }: IGoalData) => {
               {
                 id: '',
                 label: 'Дата операции',
-                placeholder: `${tmpData.start_date}`,
+                placeholder: '25.04.2023',
                 name: 'date',
                 type: 'date'
               },
               {
                 id: '',
                 label: 'Время операции',
-                placeholder: `${tmpData.finish_date}`,
+                placeholder: 'Не указано',
                 name: 'time',
                 type: 'time'
               },
               {
                 id: '',
                 label: 'Сумма операции',
-                placeholder: `2 345`,
+                placeholder: '2 345',
                 name: 'amount',
                 type: 'text'
               }
             ]}
             open={isModalDepositOpen}
             register={modalDepositForm.register}
-            title={'Пополнить цель "' + `${tmpData.goal_name}` + '"'}
+            title={'Пополнить цель "' + `${goal.name}` + '"'}
             onClose={() => {
               setIsModalDepositOpen(false)
             }}
@@ -535,6 +597,11 @@ const Goals = ({ ...props }: IGoalData) => {
                 textColor: 'text-white',
                 children: 'Да',
                 onClick: () => {
+                  modalSubtractForm.setValue(
+                    'amount',
+                    -parseInt(modalSubtractForm.watch('amount'), 10)
+                  )
+                  console.log(modalSubtractForm.watch(), modalSubtractForm.watch('amount'))
                   createTransaction(modalSubtractForm.watch())
                   setIsModalSubtractOpen(false)
                   modalSubtractForm.reset()
@@ -553,14 +620,14 @@ const Goals = ({ ...props }: IGoalData) => {
               {
                 id: '',
                 label: 'Дата операции',
-                placeholder: `${tmpData.start_date}`,
+                placeholder: `${goal.opening_date}`,
                 name: 'date',
                 type: 'date'
               },
               {
                 id: '',
                 label: 'Время операции',
-                placeholder: `${tmpData.finish_date}`,
+                placeholder: `${goal.achievement_date}`,
                 name: 'time',
                 type: 'time'
               },
@@ -574,7 +641,7 @@ const Goals = ({ ...props }: IGoalData) => {
             ]}
             open={isModalSubtractOpen}
             register={modalSubtractForm.register}
-            title={'Вычесть из цели "' + `${tmpData.goal_name}` + '"'}
+            title={'Вычесть из цели "' + `${goal.name}` + '"'}
             onClose={() => setIsModalSubtractOpen(false)}
           />
         </form>
@@ -583,4 +650,4 @@ const Goals = ({ ...props }: IGoalData) => {
   )
 }
 
-export default Goals
+export default Goal
