@@ -41,9 +41,9 @@ const RegisterForm = () => {
         last_name: data.last_name,
         first_name: data.first_name,
         middle_name: data.middle_name != null ? data.middle_name : '',
-        date_of_birth: `${data.date_of_birth.getFullYear()}-${
-          data.date_of_birth.getMonth() + 1
-        }-${data.date_of_birth.getDate()}`
+        date_of_birth: `${new Date(data.date_of_birth).getFullYear()}-${
+          new Date(data.date_of_birth).getMonth() + 1
+        }-${new Date(data.date_of_birth).getDate()}`
       })
 
       localStorage.setItem('token', response.data.token)
@@ -83,7 +83,7 @@ const RegisterForm = () => {
           type="text"
         />
         <Input
-          error={errors.first_name ? true : false}
+          error={errors.middle_name ? true : false}
           id="middle_name"
           label="Отчество"
           name="middle_name"

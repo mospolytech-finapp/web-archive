@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useForm, FieldValues, UseFormRegister } from 'react-hook-form'
+import ITransactionData from 'types/transaction'
 
 import Input from '../Input'
 import Button from '../Button'
@@ -22,6 +23,7 @@ interface ModalProps {
   close: string
   filter: boolean
   register: UseFormRegister<FieldValues>
+  transaction?: ITransactionData
 }
 
 const ModalTransactions = ({ ...props }: ModalProps) => {

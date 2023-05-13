@@ -31,6 +31,7 @@ const Transactions = () => {
   const [isModalMoreOpen, setIsModalMoreOpen] = useState(false)
   const [isModalBtnOpen, setIsModalBtnOpen] = useState(false)
   const [isModalFilterOpen, setIsModalFilterOpen] = useState(false)
+  const [selectedTransaction, setSelectedTransaction] = useState<ITransactionData>()
 
   const modalAddTransaction = useForm({
     resolver: zodResolver(transactionSchema)
@@ -46,7 +47,8 @@ const Transactions = () => {
       const response = await TransactionDataService.getAll()
 
       setTransactions(response.data)
-      fetchCategories()
+
+      return response.status
     } catch (err) {
       console.error(err)
     }
@@ -57,13 +59,28 @@ const Transactions = () => {
       const response = await CategoryDataService.getAll()
 
       setCategories(response.data)
+
+      return response.status
     } catch (err) {
       console.error(err)
     }
   }
 
   useEffect(() => {
-    fetchTransactions()
+    const fetchData = async () => {
+      let transactionsStatus = null
+      let categoriesStatus = null
+
+      while (transactionsStatus !== 200) {
+        transactionsStatus = await fetchTransactions()
+      }
+
+      while (categoriesStatus !== 200) {
+        categoriesStatus = await fetchCategories()
+      }
+    }
+
+    fetchData()
   }, [])
 
   const createTransaction = async (data: FieldValues) => {
@@ -309,8 +326,115 @@ const Transactions = () => {
         title={'Транзакция'}
         onClose={() => setIsModalAddOpen(false)}
       />
-      <ul
-        className="
+      {selectedTransaction && (
+        <>
+          <ModalTransaction
+            buttons={[
+              {
+                background:
+                  'bg-gradient-to-r\n' +
+                  '              from-light-green\n' +
+                  '              to-light-blue active:shadow-custom',
+                textColor: 'text-white',
+                children: 'Изменить',
+                onClick: () => {
+                  if (modalAddTransaction.watch('type') == 'расходы')
+                    modalAddTransaction.setValue(
+                      'amount',
+                      -parseInt(modalAddTransaction.watch('amount'), 10)
+                    )
+
+                  editTransaction(selectedTransaction.id, modalAddTransaction.watch())
+                  modalAddTransaction.reset()
+                  setIsModalMoreOpen(false)
+                }
+              },
+              {
+                background:
+                  'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
+                textColor: 'text-white',
+                children: 'Удалить',
+                onClick: () => setIsModalBtnOpen(true)
+              }
+            ]}
+            close=""
+            filter={false}
+            inputs={[
+              {
+                id: 'name',
+                label: 'Название',
+                placeholder: selectedTransaction.name ?? '',
+                name: 'name',
+                type: 'text'
+              }
+            ]}
+            open={isModalMoreOpen}
+            register={modalAddTransaction.register}
+            select={[
+              {
+                id: 'type',
+                label: 'Тип',
+                placeholder: 'Выберите тип',
+                name: 'type',
+                options: [
+                  { value: 'доходы', label: 'доходы' },
+                  { value: 'расходы', label: 'расходы' }
+                ]
+              },
+              {
+                id: 'category',
+                label: 'Категория',
+                placeholder: 'Выберите категорию',
+                name: 'category',
+                options: categories.map((category) => ({
+                  value: category.name,
+                  label: category.name
+                }))
+              }
+            ]}
+            title={'Транзакция'}
+            transaction={selectedTransaction}
+            onClose={() => setIsModalMoreOpen(false)}
+          />
+          <ModalBtns
+            buttons={[
+              {
+                background:
+                  'bg-gradient-to-r\n' +
+                  '              from-light-green\n' +
+                  '              to-light-blue active:shadow-custom',
+                textColor: 'text-white',
+                children: 'Да',
+                onClick: () => {
+                  deleteTransaction(selectedTransaction.id)
+                  handleModalClose()
+                }
+              },
+              {
+                background:
+                  'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
+                textColor: 'text-white',
+                children: 'Отмена',
+                onClick: () => null
+              }
+            ]}
+            close="Отмена"
+            direction="flex-row"
+            open={isModalBtnOpen}
+            title={`Удалить транзакцию “${selectedTransaction.name}” за ${selectedTransaction.date
+              .split('-')
+              .reverse()
+              .join('.')}?`}
+            // transaction={selectedTransaction}
+            onClose={() => setIsModalBtnOpen(false)}
+          />
+        </>
+      )}
+      {categories.length == 0 ? (
+        <p className="text-center align-middle">Loading</p>
+      ) : (
+        <ul
+          className="
         mx-auto my-8
         h-4/5
         overflow-auto
@@ -325,12 +449,12 @@ const Transactions = () => {
         2xl:max-w-7xl
         2xl:text-3xl
         "
-      >
-        {transactions.map((transaction) => (
-          <>
-            <li
-              key={transaction.id}
-              className="
+        >
+          {transactions.map((transaction) => (
+            <>
+              <li
+                key={transaction.id}
+                className="
           flex
           flex-row
           items-center
@@ -339,10 +463,10 @@ const Transactions = () => {
           border-[#7C7C7C]
           py-4
           "
-            >
-              <div>
-                <p
-                  className="
+              >
+                <div>
+                  <p
+                    className="
               w-24
               overflow-hidden
               truncate
@@ -351,131 +475,33 @@ const Transactions = () => {
               md:w-44
               2xl:w-56
               "
+                  >
+                    {transaction.name}
+                  </p>
+                  <p className="text-[#7C7C7C]">
+                    {transaction.date.split('-').reverse().join('.').toString()}
+                  </p>
+                </div>
+                <p className="w-20 text-center 2xl:w-28">
+                  {parseFloat(transaction.amount) > 0 ? 'доход' : 'расход'}
+                </p>
+                <p className="w-40 text-center lg:w-56">
+                  {parseFloat(transaction.amount) > 0 ? '+' : ''}
+                  {parseFloat(transaction.amount).toLocaleString()} ₽
+                </p>
+                <button
+                  onClick={() => {
+                    setSelectedTransaction(transaction)
+                    setIsModalMoreOpen(true)
+                  }}
                 >
-                  {transaction.name}
-                </p>
-                <p className="text-[#7C7C7C]">
-                  {transaction.date.split('-').reverse().join('.').toString()}
-                </p>
-              </div>
-              <p className="w-20 text-center 2xl:w-28">
-                {parseFloat(transaction.amount) > 0 ? 'доход' : 'расход'}
-              </p>
-              <p className="w-40 text-center lg:w-56">
-                {parseFloat(transaction.amount) > 0 ? '+' : ''}
-                {parseFloat(transaction.amount).toLocaleString()} ₽
-              </p>
-              <button
-                onClick={() => {
-                  setIsModalMoreOpen(true)
-                }}
-              >
-                Подробнее
-              </button>
-            </li>
-            <ModalTransaction
-              key={`${transaction.id}modalEdit`}
-              buttons={[
-                {
-                  background:
-                    'bg-gradient-to-r\n' +
-                    '              from-light-green\n' +
-                    '              to-light-blue active:shadow-custom',
-                  textColor: 'text-white',
-                  children: 'Изменить',
-                  onClick: () => {
-                    if (modalAddTransaction.watch('type') == 'расходы')
-                      modalAddTransaction.setValue(
-                        'amount',
-                        -parseInt(modalAddTransaction.watch('amount'), 10)
-                      )
-
-                    editTransaction(transaction.id, modalAddTransaction.watch())
-                    modalAddTransaction.reset()
-                    setIsModalMoreOpen(false)
-                  }
-                },
-                {
-                  background:
-                    'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
-                  textColor: 'text-white',
-                  children: 'Удалить',
-                  onClick: () => setIsModalBtnOpen(true)
-                }
-              ]}
-              close=""
-              filter={false}
-              inputs={[
-                {
-                  id: 'name',
-                  label: 'Название',
-                  placeholder: transaction.name ?? '',
-                  name: 'name',
-                  type: 'text'
-                }
-              ]}
-              open={isModalMoreOpen}
-              register={modalAddTransaction.register}
-              select={[
-                {
-                  id: 'type',
-                  label: 'Тип',
-                  placeholder: 'Выберите тип',
-                  name: 'type',
-                  options: [
-                    { value: 'доходы', label: 'доходы' },
-                    { value: 'расходы', label: 'расходы' }
-                  ]
-                },
-                {
-                  id: 'category',
-                  label: 'Категория',
-                  placeholder: 'Выберите категорию',
-                  name: 'category',
-                  options: categories.map((category) => ({
-                    value: category.name,
-                    label: category.name
-                  }))
-                }
-              ]}
-              title={'Транзакция'}
-              onClose={() => setIsModalMoreOpen(false)}
-            />
-            <ModalBtns
-              key={`${transaction.id}modalDelete`}
-              buttons={[
-                {
-                  background:
-                    'bg-gradient-to-r\n' +
-                    '              from-light-green\n' +
-                    '              to-light-blue active:shadow-custom',
-                  textColor: 'text-white',
-                  children: 'Да',
-                  onClick: () => {
-                    deleteTransaction(transaction.id)
-                    handleModalClose()
-                  }
-                },
-                {
-                  background:
-                    'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
-                  textColor: 'text-white',
-                  children: 'Отмена',
-                  onClick: () => null
-                }
-              ]}
-              close="Отмена"
-              direction="flex-row"
-              open={isModalBtnOpen}
-              title={`Удалить транзакцию “${transaction.name}” за ${transaction.date
-                .split('-')
-                .reverse()
-                .join('.')}?`}
-              onClose={() => setIsModalBtnOpen(false)}
-            />
-          </>
-        ))}
-      </ul>
+                  Подробнее
+                </button>
+              </li>
+            </>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }

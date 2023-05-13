@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import AuthForm from './AuthForm'
 import RegisterForm from './RegisterForm'
-import Goals from './Goal'
+import Goal from './Goal'
 import TestHeader from './TestHeader'
 import Transactions from './Transactions'
 import GoalDonutChart from './ui/GoalDonutChart'
@@ -23,7 +23,13 @@ function App() {
           <Route element={<RegisterForm />} path="/register" />
           <Route
             element={
-              <Goals achievement_date="2022-12-13" amount_target={1250000} id={14} name="Машина" />
+              <Goal
+                achievement_date="2022-12-13"
+                amount_target="1250000"
+                id={14}
+                name="Машина"
+                opening_date="2022-12-13"
+              />
             }
             path="/goals"
           />
