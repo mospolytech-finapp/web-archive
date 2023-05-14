@@ -51,8 +51,9 @@ const AuthForm = () => {
 
   return (
     <>
-      <Header />
-      <form className="mt-28 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14">
+      <form
+        className="mt-28 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14"
+      >
         <fieldset className="mb-5 grid w-72 md:w-96 lg:mb-4">
           <legend className="from-light-green-text to-light-blue-text mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
             Вход

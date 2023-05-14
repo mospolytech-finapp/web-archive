@@ -20,9 +20,18 @@ const Header = () => {
   const [isModalBtnOpen, setIsModalBtnOpen] = useState(false)
 
   return (
-    <header className="absolute left-0 top-0 h-24 w-screen bg-[#202020] py-5">
+    <header
+      className="
+    {/*absolute left-0 top-0 */}
+    h-24
+
+    {/*w-screen*/}
+    max-w-screen
+    bg-[#202020]
+    py-5"
+    >
       <div className=" m-auto flex h-14 max-w-7xl flex-row items-center justify-between px-3">
-        <Link to="/goals">
+        <Link to="/">
           <img alt="логотип" className="w-16 sm:w-28 md:w-40" src={logo} />
         </Link>
         <div className="flex w-56 flex-row justify-between sm:w-full sm:max-w-sm  md:max-w-md lg:max-w-lg">

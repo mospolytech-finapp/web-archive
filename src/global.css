@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .custom-scroll::-webkit-scrollbar {
+    width: 9px;
+  }
+
+  .custom-scroll::-webkit-scrollbar-track {
+    background: #cacaca;
+    border-radius: 100vh;
+  }
+
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: #afafaf;
+    border-radius: 100vh;
+  }
+
+  .custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #afafaf;
+  }
+}
 @layer base {
   @font-face {
     font-family: Gilroy;
