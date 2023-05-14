@@ -439,7 +439,7 @@ const Transactions = () => {
                   { value: 'доходы', label: 'доходы' },
                   { value: 'расходы', label: 'расходы' }
                 ],
-                value: parseFloat(selectedTransaction.amount) > 0 ? 'доход' : 'расход'
+                value: parseFloat(selectedTransaction.amount) >= 0 ? 'доходы' : 'расходы'
               },
               {
                 id: 'category',
