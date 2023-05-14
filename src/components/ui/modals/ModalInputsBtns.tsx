@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useRef } from 'react'
+import { FieldValues, UseFormRegister } from 'react-hook-form'
 
 import Input from '../Input'
 import Button from '../Button'
@@ -12,40 +12,12 @@ interface ModalProps {
   buttons: { background: string; textColor: string; children: string; onClick: () => void }[]
   title: string
   close: string
+  register: UseFormRegister<FieldValues>
 }
 
 const ModalInputsBtns = ({ ...props }: ModalProps) => {
   const dialogContentRef = useRef<HTMLDivElement>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
-
-  const {
-    register,
-    formState: { errors }
-  } = useForm()
-
-  const ModalInputsBtns = ({ open, onClose }: ModalProps) => {
-    // ...
-    useEffect(() => {
-      function Close() {
-        if (dialogRef.current) {
-          dialogRef.current.close()
-        }
-        onClose()
-      }
-      if (dialogRef.current) {
-        if (open) {
-          dialogRef.current.showModal()
-        } else {
-          dialogRef.current.close()
-        }
-        dialogRef.current?.addEventListener('click', (e) => {
-          if (e.target instanceof Node && !dialogRef.current?.contains(e.target)) {
-            Close()
-          }
-        })
-      }
-    }, [open, onClose])
-  }
 
   function handleClose() {
     if (dialogRef.current) {
@@ -117,7 +89,7 @@ const ModalInputsBtns = ({ ...props }: ModalProps) => {
               label={input.label}
               name={input.name}
               placeholder={input.placeholder}
-              register={register}
+              register={props.register}
               type={input.type}
             />
           ))}
@@ -131,7 +103,7 @@ const ModalInputsBtns = ({ ...props }: ModalProps) => {
                   if (props.close === button.children) {
                     handleClose()
                   } else {
-                    onClick()
+                    button.onClick()
                   }
                 }}
               >

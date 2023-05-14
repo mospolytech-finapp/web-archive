@@ -23,7 +23,7 @@ const schema = z.object({
 const RegisterForm = () => {
   const {
     register,
-    handleSubmit,
+    watch,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onBlur',
@@ -33,38 +33,33 @@ const RegisterForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [regError, setRegError] = useState('')
 
-  const onSubmit = (data: FieldValues) => {
-    UserDataService.register({
-      email: data.email,
-      password: data.password,
-      last_name: data.last_name,
-      first_name: data.first_name,
-      middle_name: data.middle_name != null ? data.middle_name : '',
-      date_of_birth: `${data.date_of_birth.getFullYear()}-${
-        data.date_of_birth.getMonth() + 1
-      }-${data.date_of_birth.getDate()}`
-    })
-      .then((response) => {
-        localStorage.setItem('token', response.data.token)
-        setRegError('')
+  const onSubmit = async (data: FieldValues) => {
+    try {
+      const response = await UserDataService.register({
+        email: data.email,
+        password: data.password,
+        last_name: data.last_name,
+        first_name: data.first_name,
+        middle_name: data.middle_name != null ? data.middle_name : '',
+        date_of_birth: `${new Date(data.date_of_birth).getFullYear()}-${
+          new Date(data.date_of_birth).getMonth() + 1
+        }-${new Date(data.date_of_birth).getDate()}`
+      })
 
-        return response
-      })
-      .catch((err) => {
-        if (axios.isAxiosError(err)) {
-          setRegError(err.response?.data[Object.keys(err.response?.data)[0]][0].toString())
-          console.log(regError)
-        } else {
-          console.log(err)
-        }
-      })
+      localStorage.setItem('token', response.data.token)
+      setRegError('')
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setRegError(err.response?.data[Object.keys(err.response?.data)[0]][0].toString())
+        console.error(regError)
+      } else {
+        console.error(err)
+      }
+    }
   }
 
   return (
-    <form
-      className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 py-16 px-8 font-sans font-normal tracking-normal sm:mx-0 md:max-w-lg md:px-14 md:py-8 xl:px-11 xl:py-14"
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 py-16 px-8 font-sans font-normal tracking-normal sm:mx-0 md:max-w-lg md:px-14 md:py-8 xl:px-11 xl:py-14">
       <fieldset className="mb-5 grid lg:mb-4">
         <legend className="from-light-green-text to-light-blue-text mb-4 bg-gradient-to-r bg-clip-text text-center text-xl font-medium text-transparent sm:text-2xl md:mb-10">
           Создать учетную запись
@@ -88,7 +83,7 @@ const RegisterForm = () => {
           type="text"
         />
         <Input
-          error={errors.first_name ? true : false}
+          error={errors.middle_name ? true : false}
           id="middle_name"
           label="Отчество"
           name="middle_name"
@@ -130,7 +125,8 @@ const RegisterForm = () => {
           background="from-light-green to-light-blue bg-gradient-to-r"
           disable={!isValid}
           textColor="text-white"
-          onClick={() => null}
+          // TODO: исправить отправку запросов, onSubmit
+          onClick={() => onSubmit(watch())}
         >
           {'Продолжить'}
         </Button>

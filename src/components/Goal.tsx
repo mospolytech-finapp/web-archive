@@ -1,7 +1,11 @@
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import IGoalData from 'types/goal'
+
+import DateService from '../services/date-service'
+import GoalDataService from '../services/goal-service'
 
 import Input from './ui/Input'
 import GoalDonutChart from './ui/GoalDonutChart'
@@ -9,35 +13,128 @@ import GoalProgressBar from './ui/GoalProgressBar'
 import ModalInputsBtns from './ui/modals/ModalInputsBtns'
 import ModalBtns from './ui/modals/ModalBtns'
 
-const schema = z.object({
-  goal_name: z.string(),
-  start_date: z.string(),
-  finish_date: z.string(),
-  goal_amount: z.string(),
-  current_amount: z.string(),
-  hh: z.string(),
-  dd: z.string(),
-  mm: z.string()
+const goalSchema = z.object({
+  name: z.string(),
+  opening_date: z.string(),
+  achievement_date: z.string(),
+  amount_target: z.string(),
+  amount_now: z.string()
 })
 
-const tmpData = {
-  goal_name: 'Покупка машины',
-  start_date: '16.04.2023',
-  finish_date: '29.11.2023',
-  goal_amount: '2 345 000',
-  current_amount: '1 999 542',
-  hh: '07',
-  dd: '13',
-  mm: '07'
-}
-const Goals = () => {
-  const { register } = useForm({
-    resolver: zodResolver(schema)
+const goalBalanceSchema = z.object({
+  date: z.date(),
+  time: z.string().datetime(),
+  amount: z.number()
+})
+
+const Goal = ({ ...props }: IGoalData) => {
+  const [goal, setGoal] = useState<IGoalData>({ ...props })
+  const [time, setTime] = useState<Date>(new Date())
+
+  const modalEditForm = useForm({
+    resolver: zodResolver(goalSchema)
   })
-  const [isModalInputDeleteOpen, setIsModalInputDeleteOpen] = useState(false)
-  const [isModalInputDepositOpen, setIsModalInputDepositOpen] = useState(false)
-  const [isModalInputSubtractOpen, setIsModalInputSubtractOpen] = useState(false)
-  const [isModalBtnOpen, setIsModalBtnOpen] = useState(false)
+
+  const modalDepositForm = useForm({
+    resolver: zodResolver(goalBalanceSchema)
+  })
+
+  const modalSubtractForm = useForm({
+    resolver: zodResolver(goalBalanceSchema)
+  })
+
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false)
+  const [isModalDepositOpen, setIsModalDepositOpen] = useState(false)
+  const [isModalSubtractOpen, setIsModalSubtractOpen] = useState(false)
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await GoalDataService.get(props.id)
+
+        setGoal({
+          id: response.data.id,
+          name: response.data.name,
+          opening_date: response.data.opening_date,
+          achievement_date: response.data.achievement_date,
+          amount_target: response.data.amount_target,
+          amount_now: response.data.amount_now
+        })
+        setTime(
+          DateService.dif(
+            new Date(response.data.opening_date),
+            new Date(response.data.achievement_date)
+          )
+        )
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  const createTransaction = async (data: FieldValues) => {
+    try {
+      const response = await GoalDataService.createTransaction(goal.id, {
+        date: data.date,
+        time: data.time,
+        amount: data.amount
+      })
+
+      setGoal({
+        id: goal.id,
+        name: goal.name,
+        opening_date: goal.opening_date,
+        achievement_date: goal.achievement_date,
+        amount_target: goal.amount_target,
+        amount_now: Math.floor(
+          parseFloat(goal.amount_now ?? '0') + parseFloat(response.data.amount)
+        ).toString()
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const deleteGoal = async () => {
+    try {
+      const response = await GoalDataService.delete(goal.id)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const updateGoal = async (data: FieldValues) => {
+    try {
+      const response = await GoalDataService.update(goal.id, {
+        id: goal.id,
+        name: data.name,
+        opening_date: data.opening_date,
+        achievement_date: data.achievement_date,
+        amount_target: data.amount_target,
+        amount_now: data.amount_now
+      })
+
+      setGoal({
+        id: goal.id,
+        name: response.data.name,
+        opening_date: response.data.opening_date,
+        achievement_date: response.data.achievement_date,
+        amount_target: response.data.amount_target,
+        amount_now: response.data.amount_now
+      })
+      setTime(
+        DateService.dif(
+          new Date(response.data.opening_date),
+          new Date(response.data.achievement_date)
+        )
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   return (
     <div
@@ -79,7 +176,7 @@ const Goals = () => {
         md:text-4xl
         "
         >
-          {tmpData.goal_name}
+          {goal.name}
         </h2>
       </div>
       <div className="flex flex-col gap-28 xl:flex-row">
@@ -100,7 +197,11 @@ const Goals = () => {
           mb-10
           max-w-xs"
           >
-            <GoalDonutChart percent={100} />
+            <GoalDonutChart
+              percent={Math.round(
+                (parseFloat(goal.amount_now ?? '0') / parseFloat(goal.amount_target)) * 100
+              )}
+            />
           </div>
           <div className="mx-auto mb-14 w-fit">
             <span
@@ -123,7 +224,10 @@ const Goals = () => {
             after:content-['месяцев']
             "
             >
-              {tmpData.mm}
+              {`${time?.getMonth() + (time.getFullYear() - 1970) * 12 < 10 ? '0' : ''}${(
+                time?.getMonth() +
+                (time.getFullYear() - 1970) * 12
+              ).toString()}`}
             </span>
             <span
               className="
@@ -138,7 +242,7 @@ const Goals = () => {
             after:content-['дней']
             "
             >
-              {tmpData.dd}
+              {`${time?.getDay() < 10 ? '0' : ''}${time?.getDay().toString()}`}
             </span>
             <span
               className="
@@ -153,11 +257,19 @@ const Goals = () => {
             after:content-['часов']
             "
             >
-              {tmpData.hh}
+              {`${time?.getHours() < 10 ? '0' : ''}${time?.getHours().toString()}`}
             </span>
           </div>
           <div className="mb-6 w-60 md:w-80">
-            <GoalProgressBar progress={90} progressText="345 050" />
+            <GoalProgressBar
+              progress={Math.round(
+                (parseFloat(goal.amount_now ?? '0') / parseFloat(goal.amount_target)) * 100
+              )}
+              progressText={Math.max(
+                parseFloat(goal.amount_target) - parseFloat(goal.amount_now ?? '0'),
+                0
+              ).toLocaleString()}
+            />
           </div>
           <div
             className="flex
@@ -187,7 +299,7 @@ const Goals = () => {
               onClick={(event) => {
                 event.stopPropagation()
                 event.preventDefault()
-                setIsModalInputSubtractOpen(true)
+                setIsModalSubtractOpen(true)
               }}
             >
               Вычесть
@@ -211,7 +323,7 @@ const Goals = () => {
               onClick={(event) => {
                 event.stopPropagation()
                 event.preventDefault()
-                setIsModalInputDepositOpen(true)
+                setIsModalDepositOpen(true)
               }}
             >
               Пополнить
@@ -235,39 +347,39 @@ const Goals = () => {
           <fieldset className="mb-11 grid w-72 md:w-96">
             <Input
               disabled={true}
-              id="start_date"
+              id="opening_date"
               label="Дата открытия"
-              name="start_date"
-              register={register}
+              name="opening_date"
+              register={modalEditForm.register}
               type="text"
-              value={tmpData.start_date}
+              value={goal.opening_date?.split('-').reverse().join('.')}
             />
             <Input
               disabled={true}
-              id="finish_date"
+              id="achievement_date"
               label="Дата достижения"
-              name="finish_date"
-              register={register}
+              name="achievement_date"
+              register={modalEditForm.register}
               type="text"
-              value={tmpData.finish_date}
+              value={goal.achievement_date.split('-').reverse().join('.')}
             />
             <Input
               disabled={true}
-              id="goal_amount"
+              id="amount_target"
               label="Сумма цели"
-              name="goal_amount"
-              register={register}
+              name="amount_target"
+              register={modalEditForm.register}
               type="text"
-              value={tmpData.goal_amount}
+              value={parseInt(goal.amount_target, 10).toLocaleString()}
             />
             <Input
               disabled={true}
-              id="current_amount"
+              id="amount_now"
               label="Сумма (факт)"
-              name="current_amount"
-              register={register}
+              name="amount_now"
+              register={modalEditForm.register}
               type="text"
-              value={tmpData.current_amount}
+              value={parseInt(goal.amount_now ?? '0', 10).toLocaleString()}
             />
           </fieldset>
           <div className="flex justify-between gap-8">
@@ -293,7 +405,7 @@ const Goals = () => {
               onClick={(event) => {
                 event.stopPropagation()
                 event.preventDefault()
-                setIsModalInputDeleteOpen(true)
+                setIsModalEditOpen(true)
               }}
             >
               Изменить
@@ -319,7 +431,7 @@ const Goals = () => {
               onClick={(event) => {
                 event.stopPropagation()
                 event.preventDefault()
-                setIsModalBtnOpen(true)
+                setIsModalDeleteOpen(true)
               }}
             >
               Удалить
@@ -334,21 +446,24 @@ const Goals = () => {
                   '              to-light-blue active:shadow-custom',
                 textColor: 'text-white',
                 children: 'Да',
-                onClick: () => console.log('Submitted')
+                onClick: () => {
+                  deleteGoal()
+                  setIsModalDeleteOpen(false)
+                }
               },
               {
                 background:
                   'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
                 textColor: 'text-white',
                 children: 'Отмена',
-                onClick: () => console.log('Submitted')
+                onClick: () => null
               }
             ]}
             close="Отмена"
             direction="flex-row"
-            open={isModalBtnOpen}
-            title={'Удалить цель ' + `${tmpData.goal_name}` + '?'}
-            onClose={() => setIsModalBtnOpen(false)}
+            open={isModalDeleteOpen}
+            title={'Удалить цель ' + `${goal.name}` + '?'}
+            onClose={() => setIsModalDeleteOpen(false)}
           />
           <ModalInputsBtns
             buttons={[
@@ -357,7 +472,11 @@ const Goals = () => {
                   'from-light-green to-purple-active-link active:shadow-custom bg-gradient-to-r',
                 textColor: 'text-white',
                 children: 'Сохранить изменения',
-                onClick: () => console.log('Submitted')
+                onClick: () => {
+                  updateGoal(modalEditForm.watch())
+                  setIsModalEditOpen(false)
+                  modalEditForm.reset()
+                }
               }
             ]}
             close=""
@@ -365,42 +484,43 @@ const Goals = () => {
               {
                 id: '',
                 label: 'Название цели',
-                placeholder: `${tmpData.goal_name}`,
-                name: 'goal_name',
+                placeholder: `${goal.name}`,
+                name: 'name',
                 type: 'text'
               },
               {
                 id: '',
                 label: 'Дата открытия',
-                placeholder: `${tmpData.start_date}`,
-                name: 'start_date',
-                type: 'text'
+                placeholder: `${goal.opening_date}`,
+                name: 'opening_date',
+                type: 'date'
               },
               {
                 id: '',
                 label: 'Дата достижения',
-                placeholder: `${tmpData.finish_date}`,
-                name: 'finish_date',
-                type: 'text'
+                placeholder: `${goal.achievement_date}`,
+                name: 'achievement_date',
+                type: 'date'
               },
               {
                 id: '',
                 label: 'Сумма цели',
-                placeholder: `${tmpData.goal_amount}`,
-                name: 'goal_amount',
+                placeholder: `${goal.amount_target}`,
+                name: 'amount_target',
                 type: 'text'
               },
               {
                 id: '',
                 label: 'Накоплено',
-                placeholder: `${tmpData.current_amount}`,
-                name: 'current_amount',
+                placeholder: `${goal.amount_now}`,
+                name: 'amount_now',
                 type: 'text'
               }
             ]}
-            open={isModalInputDeleteOpen}
-            title={tmpData.goal_name}
-            onClose={() => setIsModalInputDeleteOpen(false)}
+            open={isModalEditOpen}
+            register={modalEditForm.register}
+            title={goal.name}
+            onClose={() => setIsModalEditOpen(false)}
           />
           <ModalInputsBtns
             buttons={[
@@ -411,43 +531,50 @@ const Goals = () => {
                   '              to-light-blue active:shadow-custom',
                 textColor: 'text-white',
                 children: 'Да',
-                onClick: () => console.log('Submitted')
+                onClick: () => {
+                  createTransaction(modalDepositForm.watch())
+                  setIsModalDepositOpen(false)
+                  modalDepositForm.reset()
+                }
               },
               {
                 background:
                   'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
                 textColor: 'text-white',
                 children: 'Отмена',
-                onClick: () => console.log('Submitted')
+                onClick: () => null
               }
             ]}
             close="Отмена"
             inputs={[
               {
                 id: '',
-                label: '25.04.2023',
-                placeholder: `${tmpData.start_date}`,
-                name: 'start_date',
-                type: 'text'
+                label: 'Дата операции',
+                placeholder: '25.04.2023',
+                name: 'date',
+                type: 'date'
               },
               {
                 id: '',
-                label: 'Не указано',
-                placeholder: `${tmpData.finish_date}`,
-                name: 'finish_date',
-                type: 'text'
+                label: 'Время операции',
+                placeholder: 'Не указано',
+                name: 'time',
+                type: 'time'
               },
               {
                 id: '',
                 label: 'Сумма операции',
-                placeholder: `2 345`,
-                name: 'current_amount',
+                placeholder: '2 345',
+                name: 'amount',
                 type: 'text'
               }
             ]}
-            open={isModalInputDepositOpen}
-            title={'Пополнить цель "' + `${tmpData.goal_name}` + '"'}
-            onClose={() => setIsModalInputDepositOpen(false)}
+            open={isModalDepositOpen}
+            register={modalDepositForm.register}
+            title={'Пополнить цель "' + `${goal.name}` + '"'}
+            onClose={() => {
+              setIsModalDepositOpen(false)
+            }}
           />
           <ModalInputsBtns
             buttons={[
@@ -458,43 +585,52 @@ const Goals = () => {
                   '              to-light-blue active:shadow-custom',
                 textColor: 'text-white',
                 children: 'Да',
-                onClick: () => console.log('Submitted')
+                onClick: () => {
+                  modalSubtractForm.setValue(
+                    'amount',
+                    -parseInt(modalSubtractForm.watch('amount'), 10)
+                  )
+                  createTransaction(modalSubtractForm.watch())
+                  setIsModalSubtractOpen(false)
+                  modalSubtractForm.reset()
+                }
               },
               {
                 background:
                   'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
                 textColor: 'text-white',
                 children: 'Отмена',
-                onClick: () => console.log('Submitted')
+                onClick: () => null
               }
             ]}
             close="Отмена"
             inputs={[
               {
                 id: '',
-                label: '25.04.2023',
-                placeholder: `${tmpData.start_date}`,
-                name: 'start_date',
-                type: 'text'
+                label: 'Дата операции',
+                placeholder: `${goal.opening_date}`,
+                name: 'date',
+                type: 'date'
               },
               {
                 id: '',
-                label: 'Не указано',
-                placeholder: `${tmpData.finish_date}`,
-                name: 'finish_date',
-                type: 'text'
+                label: 'Время операции',
+                placeholder: `${goal.achievement_date}`,
+                name: 'time',
+                type: 'time'
               },
               {
                 id: '',
                 label: 'Сумма операции',
                 placeholder: `2 345`,
-                name: 'current_amount',
+                name: 'amount',
                 type: 'text'
               }
             ]}
-            open={isModalInputSubtractOpen}
-            title={'Вычесть из цели "' + `${tmpData.goal_name}` + '"'}
-            onClose={() => setIsModalInputSubtractOpen(false)}
+            open={isModalSubtractOpen}
+            register={modalSubtractForm.register}
+            title={'Вычесть из цели "' + `${goal.name}` + '"'}
+            onClose={() => setIsModalSubtractOpen(false)}
           />
         </form>
       </div>
@@ -502,4 +638,4 @@ const Goals = () => {
   )
 }
 
-export default Goals
+export default Goal

@@ -15,53 +15,17 @@ interface SelectProps {
   options: Array<{ value: string; label: string }>
 }
 
-const getCategoryOptions = (selectedType: string) => {
-  let categoryOptions: { value: string; label: string }[] = []
-
-  if (selectedType === 'доходы') {
-    categoryOptions = [
-      { value: 'Зарплата', label: 'Зарплата' },
-      { value: 'Подарки', label: 'Подарки' },
-      { value: 'Дивиденды', label: 'Дивиденды' }
-    ]
-  } else if (selectedType === 'расходы') {
-    categoryOptions = [
-      { value: 'Путешествия', label: 'Путешествия' },
-      { value: 'Транспорт', label: 'Транспорт' },
-      { value: 'Образование', label: 'Образование' },
-      { value: 'Одежда', label: 'Одежда' },
-      { value: 'Подписки', label: 'Подписки' },
-      { value: 'Животные', label: 'Животные' },
-      { value: 'Продукты', label: 'Продукты' },
-      { value: 'Еда', label: 'Еда' },
-      { value: 'Развлечения', label: 'Развлечения' },
-      { value: 'Прочее', label: 'Прочее' }
-    ]
-  }
-
-  return categoryOptions
-}
-
 const Select = ({ ...props }: SelectProps) => {
   const [selectedType, setSelectedType] = useState('')
+  const [value, setValue] = useState(props.value ?? '')
+
+  console.log(value)
 
   const handleTypeChange = (event: { target: { value: SetStateAction<string> } }) => {
     if (event.target.value === 'доходы' || event.target.value === 'расходы') {
       setSelectedType(event.target.value)
     }
   }
-
-  useEffect(() => {
-    const categories = document.querySelector('#category')
-
-    if (categories !== null) {
-      categories.innerHTML = getCategoryOptions(selectedType)
-        .map(
-          (option) => `<option key=${option.value} value=${option.value}>${option.label}</option>`
-        )
-        .join('')
-    }
-  }, [selectedType])
 
   return (
     <div className="relative mb-2">
@@ -80,21 +44,18 @@ const Select = ({ ...props }: SelectProps) => {
         disabled={props.disabled}
         id={props.id}
         name={props.name}
-        value={props.value}
-        onChange={handleTypeChange}
+        value={value}
+        onChange={(e) => {
+          handleTypeChange(e)
+          setValue(e.target.value)
+        }}
       >
         <option value="">{props.placeholder}</option>
-        {props.id != 'type'
-          ? getCategoryOptions(selectedType).map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))
-          : props.options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
+        {props.options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </select>
       <img alt="select arrow" className="absolute top-11 right-5" src={arrow} />
     </div>

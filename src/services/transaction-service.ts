@@ -3,8 +3,16 @@ import ITransactionData from 'types/transaction'
 import http from '../services/http-common'
 
 class TransactionDataService {
-  async getAll() {
-    return await http.get<Array<ITransactionData>>('/finance/transactions/')
+  async getAll(filter?: Map<string, string>) {
+    let filterString = ''
+
+    if (filter != null) {
+      filterString = `?${Array.from(filter.entries())
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&')}`
+    }
+
+    return await http.get<Array<ITransactionData>>(`/finance/transactions/${filterString}`)
   }
 
   async create(data: ITransactionData) {
@@ -12,15 +20,15 @@ class TransactionDataService {
   }
 
   async get(id: number) {
-    return await http.get<ITransactionData>(`/finance/transactions/${id}`)
+    return await http.get<ITransactionData>(`/finance/transactions/${id}/`)
   }
 
-  async update(data: ITransactionData) {
-    return await http.put<ITransactionData>(`/finance/transactions/${data.id}`, data)
+  async update(id: number, data: ITransactionData) {
+    return await http.put<ITransactionData>(`/finance/transactions/${id}/`, data)
   }
 
   async delete(id: number) {
-    return await http.delete(`/finance/transactions/${id}`)
+    return await http.delete(`/finance/transactions/${id}/`)
   }
 }
 

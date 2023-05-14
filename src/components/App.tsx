@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import AuthForm from './AuthForm'
 import RegisterForm from './RegisterForm'
-import Goals from './Goals'
+import Goal from './Goal'
 import TestHeader from './TestHeader'
 import Transactions from './Transactions'
 import GoalDonutChart from './ui/GoalDonutChart'
@@ -27,7 +27,18 @@ function App() {
             <Route element={<Home />} path="/" />
             <Route element={<AuthForm />} path="/auth" />
             <Route element={<RegisterForm />} path="/register" />
-            <Route element={<Goals />} path="/goals" />
+            <Route
+              element={
+                <Goal
+                  achievement_date="2022-12-13"
+                  amount_target="1250000"
+                  id={14}
+                  name="Машина"
+                  opening_date="2022-12-13"
+                />
+              }
+              path="/goals"
+            />
             <Route element={<TestHeader />} path="/header" />
             <Route element={<Transactions />} path="/transactions" />
             <Route element={<GoalDonutChart percent={100} />} path="/donut" />
