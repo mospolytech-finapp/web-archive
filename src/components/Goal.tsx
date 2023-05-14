@@ -138,7 +138,9 @@ const Goal = ({ ...props }: IGoalData) => {
 
   return (
     <div
-      className="
+      className=" 
+    max-w-7xl 
+    mx-auto
     {/*bg-[#D2D2D2]/70 */}
     bg-[#D2D2D2]
     pt-9 pb-8
@@ -190,7 +192,7 @@ const Goal = ({ ...props }: IGoalData) => {
         items-center
         flex-col
         md:w-96
-        xl:m-0"
+        xl:ml-16"
         >
           <div
             className="
@@ -203,25 +205,29 @@ const Goal = ({ ...props }: IGoalData) => {
               )}
             />
           </div>
-          <div className="mx-auto mb-14 w-fit">
+          <div className="mx-auto mb-14 md:w-100">
             <span
-              className="
-            text-3xl
+              className=" text-2xl
             font-light
+            md:text-3xl
             "
             >
               Осталось:
             </span>
             <span
-              className="
+              className=" 
+            text-4xl
+            ml-4
             relative
-            text-5xl
             font-light
             after:absolute
             after:-bottom-3
-            after:left-0
+            after:left-1
             after:text-sm
             after:content-['месяцев']
+            xl:ml-6
+            xl:text-5xl
+            xl:after:left-4
             "
             >
               {`${time?.getMonth() + (time.getFullYear() - 1970) * 12 < 10 ? '0' : ''}${(
@@ -230,16 +236,18 @@ const Goal = ({ ...props }: IGoalData) => {
               ).toString()}`}
             </span>
             <span
-              className="
+              className=" 
             relative
-            text-5xl
+            text-4xl
             font-light
             before:content-[':']
             after:absolute
             after:-bottom-3
-            after:left-4
+            after:left-3
             after:text-sm
             after:content-['дней']
+            xl:text-5xl
+            xl:after:left-6
             "
             >
               {`${time?.getDay() < 10 ? '0' : ''}${time?.getDay().toString()}`}
@@ -247,20 +255,22 @@ const Goal = ({ ...props }: IGoalData) => {
             <span
               className="
             relative
-            text-5xl
+            text-4xl
             font-light
             before:content-[':']
             after:absolute
             after:-bottom-3
-            after:left-4
+            after:left-1
             after:text-sm
             after:content-['часов']
+            xl:text-5xl
+            xl:after:left-4
             "
             >
               {`${time?.getHours() < 10 ? '0' : ''}${time?.getHours().toString()}`}
             </span>
           </div>
-          <div className="mb-6 w-60 md:w-80">
+          <div className="mb-6 w-60 md:w-80 xl:-ml-32">
             <GoalProgressBar
               progress={Math.round(
                 (parseFloat(goal.amount_now ?? '0') / parseFloat(goal.amount_target)) * 100
@@ -277,7 +287,7 @@ const Goal = ({ ...props }: IGoalData) => {
           items-center
           justify-between
           gap-6
-          md:ml-6
+          
           "
           >
             <button
