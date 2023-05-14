@@ -353,6 +353,9 @@ const Goal = ({ ...props }: IGoalData) => {
               register={modalEditForm.register}
               type="text"
               value={goal.opening_date?.split('-').reverse().join('.')}
+              onClick={() => {
+                null
+              }}
             />
             <Input
               disabled={true}
@@ -362,6 +365,9 @@ const Goal = ({ ...props }: IGoalData) => {
               register={modalEditForm.register}
               type="text"
               value={goal.achievement_date.split('-').reverse().join('.')}
+              onClick={() => {
+                null
+              }}
             />
             <Input
               disabled={true}
@@ -371,6 +377,9 @@ const Goal = ({ ...props }: IGoalData) => {
               register={modalEditForm.register}
               type="text"
               value={parseInt(goal.amount_target, 10).toLocaleString()}
+              onClick={() => {
+                null
+              }}
             />
             <Input
               disabled={true}
@@ -380,6 +389,9 @@ const Goal = ({ ...props }: IGoalData) => {
               register={modalEditForm.register}
               type="text"
               value={parseInt(goal.amount_now ?? '0', 10).toLocaleString()}
+              onClick={() => {
+                null
+              }}
             />
           </fieldset>
           <div className="flex justify-between gap-8">
@@ -486,35 +498,50 @@ const Goal = ({ ...props }: IGoalData) => {
                 label: 'Название цели',
                 placeholder: `${goal.name}`,
                 name: 'name',
-                type: 'text'
+                type: 'text',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Дата открытия',
                 placeholder: `${goal.opening_date}`,
                 name: 'opening_date',
-                type: 'date'
+                type: 'date',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Дата достижения',
                 placeholder: `${goal.achievement_date}`,
                 name: 'achievement_date',
-                type: 'date'
+                type: 'date',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Сумма цели',
                 placeholder: `${goal.amount_target}`,
                 name: 'amount_target',
-                type: 'text'
+                type: 'text',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Накоплено',
                 placeholder: `${goal.amount_now}`,
                 name: 'amount_now',
-                type: 'text'
+                type: 'text',
+                onClick: () => {
+                  null
+                }
               }
             ]}
             open={isModalEditOpen}
@@ -552,21 +579,30 @@ const Goal = ({ ...props }: IGoalData) => {
                 label: 'Дата операции',
                 placeholder: '25.04.2023',
                 name: 'date',
-                type: 'date'
+                type: 'date',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Время операции',
                 placeholder: 'Не указано',
                 name: 'time',
-                type: 'time'
+                type: 'time',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Сумма операции',
                 placeholder: '2 345',
                 name: 'amount',
-                type: 'text'
+                type: 'text',
+                onClick: () => {
+                  null
+                }
               }
             ]}
             open={isModalDepositOpen}
@@ -610,21 +646,30 @@ const Goal = ({ ...props }: IGoalData) => {
                 label: 'Дата операции',
                 placeholder: `${goal.opening_date}`,
                 name: 'date',
-                type: 'date'
+                type: 'date',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Время операции',
                 placeholder: `${goal.achievement_date}`,
                 name: 'time',
-                type: 'time'
+                type: 'time',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Сумма операции',
                 placeholder: `2 345`,
                 name: 'amount',
-                type: 'text'
+                type: 'text',
+                onClick: () => {
+                  null
+                }
               }
             ]}
             open={isModalSubtractOpen}

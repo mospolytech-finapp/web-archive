@@ -72,6 +72,9 @@ const RegisterForm = () => {
           placeholder=""
           register={register}
           type="text"
+          onClick={() => {
+            null
+          }}
         />
         <Input
           error={errors.first_name ? true : false}
@@ -81,6 +84,9 @@ const RegisterForm = () => {
           placeholder=""
           register={register}
           type="text"
+          onClick={() => {
+            null
+          }}
         />
         <Input
           error={errors.middle_name ? true : false}
@@ -90,6 +96,9 @@ const RegisterForm = () => {
           placeholder=""
           register={register}
           type="text"
+          onClick={() => {
+            null
+          }}
         />
         <Input
           error={errors.password ? true : false}
@@ -99,6 +108,9 @@ const RegisterForm = () => {
           placeholder=""
           register={register}
           type="password"
+          onClick={() => {
+            null
+          }}
         />
         <Input
           error={errors.email ? true : false}
@@ -108,6 +120,9 @@ const RegisterForm = () => {
           placeholder=""
           register={register}
           type="email"
+          onClick={() => {
+            null
+          }}
         />
         <Input
           error={errors.date_of_birth ? true : false}
@@ -117,6 +132,9 @@ const RegisterForm = () => {
           placeholder=""
           register={register}
           type="date"
+          onClick={() => {
+            null
+          }}
         />
         <span className="mb-4 text-sm text-[#7C7C7C] md:text-base">
           *Обязательное поле для ввода

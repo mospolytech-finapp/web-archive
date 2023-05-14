@@ -11,6 +11,7 @@ import CategoryDataService from '../services/category-service'
 
 import ModalTransaction from './ui/modals/ModalTransactions'
 import ModalBtns from './ui/modals/ModalBtns'
+import ModalInputsBtns from './ui/modals/ModalInputsBtns'
 import Button from './ui/Button'
 
 const filterSchema = z.object({
@@ -35,6 +36,9 @@ const transactionSchema = z.object({
 })
 
 const Transactions = () => {
+  const modalEditForm = useForm({
+    resolver: zodResolver(transactionSchema)
+  })
   const [transactions, setTransactions] = useState<Array<ITransactionData>>([])
   const [categories, setCategories] = useState<Array<ICategoryData>>([])
   const [selectedTransaction, setSelectedTransaction] = useState<ITransactionData>()
@@ -44,6 +48,13 @@ const Transactions = () => {
   const [isModalMoreOpen, setIsModalMoreOpen] = useState(false)
   const [isModalBtnOpen, setIsModalBtnOpen] = useState(false)
   const [isModalFilterOpen, setIsModalFilterOpen] = useState(false)
+
+  const [isModalSettingsOpen, setIsModalSettingsOpen] = useState(false)
+  const [isModalSgnsMoreOpen, setIsModalSgnsMoreOpen] = useState(false)
+  const [isModalSgnsType, setIsModalSgnsType] = useState('')
+  const [isModalSgnsAdd, setIsModalSgnsAdd] = useState(false)
+  const [isModalSgnsChange, setIsModalSgnsChange] = useState(false)
+  const [isModalSgnsChangeValue, setIsModalSgnsChangeValue] = useState('')
 
   const [loading, setLoading] = useState(true)
 
@@ -239,9 +250,166 @@ const Transactions = () => {
           >
             {'Добавить'}
           </Button>
-          <img alt="параметры" className="mt-3 w-4" src={settings_img} />
+          <button
+            onClick={() => {
+              setIsModalSettingsOpen(true)
+            }}
+          >
+            <img alt="параметры" className="mt-3 w-4" src={settings_img} />
+          </button>
         </div>
       </div>
+      <ModalBtns
+        buttons={[
+          {
+            background: 'bg-white',
+            textColor: 'text-black',
+            children: 'Доходы',
+            onClick: () => {
+              setIsModalSgnsMoreOpen(true)
+              setIsModalSgnsType('доходов')
+              setIsModalSettingsOpen(false)
+            }
+          },
+          {
+            background: 'bg-white',
+            textColor: 'text-black',
+            children: 'Расходы',
+            onClick: () => {
+              setIsModalSgnsMoreOpen(true)
+              setIsModalSgnsType('расходов')
+              setIsModalSettingsOpen(false)
+            }
+          }
+        ]}
+        close=""
+        direction="flex-col"
+        open={isModalSettingsOpen}
+        title="Категории"
+        onClose={() => setIsModalSettingsOpen(false)}
+      />
+      <ModalInputsBtns
+        buttons={[
+          {
+            background: 'from-light-green to-light-blue bg-gradient-to-r',
+            textColor: 'text-white',
+            children: 'сохранить',
+            onClick: () => {
+              setIsModalSgnsMoreOpen(false)
+            }
+          },
+          {
+            background: 'from-light-blue to-purple-active-link bg-gradient-to-r',
+            textColor: 'text-white',
+            children: 'Добавить',
+            onClick: () => {
+              setIsModalSgnsAdd(true)
+              setIsModalSgnsMoreOpen(false)
+            }
+          }
+        ]}
+        close="сохранить"
+        inputs={[
+          {
+            id: '',
+            label: '',
+            placeholder: `Зарплата`,
+            name: '1',
+            type: 'button',
+            onClick: () => {
+              setIsModalSgnsChange(true)
+              setIsModalSgnsChangeValue(`Зарплата`)
+              setIsModalSgnsMoreOpen(false)
+            }
+          },
+          {
+            id: '',
+            label: '',
+            placeholder: `Пособия`,
+            name: '2',
+            type: 'button',
+            onClick: () => {
+              setIsModalSgnsChange(true)
+              setIsModalSgnsChangeValue(`Пособия`)
+              setIsModalSgnsMoreOpen(false)
+            }
+          },
+          {
+            id: '',
+            label: '',
+            placeholder: `Подарок`,
+            name: '3',
+            type: 'button',
+            onClick: () => {
+              setIsModalSgnsChange(true)
+              setIsModalSgnsChangeValue(`Подарок`)
+              setIsModalSgnsMoreOpen(false)
+            }
+          }
+        ]}
+        open={isModalSgnsMoreOpen}
+        register={modalEditForm.register}
+        title={`Категории ${isModalSgnsType}`}
+        onClose={() => setIsModalSgnsMoreOpen(false)}
+      />
+      <ModalInputsBtns
+        buttons={[
+          {
+            background: 'from-light-green to-light-blue bg-gradient-to-r',
+            textColor: 'text-white',
+            children: 'Изменить',
+            onClick: () => {
+              setIsModalSgnsChange(false)
+            }
+          }
+        ]}
+        close=""
+        inputs={[
+          {
+            id: '',
+            label: '',
+            placeholder: `${isModalSgnsChangeValue}`,
+            name: `${isModalSgnsChangeValue}`,
+            type: 'text',
+            onClick: () => {
+              null
+            }
+          }
+        ]}
+        open={isModalSgnsChange}
+        register={modalEditForm.register}
+        title={`Изменение категории ${isModalSgnsType}`}
+        onClose={() => setIsModalSgnsChange(false)}
+      />
+      <ModalInputsBtns
+        buttons={[
+          {
+            background: 'from-light-blue to-purple-active-link bg-gradient-to-r',
+            textColor: 'text-white',
+            children: 'сохранить',
+            onClick: () => {
+              setIsModalSgnsAdd(false)
+            }
+          }
+        ]}
+        close=""
+        inputs={[
+          {
+            id: '',
+            label: '',
+            placeholder: `Введите название`,
+            name: 'new',
+            type: 'text',
+            onClick: () => {
+              null
+            }
+          }
+        ]}
+        open={isModalSgnsAdd}
+        register={modalEditForm.register}
+        title={`Новая категория ${isModalSgnsType}`}
+        onClose={() => setIsModalSgnsAdd(false)}
+      />
       <ModalTransaction
         buttons={[
           {
@@ -291,7 +459,10 @@ const Transactions = () => {
             label: 'Название',
             placeholder: 'Магнит',
             name: 'name',
-            type: 'text'
+            type: 'text',
+            onClick: () => {
+              null
+            }
           }
         ]}
         open={isModalFilterOpen}
@@ -354,7 +525,10 @@ const Transactions = () => {
             label: 'Название',
             placeholder: 'Магнит',
             name: 'name',
-            type: 'text'
+            type: 'text',
+            onClick: () => {
+              null
+            }
           }
         ]}
         open={isModalAddOpen}
@@ -424,7 +598,10 @@ const Transactions = () => {
                 placeholder: selectedTransaction.name,
                 name: 'name',
                 type: 'text',
-                value: selectedTransaction.name
+                value: selectedTransaction.name,
+                onClick: () => {
+                  null
+                }
               }
             ]}
             open={isModalMoreOpen}
