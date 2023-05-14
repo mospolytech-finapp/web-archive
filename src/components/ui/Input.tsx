@@ -19,6 +19,7 @@ interface InputProps {
 
 const Input = ({ ...props }: InputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const [value, setValue] = useState(props.value ?? '')
 
   function togglePasswordVisibility(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
@@ -112,7 +113,10 @@ const Input = ({ ...props }: InputProps) => {
             name={props.name}
             placeholder={props.placeholder}
             type={props.type}
-            value={props.value}
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value)
+            }}
           />
         </div>
       )

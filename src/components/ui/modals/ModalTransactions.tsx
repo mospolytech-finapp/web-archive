@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { useForm, FieldValues, UseFormRegister } from 'react-hook-form'
+import React, { useRef } from 'react'
+import { FieldValues, UseFormRegister } from 'react-hook-form'
 import ITransactionData from 'types/transaction'
 
 import Input from '../Input'
@@ -16,8 +16,16 @@ interface ModalProps {
     placeholder: string
     name: string
     options: Array<{ value: string; label: string }>
+    value?: string
   }[]
-  inputs: { id: string; label: string; placeholder: string; name: string; type: string }[]
+  inputs: {
+    id: string
+    label: string
+    placeholder: string
+    name: string
+    type: string
+    value?: string
+  }[]
   buttons: { background: string; textColor: string; children: string; onClick: () => void }[]
   title: string
   close: string
@@ -30,29 +38,31 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
   const dialogContentRef = useRef<HTMLDivElement>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
 
-  const ModalClose = ({ open, onClose }: ModalProps) => {
-    // ...
-    useEffect(() => {
-      function Close() {
-        if (dialogRef.current) {
-          dialogRef.current.close()
-        }
-        onClose()
-      }
-      if (dialogRef.current) {
-        if (open) {
-          dialogRef.current.showModal()
-        } else {
-          dialogRef.current.close()
-        }
-        dialogRef.current?.addEventListener('click', (e) => {
-          if (e.target instanceof Node && !dialogRef.current?.contains(e.target)) {
-            Close()
-          }
-        })
-      }
-    }, [open, onClose])
-  }
+  // console.log(props)
+
+  // const ModalClose = ({ open, onClose }: ModalProps) => {
+  //   // ...
+  //   useEffect(() => {
+  //     function Close() {
+  //       if (dialogRef.current) {
+  //         dialogRef.current.close()
+  //       }
+  //       onClose()
+  //     }
+  //     if (dialogRef.current) {
+  //       if (open) {
+  //         dialogRef.current.showModal()
+  //       } else {
+  //         dialogRef.current.close()
+  //       }
+  //       dialogRef.current?.addEventListener('click', (e) => {
+  //         if (e.target instanceof Node && !dialogRef.current?.contains(e.target)) {
+  //           Close()
+  //         }
+  //       })
+  //     }
+  //   }, [open, onClose])
+  // }
 
   function handleClose() {
     if (dialogRef.current) {
@@ -111,6 +121,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
               options={select.options}
               placeholder={select.placeholder}
               register={props.register}
+              value={select.value ?? ''}
             />
           ))}
           {props.inputs.map((input, index) => (
@@ -123,6 +134,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
               placeholder={input.placeholder}
               register={props.register}
               type={input.type}
+              value={input.value ?? ''}
             />
           ))}
           {props.filter === false ? (
@@ -136,6 +148,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     name="date"
                     register={props.register}
                     type="date"
+                    value={props.transaction?.date}
                   />
                 </div>
                 <div className="mb-2 flex flex-col md:w-32">
@@ -146,6 +159,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     name="time"
                     register={props.register}
                     type="time"
+                    value={props.transaction?.time}
                   />
                 </div>
                 <div className="mb-2 flex flex-col md:w-32">
@@ -157,6 +171,11 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     placeholder={'1213'}
                     register={props.register}
                     type="number"
+                    value={
+                      props.transaction?.amount
+                        ? Math.abs(parseFloat(props.transaction?.amount)).toString()
+                        : ''
+                    }
                   />
                 </div>
               </div>
@@ -169,6 +188,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                   placeholder={'1213'}
                   register={props.register}
                   type="text"
+                  value={props.transaction?.description}
                 />
               </div>
             </>
@@ -202,9 +222,9 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                 <div className="mb-2 flex w-24 flex-col sm:w-32">
                   <Input
                     error={false}
-                    id="date"
+                    id="date_min"
                     label="Дата"
-                    name="date"
+                    name="date_min"
                     register={props.register}
                     type="date"
                   />

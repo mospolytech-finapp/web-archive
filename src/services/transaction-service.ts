@@ -3,8 +3,16 @@ import ITransactionData from 'types/transaction'
 import http from '../services/http-common'
 
 class TransactionDataService {
-  async getAll() {
-    return await http.get<Array<ITransactionData>>('/finance/transactions/')
+  async getAll(filter?: Map<string, string>) {
+    let filterString = ''
+
+    if (filter != null) {
+      filterString = `?${Array.from(filter.entries())
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&')}`
+    }
+
+    return await http.get<Array<ITransactionData>>(`/finance/transactions/${filterString}`)
   }
 
   async create(data: ITransactionData) {

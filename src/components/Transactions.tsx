@@ -13,6 +13,17 @@ import ModalTransaction from './ui/modals/ModalTransactions'
 import ModalBtns from './ui/modals/ModalBtns'
 import Button from './ui/Button'
 
+const filterSchema = z.object({
+  // type: z.string(),
+  category: z.number(),
+  name: z.string(),
+  amount_min: z.number(),
+  amount_max: z.number(),
+  date_min: z.string(),
+  date_max: z.string(),
+  description: z.string()
+})
+
 const transactionSchema = z.object({
   name: z.string(),
   amount: z.string(),
@@ -26,15 +37,22 @@ const transactionSchema = z.object({
 const Transactions = () => {
   const [transactions, setTransactions] = useState<Array<ITransactionData>>([])
   const [categories, setCategories] = useState<Array<ICategoryData>>([])
+  const [selectedTransaction, setSelectedTransaction] = useState<ITransactionData>()
+  const [filterMap, setFilterMap] = useState<Map<string, string>>()
 
   const [isModalAddOpen, setIsModalAddOpen] = useState(false)
   const [isModalMoreOpen, setIsModalMoreOpen] = useState(false)
   const [isModalBtnOpen, setIsModalBtnOpen] = useState(false)
   const [isModalFilterOpen, setIsModalFilterOpen] = useState(false)
-  const [selectedTransaction, setSelectedTransaction] = useState<ITransactionData>()
+
+  const [loading, setLoading] = useState(true)
 
   const modalAddTransaction = useForm({
     resolver: zodResolver(transactionSchema)
+  })
+
+  const modalFilterTransaction = useForm({
+    resolver: zodResolver(filterSchema)
   })
 
   const handleModalClose = () => {
@@ -66,6 +84,18 @@ const Transactions = () => {
     }
   }
 
+  const filterTransactions = async () => {
+    setLoading(true)
+    try {
+      const response = await TransactionDataService.getAll(filterMap)
+
+      setTransactions(response.data)
+    } catch (err) {
+      console.error(err)
+    }
+    setLoading(false)
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       let transactionsStatus = null
@@ -81,7 +111,12 @@ const Transactions = () => {
     }
 
     fetchData()
+    setLoading(false)
   }, [])
+
+  useEffect(() => {
+    filterTransactions()
+  }, [filterMap])
 
   const createTransaction = async (data: FieldValues) => {
     try {
@@ -130,8 +165,6 @@ const Transactions = () => {
   const deleteTransaction = async (id: number) => {
     try {
       const response = await TransactionDataService.delete(id)
-
-      console.log(response)
 
       setTransactions(transactions.filter((transaction) => transaction.id != id))
     } catch (err) {
@@ -218,7 +251,29 @@ const Transactions = () => {
               '              to-light-blue active:shadow-custom',
             textColor: 'text-white',
             children: 'Сохранить',
-            onClick: () => null
+            onClick: () => {
+              setIsModalFilterOpen(false)
+
+              modalFilterTransaction.setValue(
+                'category',
+                categories.find(
+                  (category) => category.name == modalFilterTransaction.watch('category')
+                )?.id
+              )
+
+              setFilterMap(
+                new Map(
+                  Object.entries(modalFilterTransaction.watch()).filter(
+                    ([key, value]) =>
+                      value !== '' &&
+                      value !== undefined &&
+                      Object.keys(filterSchema.shape).includes(key)
+                  )
+                )
+              )
+
+              // modalFilterTransaction.reset()
+            }
           },
           {
             background:
@@ -240,7 +295,7 @@ const Transactions = () => {
           }
         ]}
         open={isModalFilterOpen}
-        register={modalAddTransaction.register}
+        register={modalFilterTransaction.register}
         select={[
           {
             id: 'type',
@@ -324,7 +379,10 @@ const Transactions = () => {
           }
         ]}
         title={'Транзакция'}
-        onClose={() => setIsModalAddOpen(false)}
+        onClose={() => {
+          setIsModalAddOpen(false)
+          modalAddTransaction.reset()
+        }}
       />
       {selectedTransaction && (
         <>
@@ -363,9 +421,10 @@ const Transactions = () => {
               {
                 id: 'name',
                 label: 'Название',
-                placeholder: selectedTransaction.name ?? '',
+                placeholder: selectedTransaction.name,
                 name: 'name',
-                type: 'text'
+                type: 'text',
+                value: selectedTransaction.name
               }
             ]}
             open={isModalMoreOpen}
@@ -379,7 +438,8 @@ const Transactions = () => {
                 options: [
                   { value: 'доходы', label: 'доходы' },
                   { value: 'расходы', label: 'расходы' }
-                ]
+                ],
+                value: parseFloat(selectedTransaction.amount) > 0 ? 'доход' : 'расход'
               },
               {
                 id: 'category',
@@ -389,12 +449,18 @@ const Transactions = () => {
                 options: categories.map((category) => ({
                   value: category.name,
                   label: category.name
-                }))
+                })),
+                value:
+                  categories.find((category) => category.id == selectedTransaction.category)
+                    ?.name ?? ''
               }
             ]}
             title={'Транзакция'}
             transaction={selectedTransaction}
-            onClose={() => setIsModalMoreOpen(false)}
+            onClose={() => {
+              setIsModalMoreOpen(false)
+              modalAddTransaction.reset()
+            }}
           />
           <ModalBtns
             buttons={[
@@ -425,12 +491,11 @@ const Transactions = () => {
               .split('-')
               .reverse()
               .join('.')}?`}
-            // transaction={selectedTransaction}
             onClose={() => setIsModalBtnOpen(false)}
           />
         </>
       )}
-      {categories.length == 0 ? (
+      {loading ? (
         <p className="text-center align-middle">Loading</p>
       ) : (
         <ul
