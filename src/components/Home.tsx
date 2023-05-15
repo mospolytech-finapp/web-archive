@@ -213,6 +213,8 @@ const Home = () => {
               </button>
               <div className="mx-auto">
                 <Button
+                  margin=''
+                  w="w-full"
                   background="bg-gradient-to-r from-light-blue to-purple-active-link"
                   textColor="text-white"
                   onClick={() => null}

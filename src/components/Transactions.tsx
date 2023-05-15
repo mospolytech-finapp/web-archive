@@ -222,6 +222,8 @@ const Transactions = () => {
          "
         >
           <Button
+            margin="mb-3 md:mr-8"
+            w="md:w-48"
             background="from-light-green to-light-blue bg-gradient-to-r"
             textColor="text-white"
             onClick={() => {
@@ -231,6 +233,8 @@ const Transactions = () => {
             {'Фильтры'}
           </Button>
           <Button
+            margin="mb-3 md:mr-8"
+            w="md:w-48"
             background="from-light-blue to-purple-active-link bg-gradient-to-r"
             textColor="text-white"
             onClick={() => {
