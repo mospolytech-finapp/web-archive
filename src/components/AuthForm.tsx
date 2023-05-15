@@ -10,6 +10,7 @@ import UserDataService from '../services/user-service'
 import Input from './ui/Input'
 import Button from './ui/Button'
 import ModalContact from './ui/ModalContact'
+import Header from './ui/Header'
 
 const schema = z.object({
   username: z.string().email({ message: 'Неверный логин или пароль' }),
@@ -20,7 +21,7 @@ const schema = z.object({
 const AuthForm = () => {
   const {
     register,
-    handleSubmit,
+    watch,
     formState: { errors, isValid }
   } = useForm({
     mode: 'onBlur',
@@ -29,102 +30,111 @@ const AuthForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [loginError, setLoginError] = useState('')
 
-  const onSubmit = (data: FieldValues) => {
-    UserDataService.login({
-      username: data.username,
-      password: data.password
-    })
-      .then((response) => {
-        console.log(response.data)
-        setLoginError('')
+  const onSubmit = async (data: FieldValues) => {
+    try {
+      const response = await UserDataService.login({
+        username: data.username,
+        password: data.password
+      })
 
-        return response
-      })
-      .catch((err) => {
-        if (axios.isAxiosError(err)) {
-          setLoginError(err.response?.data.errors[0].detail.toString())
-        } else {
-          console.log(err)
-        }
-      })
+      localStorage.setItem('token', response.data.token)
+      setLoginError('')
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setLoginError(err.response?.data.errors[0].detail.toString())
+        console.error(loginError)
+      } else {
+        console.error(err)
+      }
+    }
   }
 
   return (
-    <form
-      className="rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <fieldset className="mb-5 grid w-72 md:w-96 lg:mb-4">
-        <legend className="from-light-green-text to-light-blue-text mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
-          Вход
-        </legend>
-        <label className="mb-3.5 flex flex-col items-start justify-start" htmlFor="username">
-          <span className="mb-2.5 text-xs uppercase text-[#2B2B2B] md:text-base">
-            АДРЕС ЭЛЕКТРОННОЙ ПОЧТЫ
-          </span>
+    <>
+      <form className="mt-28 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14">
+        <fieldset className="mb-5 grid w-72 md:w-96 lg:mb-4">
+          <legend className="from-light-green-text to-light-blue-text mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
+            Вход
+          </legend>
           <Input
             error={errors.username ? true : false}
             id="username"
+            label="Адрес электронной почты"
             name="username"
+            placeholder=""
             register={register}
             type="email"
+            onClick={() => {
+              null
+            }}
           />
-        </label>
-        <label className="mb-2 flex flex-col items-start justify-start" htmlFor="password">
-          <span className="mb-2.5 text-xs uppercase text-[#2B2B2B] md:text-base">ПАРОЛЬ</span>
           <Input
             error={errors.password ? true : false}
             id="password"
+            label="Пароль"
             name="password"
+            placeholder=""
             register={register}
             type="password"
+            onClick={() => {
+              null
+            }}
           />
-        </label>
-        <div className="mb-6 flex min-w-full justify-between">
-          {(errors.username || errors.password || loginError) && (
-            <p className="text-xs text-[#FF6F6F] md:mr-5 md:text-base">
-              {errors.username?.message?.toString() ||
-                errors.password?.message?.toString() ||
-                loginError}
-            </p>
-          )}
-          <a
-            className="focus:border-blue-focus text-xs text-[#7C7C7C] focus:border-2 focus:outline-0 md:text-base"
-            href="#"
-          >
-            Забыли пароль?
-          </a>
-        </div>
-        <label className="mb-8 flex items-center" htmlFor="remember_password">
+          <div className="mb-6 flex min-w-full justify-between">
+            {(errors.username || errors.password || loginError) && (
+              <p className="text-xs text-[#FF6F6F] md:mr-5 md:text-base">
+                {errors.username?.message?.toString() ||
+                  errors.password?.message?.toString() ||
+                  loginError}
+              </p>
+            )}
+            <a
+              className="focus:border-blue-focus text-xs text-[#7C7C7C] focus:border-2 focus:outline-0 md:text-base"
+              href="#"
+            >
+              Забыли пароль?
+            </a>
+          </div>
           <Input
+            error={errors.password ? true : false}
             id="remember_password"
+            label="Запомнить аккаунт"
             name="remember_password"
+            placeholder=""
             register={register}
             type="checkbox"
+            onClick={() => {
+              null
+            }}
           />
-          <span className="ml-3 text-xs font-light text-[#2B2B2B] md:text-base">
-            Запомнить аккаунт
-          </span>
-        </label>
-        <Button disable={!isValid}>Войти</Button>
-      </fieldset>
-      <div className="flex items-center justify-between">
-        <Link className="mr-5 text-xs font-light text-[#07836C] md:text-base" to="/register">
-          Нужна учетная запись?
-        </Link>
-        <button
-          className="text-xs font-light text-[#3076B8] md:text-base"
-          onClick={(event) => {
-            event.stopPropagation()
-            event.preventDefault()
-            setIsModalOpen(true)
-          }}
-        >
-          Связаться с нами
-        </button>
-      </div>
-      <ModalContact open={isModalOpen} onClose={() => setIsModalOpen(false)} />
-    </form>
+          <Button
+            background="from-light-green to-light-blue bg-gradient-to-r"
+            disable={!isValid}
+            textColor="text-white"
+            // TODO: исправить отправку запросов, onSubmit
+            onClick={() => onSubmit(watch())}
+          >
+            {'Войти'}
+          </Button>
+        </fieldset>
+        <div className="flex items-center justify-between">
+          <Link className="mr-5 text-xs font-light text-[#07836C] md:text-base" to="/register">
+            Нужна учетная запись?
+          </Link>
+          <button
+            className="text-xs font-light text-[#3076B8] md:text-base"
+            onClick={(event) => {
+              event.stopPropagation()
+              event.preventDefault()
+              setIsModalOpen(true)
+            }}
+          >
+            Связаться с нами
+          </button>
+        </div>
+        <ModalContact open={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      </form>
+    </>
   )
 }
 
