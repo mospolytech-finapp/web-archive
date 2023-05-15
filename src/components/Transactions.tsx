@@ -187,7 +187,8 @@ const Transactions = () => {
     <div
       className="
       h-screen
-      w-screen bg-white
+      w-full
+      bg-white
       {/*px-3*/}
       pt-9
       {/*sm:px-10*/}

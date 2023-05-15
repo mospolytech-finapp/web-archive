@@ -22,9 +22,8 @@ const Header = () => {
   return (
     <header
       className="
-    {/*absolute left-0 top-0 */}
+    {/*absolute left-0 top-0*/}
     h-24
-
     {/*w-screen*/}
     max-w-screen
     bg-[#202020]

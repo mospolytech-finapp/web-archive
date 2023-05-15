@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 
 import AuthForm from './AuthForm'
 import RegisterForm from './RegisterForm'
@@ -10,8 +10,13 @@ import GoalProgressBar from './ui/GoalProgressBar'
 import Header from './ui/Header'
 import Home from './Home'
 import Error404 from './ui/Error404'
+import Profile from './ui/modals/Profile'
 
 function App() {
+  const location = useLocation()
+  const isAuthRoute = location.pathname === '/auth'
+  const isRegisterRoute = location.pathname === '/register'
+
   return (
     <>
       <main
@@ -22,11 +27,12 @@ function App() {
     bg-[url('assets/images/login_background.svg')] from-blue-700 to-blue-800 bg-cover"
       >
         <section>
-          <Header />
+          {!isAuthRoute && !isRegisterRoute && <Header />}
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<AuthForm />} path="/auth" />
             <Route element={<RegisterForm />} path="/register" />
+            <Route element={<Profile />} path="/profile" />
             <Route
               element={
                 <Goal

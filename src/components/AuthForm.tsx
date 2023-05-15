@@ -10,7 +10,6 @@ import UserDataService from '../services/user-service'
 import Input from './ui/Input'
 import Button from './ui/Button'
 import ModalContact from './ui/ModalContact'
-import Header from './ui/Header'
 
 const schema = z.object({
   username: z.string().email({ message: 'Неверный логин или пароль' }),
@@ -50,8 +49,8 @@ const AuthForm = () => {
   }
 
   return (
-    <>
-      <form className="mt-28 rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14">
+    <div className="pt-10">
+      <form className="mx-auto  rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14">
         <fieldset className="mb-5 grid w-72 md:w-96 lg:mb-4">
           <legend className="from-light-green-text to-light-blue-text mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
             Вход
@@ -134,7 +133,7 @@ const AuthForm = () => {
         </div>
         <ModalContact open={isModalOpen} onClose={() => setIsModalOpen(false)} />
       </form>
-    </>
+    </div>
   )
 }
 
