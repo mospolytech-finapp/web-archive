@@ -42,7 +42,7 @@ const AuthForm = () => {
       navigate('/')
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        setLoginError(err.response?.data.errors[0].detail.toString())
+        setLoginError(err.response?.data.errors[0].detail)
         console.error(loginError)
       } else {
         console.error(err)

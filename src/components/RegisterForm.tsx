@@ -52,7 +52,7 @@ const RegisterForm = () => {
       navigate('/auth')
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        setRegError(err.response?.data[Object.keys(err.response?.data)[0]][0].toString())
+        setRegError(err.response?.data.errors[0].detail)
         console.error(regError)
       } else {
         console.error(err)
@@ -139,6 +139,7 @@ const RegisterForm = () => {
               null
             }}
           />
+          {regError && <span className="text-xs text-[#FF6F6F] md:text-base">{regError}</span>}
           <span className="mb-4 text-sm text-[#7C7C7C] md:text-base">
             *Обязательное поле для ввода
           </span>
