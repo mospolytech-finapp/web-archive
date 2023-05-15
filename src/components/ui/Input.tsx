@@ -116,6 +116,33 @@ const Input = ({ ...props }: InputProps) => {
         </div>
       )
 
+    case 'date':
+      return (
+        <div className="mb-2">
+          <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={props.name}>
+            {props.label}
+          </label>
+          <input
+            {...props.register(props.name)}
+            aria-invalid={props.error}
+            className={`text-true-gray-900 placeholder:text-light-gray max-h-12 w-full rounded-full py-4 px-6 text-xs font-normal ${
+              props.error ? 'bg-error border-light-red border-2' : 'bg-[#ECECEC]}'
+            }
+              ${props.disabled ? 'bg-white text-black/50' : ''}
+              `}
+            disabled={props.disabled}
+            id={props.id}
+            name={props.name}
+            placeholder={props.placeholder}
+            type={props.type}
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value)
+            }}
+          />
+        </div>
+      )
+
     default:
       return (
         <div className="mb-2">
