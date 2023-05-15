@@ -18,57 +18,58 @@ const Home = () => {
       >
         <div className="flex flex-col lg:flex-row lg:justify-evenly">
           <div className="mb-9 lg:mb-0">
-            <div className="relative pt-2">
+            <div className="relative mx-auto w-32 pt-2 lg:mx-0 lg:w-52">
               <button
                 className="
         bg- bg-dark
         block
-        w-full
+        w-32
         rounded-3xl
         py-1
         px-2
-        text-center
-        text-xs text-white
+        text-left
+        text-xs
+        text-white lg:w-52
         lg:text-lg
         "
               >
                 Обновить график
+                <img
+                  alt=""
+                  className="absolute right-[8%] top-[50%] h-2 lg:top-[40%] lg:h-4"
+                  src={refresh}
+                />
               </button>
-              <img
-                alt=""
-                className="absolute right-[20%] top-[50%] lg:top-[40%] lg:h-4"
-                src={refresh}
-              />
             </div>
             <div className="bg-dark my-3 rounded-3xl px-2 py-3 text-xs">
               <div className="flex justify-evenly gap-3">
-                <div>
+                <div className="lg:w-44">
                   <span className="bg-light-green mb-2 block w-full rounded-3xl py-1 px-2 text-center font-bold lg:text-lg">
                     Доходы за месяц
                   </span>
                   <div className="relative">
                     <img
                       alt=""
-                      className="absolute top-1.5 left-2 z-10 lg:top-2 lg:h-4"
+                      className="absolute top-1.5 left-2 z-10 lg:top-2 lg:h-6"
                       src={arrow_grow}
                     />
-                    <span className="bg-light-green mb-4 block w-full rounded-3xl py-1 px-7 text-center font-bold  lg:text-lg">
-                      1234234 р
+                    <span className="bg-light-green mb-4 block w-full rounded-2xl py-1 pl-12 font-bold lg:text-3xl">
+                      16 666 р
                     </span>
                   </div>
                 </div>
-                <div>
+                <div className="lg:w-44">
                   <span className="bg-light-blue mb-2 block w-full rounded-3xl py-1 px-2 text-center font-bold text-white lg:text-lg">
                     Расходы за месяц
                   </span>
                   <div className="relative">
                     <img
                       alt=""
-                      className="absolute top-1.5 left-2 z-10 lg:top-2 lg:h-4"
+                      className="absolute top-1.5 left-2 z-10 lg:top-2 lg:h-6"
                       src={arrow_down}
                     />
-                    <span className="bg-light-blue mb-4 block w-full rounded-3xl py-1 px-7 text-center font-bold text-white lg:text-lg ">
-                      1234234 р
+                    <span className="bg-light-blue mb-4 block w-full rounded-2xl py-1 pl-12 font-bold text-white lg:text-3xl ">
+                      16 666 р
                     </span>
                   </div>
                 </div>
@@ -86,7 +87,7 @@ const Home = () => {
               <span
                 className="
         from-light-green to-light-blue
-        block w-full rounded-3xl
+        block w-full rounded-2xl
         bg-gradient-to-r py-1 px-2 text-center
         text-xs text-white  lg:text-lg"
               >
@@ -95,7 +96,7 @@ const Home = () => {
               <Link
                 className="
         bg- bg-dark
-        block w-full rounded-3xl
+        block w-full rounded-2xl
         py-1
         px-2
         text-center
@@ -164,43 +165,43 @@ const Home = () => {
               overflow-y-scroll pr-2 lg:max-h-60
               "
                 >
-                  <div className="from-light-blue to-purple-active-link rounded-r-3xl bg-gradient-to-r pl-5 lg:text-lg">
+                  <div className="from-light-blue to-purple-active-link rounded-r-2xl bg-gradient-to-r pl-5 lg:text-lg">
                     <span className="text-s block w-fit font-bold text-white">
                       Премия +2332 23 23
                     </span>
                     <span className="text-s block w-fit font-bold text-white">28.01.23</span>
                   </div>
-                  <div className="from-light-green to-light-blue rounded-r-3xl bg-gradient-to-r pl-5 lg:text-lg">
+                  <div className="from-light-green to-light-blue rounded-r-2xl bg-gradient-to-r pl-5 lg:text-lg">
                     <span className="text-s block w-fit font-bold text-white">
                       Премия +2332 23 23
                     </span>
                     <span className="text-s block w-fit font-bold text-white">28.01.23</span>
                   </div>
-                  <div className="from-light-green to-light-blue rounded-r-3xl bg-gradient-to-r pl-5 lg:text-lg">
+                  <div className="from-light-green to-light-blue rounded-r-2xl bg-gradient-to-r pl-5 lg:text-lg">
                     <span className="text-s block w-fit font-bold text-white">
                       Премия +2332 23 23
                     </span>
                     <span className="text-s block w-fit font-bold text-white">28.01.23</span>
                   </div>
-                  <div className="from-light-green to-light-blue rounded-r-3xl bg-gradient-to-r pl-5 lg:text-lg">
+                  <div className="from-light-green to-light-blue rounded-r-2xl bg-gradient-to-r pl-5 lg:text-lg">
                     <span className="text-s block w-fit font-bold text-white">
                       Премия +2332 23 23
                     </span>
                     <span className="text-s block w-fit font-bold text-white">28.01.23</span>
                   </div>
-                  <div className="from-light-green to-light-blue rounded-r-3xl bg-gradient-to-r pl-5 lg:text-lg">
+                  <div className="from-light-green to-light-blue rounded-r-2xl bg-gradient-to-r pl-5 lg:text-lg">
                     <span className="text-s block w-fit font-bold text-white">
                       Премия +2332 23 23
                     </span>
                     <span className="text-s block w-fit font-bold text-white">28.01.23</span>
                   </div>
-                  <div className="from-light-green to-light-blue rounded-r-3xl bg-gradient-to-r pl-5 lg:text-lg">
+                  <div className="from-light-green to-light-blue rounded-r-2xl bg-gradient-to-r pl-5 lg:text-lg">
                     <span className="text-s block w-fit font-bold text-white">
                       Премия +2332 23 23
                     </span>
                     <span className="text-s block w-fit font-bold text-white">28.01.23</span>
                   </div>
-                  <div className="from-light-green to-light-blue rounded-r-3xl bg-gradient-to-r pl-5 lg:text-lg">
+                  <div className="from-light-green to-light-blue rounded-r-2xl bg-gradient-to-r pl-5 lg:text-lg">
                     <span className="text-s block w-fit font-bold text-white">
                       Премия +2332 23 23
                     </span>
@@ -208,12 +209,12 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-              <button className="mx-auto block w-fit rounded-3xl border-4 border-black px-2 text-center font-bold">
+              <button className="mx-auto block w-fit rounded-2xl border-2 border-black px-2 text-center font-bold lg:px-10 lg:py-2">
                 Все транзакции
               </button>
-              <div className="mx-auto">
+              <div className="mx-auto grid">
                 <Button
-                  background="bg-gradient-to-r from-light-blue to-purple-active-link"
+                  background="justify-self-center bg-gradient-to-r from-light-blue to-purple-active-link"
                   textColor="text-white"
                   onClick={() => null}
                 >
