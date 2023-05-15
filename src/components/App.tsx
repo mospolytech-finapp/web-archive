@@ -1,12 +1,12 @@
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 import AuthForm from './AuthForm'
 import RegisterForm from './RegisterForm'
 import Goal from './Goal'
-import TestHeader from './TestHeader'
 import Transactions from './Transactions'
-import GoalDonutChart from './ui/GoalDonutChart'
-import GoalProgressBar from './ui/GoalProgressBar'
+// import GoalDonutChart from './ui/GoalDonutChart'
+// import GoalProgressBar from './ui/GoalProgressBar'
 import Header from './ui/Header'
 import Home from './Home'
 import Error404 from './ui/Error404'
@@ -16,6 +16,14 @@ function App() {
   const location = useLocation()
   const isAuthRoute = location.pathname === '/auth'
   const isRegisterRoute = location.pathname === '/register'
+  const isToken = localStorage.getItem('token') !== null
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (localStorage.getItem('token') === null) {
+      navigate('/auth')
+    }
+  }, [])
 
   return (
     <>
@@ -29,34 +37,38 @@ function App() {
         <section>
           {!isAuthRoute && !isRegisterRoute && <Header />}
           <Routes>
-            <Route element={<Home />} path="/" />
             <Route element={<AuthForm />} path="/auth" />
             <Route element={<RegisterForm />} path="/register" />
-            <Route element={<Profile />} path="/profile" />
-            <Route
-              element={
-                <Goal
-                  achievement_date="2022-12-13"
-                  amount_target="1250000"
-                  id={14}
-                  name="Машина"
-                  opening_date="2022-12-13"
+            {isToken && (
+              <>
+                <Route element={<Home />} path="/" />
+                <Route element={<Profile />} path="/profile" />
+                <Route
+                  element={
+                    <Goal
+                      achievement_date="2023-08-15"
+                      amount_now="0"
+                      amount_target="1000000"
+                      id={1}
+                      name="Машина"
+                      opening_date="2023-05-15"
+                    />
+                  }
+                  path="/goals"
                 />
-              }
-              path="/goals"
-            />
-            <Route element={<TestHeader />} path="/header" />
-            <Route element={<Transactions />} path="/transactions" />
-            <Route element={<GoalDonutChart percent={100} />} path="/donut" />
+                <Route element={<Transactions />} path="/transactions" />
+              </>
+            )}
+            {/* <Route element={<GoalDonutChart percent={100} />} path="/donut" /> */}
             <Route element={<Error404 />} path="*" />
-            <Route
+            {/* <Route
               element={
                 <div className="w-96">
                   <GoalProgressBar progress={90} progressText="345 050" />
                 </div>
               }
               path="/progress"
-            />
+            /> */}
           </Routes>
         </section>
       </main>
