@@ -59,7 +59,7 @@ const RegisterForm = () => {
   }
 
   return (
-    <>
+    <div className="pt-10">
       <form className="mx-2.5 rounded-3xl bg-[#E5E5E5CC]/80 py-16 px-8 font-sans font-normal tracking-normal sm:mx-auto md:max-w-lg md:px-14 md:py-8 xl:px-11 xl:py-14">
         <fieldset className="mb-5 grid lg:mb-4">
           <legend className="from-light-green-text to-light-blue-text mb-4 bg-gradient-to-r bg-clip-text text-center text-xl font-medium text-transparent sm:text-2xl md:mb-10">
@@ -172,7 +172,7 @@ const RegisterForm = () => {
           }}
         />
       </form>
-    </>
+    </div>
   )
 }
 
