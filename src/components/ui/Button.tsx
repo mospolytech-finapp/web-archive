@@ -11,7 +11,7 @@ interface Button {
 const Button = ({ ...props }: Button) => {
   return (
     <button
-      className={`${props.background} ${props.w} mr-4 flex-1 rounded-full py-3 px-2 text-base font-light ${props.textColor} mt-3 disabled:bg-gray-500 disabled:bg-none ${props.margin} md:text-xl`}
+      className={`${props.background} ${props.w} ${props.margin} flex-1 rounded-full py-3 px-2 text-base font-light ${props.textColor} mt-3 disabled:bg-gray-500 disabled:bg-none md:text-xl`}
       disabled={props.disable}
       type="submit"
       onClick={(event) => {
