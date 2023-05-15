@@ -1,7 +1,7 @@
 import { FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
 
@@ -32,6 +32,7 @@ const RegisterForm = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [regError, setRegError] = useState('')
+  const navigate = useNavigate()
 
   const onSubmit = async (data: FieldValues) => {
     try {
@@ -48,6 +49,7 @@ const RegisterForm = () => {
 
       localStorage.setItem('token', response.data.token)
       setRegError('')
+      navigate('/auth')
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setRegError(err.response?.data[Object.keys(err.response?.data)[0]][0].toString())

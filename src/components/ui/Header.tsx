@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import logo from '../../assets/images/logo.svg'
 import exit from '../../assets/images/exit.svg'
 import transactions from '../../assets/images/transactions.svg'
 import profile from '../../assets/images/profile.svg'
+import UserDataService from '../../services/user-service'
 
 import ModalBtns from './modals/ModalBtns'
 
@@ -18,6 +19,7 @@ interface Header {
 
 const Header = () => {
   const [isModalBtnOpen, setIsModalBtnOpen] = useState(false)
+  const navigate = useNavigate()
 
   return (
     <header
@@ -65,7 +67,11 @@ const Header = () => {
             background: 'bg-[#2B2828]',
             textColor: 'text-white',
             children: 'Выйти',
-            onClick: () => null
+            onClick: () => {
+              setIsModalBtnOpen(false)
+              UserDataService.logOut()
+              navigate('/auth')
+            }
           },
           {
             background: 'from-light-green to-light-blue bg-gradient-to-r active:shadow-custom',
