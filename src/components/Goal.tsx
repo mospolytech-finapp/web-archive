@@ -139,15 +139,15 @@ const Goal = ({ ...props }: IGoalData) => {
   return (
     <div
       className="
-    {/*bg-[#D2D2D2]/70 */}
-    bg-[#D2D2D2]
-    pt-9 pb-8
-    rounded-2xl
-    bg-goal-bg
+      bg-goal-bg
+      mx-auto
+    max-w-6xl
+    rounded-b-2xl bg-[#D2D2D2]
     bg-contain
-    {/*bg-[length:600px_600px]*/}
-    bg-no-repeat
     bg-right-bottom
+    bg-no-repeat
+    pt-9
+    pb-8
     "
     >
       <div
@@ -203,7 +203,7 @@ const Goal = ({ ...props }: IGoalData) => {
               )}
             />
           </div>
-          <div className="mx-auto mb-14 w-fit">
+          <div className="mx-auto mb-14 w-max">
             <span
               className="
             text-3xl
