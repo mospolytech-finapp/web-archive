@@ -10,6 +10,7 @@ import GoalProgressBar from './ui/GoalProgressBar'
 import Header from './ui/Header'
 import Home from './Home'
 import Error404 from './ui/Error404'
+import Profile from './ui/modals/Profile'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route element={<Home />} path="/" />
             <Route element={<AuthForm />} path="/auth" />
             <Route element={<RegisterForm />} path="/register" />
+            <Route element={<Profile />} path="/profile" />
             <Route
               element={
                 <Goal
