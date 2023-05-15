@@ -61,18 +61,30 @@ const Goal = ({ ...props }: IGoalData) => {
           amount_target: response.data.amount_target,
           amount_now: response.data.amount_now
         })
+
         setTime(
           DateService.dif(
             new Date(response.data.opening_date),
             new Date(response.data.achievement_date)
           )
         )
+        console.log(time)
+
+        return response.status
       } catch (err) {
         console.error(err)
       }
     }
 
-    fetchData()
+    const fetchGoal = async () => {
+      let fetchStatus = null
+
+      while (fetchStatus !== 200) {
+        fetchStatus = await fetchData()
+      }
+    }
+
+    fetchGoal()
   }, [])
 
   const createTransaction = async (data: FieldValues) => {
@@ -125,6 +137,37 @@ const Goal = ({ ...props }: IGoalData) => {
         amount_target: response.data.amount_target,
         amount_now: response.data.amount_now
       })
+      setTime(
+        DateService.dif(
+          new Date(response.data.opening_date),
+          new Date(response.data.achievement_date)
+        )
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const createGoal = async (data: FieldValues) => {
+    try {
+      const response = await GoalDataService.create({
+        id: goal.id,
+        name: data.name,
+        opening_date: data.opening_date,
+        achievement_date: data.achievement_date,
+        amount_target: data.amount_target,
+        amount_now: data.amount_now
+      })
+
+      setGoal({
+        id: goal.id,
+        name: response.data.name,
+        opening_date: response.data.opening_date,
+        achievement_date: response.data.achievement_date,
+        amount_target: response.data.amount_target,
+        amount_now: response.data.amount_now
+      })
+
       setTime(
         DateService.dif(
           new Date(response.data.opening_date),
@@ -354,7 +397,7 @@ const Goal = ({ ...props }: IGoalData) => {
               type="text"
               value={goal.opening_date?.split('-').reverse().join('.')}
               onClick={() => {
-                null
+                console.log(goal)
               }}
             />
             <Input
@@ -486,6 +529,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 children: 'Сохранить изменения',
                 onClick: () => {
                   updateGoal(modalEditForm.watch())
+                  // createGoal(modalEditForm.watch())
                   setIsModalEditOpen(false)
                   modalEditForm.reset()
                 }

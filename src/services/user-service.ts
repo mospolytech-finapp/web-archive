@@ -10,6 +10,10 @@ class UserDataService {
   async login(data: IUserData) {
     return await http.post('/auth/token/', data)
   }
+
+  logOut() {
+    localStorage.removeItem('token')
+  }
 }
 
 export default new UserDataService()
