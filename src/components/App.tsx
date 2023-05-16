@@ -20,7 +20,8 @@ function App() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (localStorage.getItem('token') === null) {
+    if (localStorage.getItem('token') === null || localStorage.getItem('token') == 'undefined') {
+      localStorage.removeItem('token')
       navigate('/auth')
     }
   }, [])
@@ -46,11 +47,11 @@ function App() {
                 <Route
                   element={
                     <Goal
-                      achievement_date="2023-08-15"
-                      amount_now="0"
-                      amount_target="1000000"
+                      achievement_date="2023-08-30"
+                      amount_now="4420"
+                      amount_target="20000"
                       id={1}
-                      name="Машина"
+                      name="Холодильник"
                       opening_date="2023-05-15"
                     />
                   }

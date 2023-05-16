@@ -39,32 +39,6 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
   const dialogContentRef = useRef<HTMLDivElement>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
 
-  // console.log(props)
-
-  // const ModalClose = ({ open, onClose }: ModalProps) => {
-  //   // ...
-  //   useEffect(() => {
-  //     function Close() {
-  //       if (dialogRef.current) {
-  //         dialogRef.current.close()
-  //       }
-  //       onClose()
-  //     }
-  //     if (dialogRef.current) {
-  //       if (open) {
-  //         dialogRef.current.showModal()
-  //       } else {
-  //         dialogRef.current.close()
-  //       }
-  //       dialogRef.current?.addEventListener('click', (e) => {
-  //         if (e.target instanceof Node && !dialogRef.current?.contains(e.target)) {
-  //           Close()
-  //         }
-  //       })
-  //     }
-  //   }, [open, onClose])
-  // }
-
   function handleClose() {
     if (dialogRef.current) {
       dialogRef.current.close()
@@ -152,7 +126,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     name="date"
                     register={props.register}
                     type="date"
-                    value={props.transaction?.date}
+                    value={props.transaction?.date ?? new Date().toISOString().split('T')[0]}
                     onClick={() => {
                       null
                     }}
@@ -166,7 +140,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     name="time"
                     register={props.register}
                     type="time"
-                    value={props.transaction?.time}
+                    value={props.transaction?.time ?? new Date().toLocaleTimeString().slice(0, 5)}
                     onClick={() => {
                       null
                     }}
@@ -178,7 +152,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     id="amount"
                     label="Сумма"
                     name="amount"
-                    placeholder={'1213'}
+                    placeholder="0"
                     register={props.register}
                     type="number"
                     value={
@@ -198,7 +172,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                   id="description"
                   label="Описание"
                   name="description"
-                  placeholder={'1213'}
+                  placeholder="Не указано"
                   register={props.register}
                   type="text"
                   value={props.transaction?.description}

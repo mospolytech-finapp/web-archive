@@ -440,8 +440,6 @@ const Transactions = () => {
                   )
                 )
               )
-
-              // modalFilterTransaction.reset()
             }
           },
           {
@@ -449,7 +447,10 @@ const Transactions = () => {
               'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
             textColor: 'text-white',
             children: 'Отмена',
-            onClick: () => null
+            onClick: () => {
+              modalFilterTransaction.reset()
+              setFilterMap(undefined)
+            }
           }
         ]}
         close="Отмена"
@@ -458,7 +459,7 @@ const Transactions = () => {
           {
             id: 'name',
             label: 'Название',
-            placeholder: 'Магнит',
+            placeholder: 'Введите название',
             name: 'name',
             type: 'text',
             onClick: () => {
@@ -524,7 +525,7 @@ const Transactions = () => {
           {
             id: 'name',
             label: 'Название',
-            placeholder: 'Магнит',
+            placeholder: 'Введите название',
             name: 'name',
             type: 'text',
             onClick: () => {
@@ -638,6 +639,7 @@ const Transactions = () => {
             onClose={() => {
               setIsModalMoreOpen(false)
               modalAddTransaction.reset()
+              setSelectedTransaction(undefined)
             }}
           />
           <ModalBtns
@@ -725,12 +727,13 @@ const Transactions = () => {
                     {transaction.date.split('-').reverse().join('.').toString()}
                   </p>
                 </div>
-                <p className="w-20 text-center 2xl:w-28">
-                  {parseFloat(transaction.amount) > 0 ? 'доход' : 'расход'}
-                </p>
+
                 <p className="w-40 text-center lg:w-56">
                   {parseFloat(transaction.amount) > 0 ? '+' : ''}
                   {parseFloat(transaction.amount).toLocaleString()} ₽
+                </p>
+                <p className="w-20 text-center 2xl:w-28">
+                  {parseFloat(transaction.amount) > 0 ? 'доход' : 'расход'}
                 </p>
                 <button
                   onClick={() => {
