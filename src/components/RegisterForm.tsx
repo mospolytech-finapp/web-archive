@@ -1,7 +1,7 @@
 import { FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
 
@@ -32,6 +32,7 @@ const RegisterForm = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [regError, setRegError] = useState('')
+  const navigate = useNavigate()
 
   const onSubmit = async (data: FieldValues) => {
     try {
@@ -48,9 +49,10 @@ const RegisterForm = () => {
 
       localStorage.setItem('token', response.data.token)
       setRegError('')
+      navigate('/auth')
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        setRegError(err.response?.data[Object.keys(err.response?.data)[0]][0].toString())
+        setRegError(err.response?.data.errors[0].detail)
         console.error(regError)
       } else {
         console.error(err)
@@ -137,8 +139,9 @@ const RegisterForm = () => {
               null
             }}
           />
+          {regError && <span className="text-xs text-[#FF6F6F] md:text-base">{regError}</span>}
           <span className="mb-4 text-sm text-[#7C7C7C] md:text-base">
-            *Обязательное поле для ввода
+            Регистрируясь в сервисе, вы принимаете условия пользовательского соглашения.
           </span>
           <Button
             background="from-light-green to-light-blue bg-gradient-to-r"

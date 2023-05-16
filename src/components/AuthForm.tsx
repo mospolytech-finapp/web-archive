@@ -1,7 +1,7 @@
 import { FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
 
@@ -18,6 +18,7 @@ const schema = z.object({
 })
 
 const AuthForm = () => {
+  const navigate = useNavigate()
   const {
     register,
     watch,
@@ -38,9 +39,10 @@ const AuthForm = () => {
 
       localStorage.setItem('token', response.data.token)
       setLoginError('')
+      navigate('/')
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        setLoginError(err.response?.data.errors[0].detail.toString())
+        setLoginError(err.response?.data.errors[0].detail)
         console.error(loginError)
       } else {
         console.error(err)
@@ -51,7 +53,7 @@ const AuthForm = () => {
   return (
     <div className="pt-10">
       <form className="mx-auto  rounded-3xl bg-[#E5E5E5CC]/80 px-2.5 py-8 font-sans font-normal tracking-normal sm:px-6 md:max-w-lg md:px-12 md:py-14">
-        <fieldset className="mb-5 grid w-72 md:w-96 lg:mb-4">
+        <fieldset className="mx-auto mb-5 grid w-72 md:w-96 lg:mb-4">
           <legend className="from-light-green-text to-light-blue-text mb-10 bg-gradient-to-r bg-clip-text text-center text-2xl font-medium text-transparent md:text-2xl">
             Вход
           </legend>

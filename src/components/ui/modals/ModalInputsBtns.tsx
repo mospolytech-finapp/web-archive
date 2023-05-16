@@ -14,6 +14,7 @@ interface ModalProps {
     placeholder: string
     name: string
     type: string
+    value?: string
     onClick: () => void
   }[]
   buttons: { background: string; textColor: string; children: string; onClick: () => void }[]
@@ -98,6 +99,7 @@ const ModalInputsBtns = ({ ...props }: ModalProps) => {
               placeholder={input.placeholder}
               register={props.register}
               type={input.type}
+              value={input.value ?? ''}
               onClick={() => {
                 input.onClick()
               }}

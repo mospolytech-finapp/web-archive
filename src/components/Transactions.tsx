@@ -42,7 +42,7 @@ const Transactions = () => {
   const [transactions, setTransactions] = useState<Array<ITransactionData>>([])
   const [categories, setCategories] = useState<Array<ICategoryData>>([])
   const [selectedTransaction, setSelectedTransaction] = useState<ITransactionData>()
-  const [filterMap, setFilterMap] = useState<Map<string, string>>()
+  const [filterMap, setFilterMap] = useState<Map<string, string | number>>()
 
   const [isModalAddOpen, setIsModalAddOpen] = useState(false)
   const [isModalMoreOpen, setIsModalMoreOpen] = useState(false)
@@ -95,16 +95,46 @@ const Transactions = () => {
     }
   }
 
-  const filterTransactions = async () => {
+  const filterTransactions = () => {
     setLoading(true)
-    try {
-      const response = await TransactionDataService.getAll(filterMap)
+    const isNegative = modalFilterTransaction.watch('type') === 'расходы'
 
-      setTransactions(response.data)
-    } catch (err) {
-      console.error(err)
+    const updatedFilterMap = new Map(
+      Object.entries(modalFilterTransaction.watch())
+        .filter(
+          ([key, value]) =>
+            value !== '' && value !== undefined && Object.keys(filterSchema.shape).includes(key)
+        )
+        .map(([key, value]) => {
+          if (key === 'category') {
+            return [key, categories.find((category) => category.name === value)?.id]
+          }
+
+          return [key, value]
+        })
+        .reduce((map, [key, value]) => {
+          map.set(key, value)
+
+          return map
+        }, new Map())
+    )
+
+    if (isNegative && updatedFilterMap !== undefined) {
+      const amountMin = updatedFilterMap.get('amount_min')
+      const amountMax = updatedFilterMap.get('amount_max')
+
+      if (amountMin !== undefined && amountMax !== undefined) {
+        updatedFilterMap.set('amount_min', -Math.abs(amountMax))
+        updatedFilterMap.set('amount_max', -Math.abs(amountMin))
+      } else if (amountMin === undefined && amountMax !== undefined) {
+        updatedFilterMap.set('amount_min', -Math.abs(amountMax))
+        updatedFilterMap.delete('amount_max')
+      } else if (amountMin !== undefined && amountMax === undefined) {
+        updatedFilterMap.set('amount_max', -Math.abs(amountMin))
+        updatedFilterMap.delete('amount_min')
+      }
     }
-    setLoading(false)
+    setFilterMap(updatedFilterMap)
   }
 
   useEffect(() => {
@@ -126,7 +156,18 @@ const Transactions = () => {
   }, [])
 
   useEffect(() => {
-    filterTransactions()
+    const fetchData = async () => {
+      try {
+        const response = await TransactionDataService.getAll(filterMap)
+
+        setTransactions(response.data)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchData()
+    setLoading(false)
   }, [filterMap])
 
   const createTransaction = async (data: FieldValues) => {
@@ -422,26 +463,7 @@ const Transactions = () => {
             children: 'Сохранить',
             onClick: () => {
               setIsModalFilterOpen(false)
-
-              modalFilterTransaction.setValue(
-                'category',
-                categories.find(
-                  (category) => category.name == modalFilterTransaction.watch('category')
-                )?.id
-              )
-
-              setFilterMap(
-                new Map(
-                  Object.entries(modalFilterTransaction.watch()).filter(
-                    ([key, value]) =>
-                      value !== '' &&
-                      value !== undefined &&
-                      Object.keys(filterSchema.shape).includes(key)
-                  )
-                )
-              )
-
-              // modalFilterTransaction.reset()
+              filterTransactions()
             }
           },
           {
@@ -449,7 +471,10 @@ const Transactions = () => {
               'bg-gradient-to-r from-light-blue to-purple-active-link active:shadow-custom',
             textColor: 'text-white',
             children: 'Отмена',
-            onClick: () => null
+            onClick: () => {
+              modalFilterTransaction.reset()
+              setFilterMap(undefined)
+            }
           }
         ]}
         close="Отмена"
@@ -458,7 +483,7 @@ const Transactions = () => {
           {
             id: 'name',
             label: 'Название',
-            placeholder: 'Магнит',
+            placeholder: 'Введите название',
             name: 'name',
             type: 'text',
             onClick: () => {
@@ -524,7 +549,7 @@ const Transactions = () => {
           {
             id: 'name',
             label: 'Название',
-            placeholder: 'Магнит',
+            placeholder: 'Введите название',
             name: 'name',
             type: 'text',
             onClick: () => {
@@ -638,6 +663,7 @@ const Transactions = () => {
             onClose={() => {
               setIsModalMoreOpen(false)
               modalAddTransaction.reset()
+              setSelectedTransaction(undefined)
             }}
           />
           <ModalBtns
@@ -725,12 +751,13 @@ const Transactions = () => {
                     {transaction.date.split('-').reverse().join('.').toString()}
                   </p>
                 </div>
-                <p className="w-20 text-center 2xl:w-28">
-                  {parseFloat(transaction.amount) > 0 ? 'доход' : 'расход'}
-                </p>
+
                 <p className="w-40 text-center lg:w-56">
                   {parseFloat(transaction.amount) > 0 ? '+' : ''}
                   {parseFloat(transaction.amount).toLocaleString()} ₽
+                </p>
+                <p className="w-20 text-center 2xl:w-28">
+                  {parseFloat(transaction.amount) > 0 ? 'доход' : 'расход'}
                 </p>
                 <button
                   onClick={() => {

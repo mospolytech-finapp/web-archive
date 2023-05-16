@@ -58,21 +58,32 @@ const Goal = ({ ...props }: IGoalData) => {
           name: response.data.name,
           opening_date: response.data.opening_date,
           achievement_date: response.data.achievement_date,
-          amount_target: response.data.amount_target,
-          amount_now: response.data.amount_now
+          amount_target: parseInt(response.data.amount_target, 10).toString(),
+          amount_now: parseInt(response.data.amount_now ?? '0', 10).toString()
         })
+
         setTime(
           DateService.dif(
             new Date(response.data.opening_date),
             new Date(response.data.achievement_date)
           )
         )
+
+        return response.status
       } catch (err) {
         console.error(err)
       }
     }
 
-    fetchData()
+    const fetchGoal = async () => {
+      let fetchStatus = null
+
+      while (fetchStatus !== 200) {
+        fetchStatus = await fetchData()
+      }
+    }
+
+    fetchGoal()
   }, [])
 
   const createTransaction = async (data: FieldValues) => {
@@ -125,6 +136,37 @@ const Goal = ({ ...props }: IGoalData) => {
         amount_target: response.data.amount_target,
         amount_now: response.data.amount_now
       })
+      setTime(
+        DateService.dif(
+          new Date(response.data.opening_date),
+          new Date(response.data.achievement_date)
+        )
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const createGoal = async (data: FieldValues) => {
+    try {
+      const response = await GoalDataService.create({
+        id: goal.id,
+        name: data.name,
+        opening_date: data.opening_date,
+        achievement_date: data.achievement_date,
+        amount_target: data.amount_target,
+        amount_now: data.amount_now
+      })
+
+      setGoal({
+        id: goal.id,
+        name: response.data.name,
+        opening_date: response.data.opening_date,
+        achievement_date: response.data.achievement_date,
+        amount_target: response.data.amount_target,
+        amount_now: response.data.amount_now
+      })
+
       setTime(
         DateService.dif(
           new Date(response.data.opening_date),
@@ -354,7 +396,7 @@ const Goal = ({ ...props }: IGoalData) => {
               type="text"
               value={goal.opening_date?.split('-').reverse().join('.')}
               onClick={() => {
-                null
+                console.log(goal)
               }}
             />
             <Input
@@ -486,6 +528,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 children: 'Сохранить изменения',
                 onClick: () => {
                   updateGoal(modalEditForm.watch())
+                  // createGoal(modalEditForm.watch())
                   setIsModalEditOpen(false)
                   modalEditForm.reset()
                 }
@@ -499,6 +542,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: `${goal.name}`,
                 name: 'name',
                 type: 'text',
+                value: goal.name,
                 onClick: () => {
                   null
                 }
@@ -509,6 +553,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: `${goal.opening_date}`,
                 name: 'opening_date',
                 type: 'date',
+                value: goal.opening_date,
                 onClick: () => {
                   null
                 }
@@ -519,6 +564,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: `${goal.achievement_date}`,
                 name: 'achievement_date',
                 type: 'date',
+                value: goal.achievement_date,
                 onClick: () => {
                   null
                 }
@@ -529,6 +575,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: `${goal.amount_target}`,
                 name: 'amount_target',
                 type: 'text',
+                value: goal.amount_target,
                 onClick: () => {
                   null
                 }
@@ -539,6 +586,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: `${goal.amount_now}`,
                 name: 'amount_now',
                 type: 'text',
+                value: goal.amount_now,
                 onClick: () => {
                   null
                 }
@@ -580,6 +628,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: '25.04.2023',
                 name: 'date',
                 type: 'date',
+                value: `${new Date().toISOString().split('T')[0]}`,
                 onClick: () => {
                   null
                 }
@@ -647,6 +696,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: `${goal.opening_date}`,
                 name: 'date',
                 type: 'date',
+                value: `${new Date().toISOString().split('T')[0]}`,
                 onClick: () => {
                   null
                 }
