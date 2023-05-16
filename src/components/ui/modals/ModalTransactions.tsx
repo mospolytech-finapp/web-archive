@@ -25,6 +25,7 @@ interface ModalProps {
     name: string
     type: string
     value?: string
+    onClick: () => void
   }[]
   buttons: { background: string; textColor: string; children: string; onClick: () => void }[]
   title: string
@@ -135,6 +136,9 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
               register={props.register}
               type={input.type}
               value={input.value ?? ''}
+              onClick={() => {
+                input.onClick()
+              }}
             />
           ))}
           {props.filter === false ? (
@@ -149,6 +153,9 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     register={props.register}
                     type="date"
                     value={props.transaction?.date}
+                    onClick={() => {
+                      null
+                    }}
                   />
                 </div>
                 <div className="mb-2 flex flex-col md:w-32">
@@ -160,6 +167,9 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     register={props.register}
                     type="time"
                     value={props.transaction?.time}
+                    onClick={() => {
+                      null
+                    }}
                   />
                 </div>
                 <div className="mb-2 flex flex-col md:w-32">
@@ -176,6 +186,9 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                         ? Math.abs(parseFloat(props.transaction?.amount)).toString()
                         : ''
                     }
+                    onClick={() => {
+                      null
+                    }}
                   />
                 </div>
               </div>
@@ -189,6 +202,9 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                   register={props.register}
                   type="text"
                   value={props.transaction?.description}
+                  onClick={() => {
+                    null
+                  }}
                 />
               </div>
             </>
@@ -204,6 +220,9 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     placeholder={'100 руб'}
                     register={props.register}
                     type="number"
+                    onClick={() => {
+                      null
+                    }}
                   />
                 </div>
                 <div className="mb-2 flex w-24 flex-col sm:w-32">
@@ -215,6 +234,9 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     placeholder={'5000 руб'}
                     register={props.register}
                     type="number"
+                    onClick={() => {
+                      null
+                    }}
                   />
                 </div>
               </div>
@@ -227,6 +249,9 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     name="date_min"
                     register={props.register}
                     type="date"
+                    onClick={() => {
+                      null
+                    }}
                   />
                 </div>
                 <div className="mb-2 flex w-24 flex-col sm:w-32">
@@ -237,6 +262,9 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     name="time"
                     register={props.register}
                     type="time"
+                    onClick={() => {
+                      null
+                    }}
                   />
                 </div>
               </div>

@@ -3,6 +3,7 @@ import { FieldValues, UseFormRegister } from 'react-hook-form'
 
 import closeEye from '../../assets/images/close_eye.svg'
 import openEye from '../../assets/images/open_eye.svg'
+
 // import checkMark from '../../assets/images/check_mark.svg' в идеале лучше сделать через import
 
 interface InputProps {
@@ -15,6 +16,7 @@ interface InputProps {
   error?: boolean
   value?: string
   disabled?: true
+  onClick: () => void
 }
 
 const Input = ({ ...props }: InputProps) => {
@@ -56,6 +58,26 @@ const Input = ({ ...props }: InputProps) => {
           </div>
         </div>
       )
+    case 'button':
+      return (
+        <div className="mb-2 flex w-full content-center items-center">
+          <input
+            {...props.register(props.name)}
+            aria-invalid={props.error}
+            className={`text-true-gray-900 placeholder:text-light-gray active:bg-light-gray -mr-10 max-h-12 w-full rounded-full bg-white py-3 px-6 pr-12 text-left text-xl font-normal ${
+              props.error ? 'bg-error border-light-red border-2' : 'bg-[#ECECEC]}'
+            }`}
+            disabled={props.disabled}
+            id={props.id}
+            name={props.name}
+            type="button"
+            value={props.placeholder}
+            onClick={() => {
+              props.onClick()
+            }}
+          />
+        </div>
+      )
 
     case 'checkbox':
       return (
@@ -91,6 +113,33 @@ const Input = ({ ...props }: InputProps) => {
           >
             {props.label}
           </label>
+        </div>
+      )
+
+    case 'date':
+      return (
+        <div className="mb-2">
+          <label className="true-gray-900 sm:text-base md:text-xl" htmlFor={props.name}>
+            {props.label}
+          </label>
+          <input
+            {...props.register(props.name)}
+            aria-invalid={props.error}
+            className={`text-true-gray-900 placeholder:text-light-gray max-h-12 w-full rounded-full py-4 px-6 text-xs font-normal ${
+              props.error ? 'bg-error border-light-red border-2' : 'bg-[#ECECEC]}'
+            }
+              ${props.disabled ? 'bg-white text-black/50' : ''}
+              `}
+            disabled={props.disabled}
+            id={props.id}
+            name={props.name}
+            placeholder={props.placeholder}
+            type={props.type}
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value)
+            }}
+          />
         </div>
       )
 

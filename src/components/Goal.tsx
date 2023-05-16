@@ -61,18 +61,30 @@ const Goal = ({ ...props }: IGoalData) => {
           amount_target: response.data.amount_target,
           amount_now: response.data.amount_now
         })
+
         setTime(
           DateService.dif(
             new Date(response.data.opening_date),
             new Date(response.data.achievement_date)
           )
         )
+        console.log(time)
+
+        return response.status
       } catch (err) {
         console.error(err)
       }
     }
 
-    fetchData()
+    const fetchGoal = async () => {
+      let fetchStatus = null
+
+      while (fetchStatus !== 200) {
+        fetchStatus = await fetchData()
+      }
+    }
+
+    fetchGoal()
   }, [])
 
   const createTransaction = async (data: FieldValues) => {
@@ -136,20 +148,49 @@ const Goal = ({ ...props }: IGoalData) => {
     }
   }
 
+  const createGoal = async (data: FieldValues) => {
+    try {
+      const response = await GoalDataService.create({
+        id: goal.id,
+        name: data.name,
+        opening_date: data.opening_date,
+        achievement_date: data.achievement_date,
+        amount_target: data.amount_target,
+        amount_now: data.amount_now
+      })
+
+      setGoal({
+        id: goal.id,
+        name: response.data.name,
+        opening_date: response.data.opening_date,
+        achievement_date: response.data.achievement_date,
+        amount_target: response.data.amount_target,
+        amount_now: response.data.amount_now
+      })
+
+      setTime(
+        DateService.dif(
+          new Date(response.data.opening_date),
+          new Date(response.data.achievement_date)
+        )
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <div
-      className=" 
-    max-w-7xl 
-    mx-auto
-    {/*bg-[#D2D2D2]/70 */}
-    bg-[#D2D2D2]
-    pt-9 pb-8
-    rounded-2xl
-    bg-goal-bg
+      className="
+      bg-goal-bg
+      mx-auto
+    max-w-6xl
+    rounded-b-2xl bg-[#D2D2D2]
     bg-contain
-    {/*bg-[length:600px_600px]*/}
-    bg-no-repeat
     bg-right-bottom
+    bg-no-repeat
+    pt-9
+    pb-8
     "
     >
       <div
@@ -205,7 +246,7 @@ const Goal = ({ ...props }: IGoalData) => {
               )}
             />
           </div>
-          <div className="mx-auto mb-14 md:w-100">
+          <div className="mx-auto mb-14 w-max md:w-100">
             <span
               className=" text-2xl
             font-light
@@ -363,6 +404,9 @@ const Goal = ({ ...props }: IGoalData) => {
               register={modalEditForm.register}
               type="text"
               value={goal.opening_date?.split('-').reverse().join('.')}
+              onClick={() => {
+                console.log(goal)
+              }}
             />
             <Input
               disabled={true}
@@ -372,6 +416,9 @@ const Goal = ({ ...props }: IGoalData) => {
               register={modalEditForm.register}
               type="text"
               value={goal.achievement_date.split('-').reverse().join('.')}
+              onClick={() => {
+                null
+              }}
             />
             <Input
               disabled={true}
@@ -381,6 +428,9 @@ const Goal = ({ ...props }: IGoalData) => {
               register={modalEditForm.register}
               type="text"
               value={parseInt(goal.amount_target, 10).toLocaleString()}
+              onClick={() => {
+                null
+              }}
             />
             <Input
               disabled={true}
@@ -390,6 +440,9 @@ const Goal = ({ ...props }: IGoalData) => {
               register={modalEditForm.register}
               type="text"
               value={parseInt(goal.amount_now ?? '0', 10).toLocaleString()}
+              onClick={() => {
+                null
+              }}
             />
           </fieldset>
           <div className="flex justify-between gap-8">
@@ -484,6 +537,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 children: 'Сохранить изменения',
                 onClick: () => {
                   updateGoal(modalEditForm.watch())
+                  // createGoal(modalEditForm.watch())
                   setIsModalEditOpen(false)
                   modalEditForm.reset()
                 }
@@ -496,35 +550,50 @@ const Goal = ({ ...props }: IGoalData) => {
                 label: 'Название цели',
                 placeholder: `${goal.name}`,
                 name: 'name',
-                type: 'text'
+                type: 'text',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Дата открытия',
                 placeholder: `${goal.opening_date}`,
                 name: 'opening_date',
-                type: 'date'
+                type: 'date',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Дата достижения',
                 placeholder: `${goal.achievement_date}`,
                 name: 'achievement_date',
-                type: 'date'
+                type: 'date',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Сумма цели',
                 placeholder: `${goal.amount_target}`,
                 name: 'amount_target',
-                type: 'text'
+                type: 'text',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Накоплено',
                 placeholder: `${goal.amount_now}`,
                 name: 'amount_now',
-                type: 'text'
+                type: 'text',
+                onClick: () => {
+                  null
+                }
               }
             ]}
             open={isModalEditOpen}
@@ -562,21 +631,30 @@ const Goal = ({ ...props }: IGoalData) => {
                 label: 'Дата операции',
                 placeholder: '25.04.2023',
                 name: 'date',
-                type: 'date'
+                type: 'date',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Время операции',
                 placeholder: 'Не указано',
                 name: 'time',
-                type: 'time'
+                type: 'time',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Сумма операции',
                 placeholder: '2 345',
                 name: 'amount',
-                type: 'text'
+                type: 'text',
+                onClick: () => {
+                  null
+                }
               }
             ]}
             open={isModalDepositOpen}
@@ -620,21 +698,30 @@ const Goal = ({ ...props }: IGoalData) => {
                 label: 'Дата операции',
                 placeholder: `${goal.opening_date}`,
                 name: 'date',
-                type: 'date'
+                type: 'date',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Время операции',
                 placeholder: `${goal.achievement_date}`,
                 name: 'time',
-                type: 'time'
+                type: 'time',
+                onClick: () => {
+                  null
+                }
               },
               {
                 id: '',
                 label: 'Сумма операции',
                 placeholder: `2 345`,
                 name: 'amount',
-                type: 'text'
+                type: 'text',
+                onClick: () => {
+                  null
+                }
               }
             ]}
             open={isModalSubtractOpen}
