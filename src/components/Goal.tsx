@@ -58,8 +58,8 @@ const Goal = ({ ...props }: IGoalData) => {
           name: response.data.name,
           opening_date: response.data.opening_date,
           achievement_date: response.data.achievement_date,
-          amount_target: response.data.amount_target,
-          amount_now: response.data.amount_now
+          amount_target: parseInt(response.data.amount_target, 10).toString(),
+          amount_now: parseInt(response.data.amount_now ?? '0', 10).toString()
         })
 
         setTime(
@@ -68,7 +68,6 @@ const Goal = ({ ...props }: IGoalData) => {
             new Date(response.data.achievement_date)
           )
         )
-        console.log(time)
 
         return response.status
       } catch (err) {
@@ -543,6 +542,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: `${goal.name}`,
                 name: 'name',
                 type: 'text',
+                value: goal.name,
                 onClick: () => {
                   null
                 }
@@ -553,6 +553,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: `${goal.opening_date}`,
                 name: 'opening_date',
                 type: 'date',
+                value: goal.opening_date,
                 onClick: () => {
                   null
                 }
@@ -563,6 +564,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: `${goal.achievement_date}`,
                 name: 'achievement_date',
                 type: 'date',
+                value: goal.achievement_date,
                 onClick: () => {
                   null
                 }
@@ -573,6 +575,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: `${goal.amount_target}`,
                 name: 'amount_target',
                 type: 'text',
+                value: goal.amount_target,
                 onClick: () => {
                   null
                 }
@@ -583,6 +586,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: `${goal.amount_now}`,
                 name: 'amount_now',
                 type: 'text',
+                value: goal.amount_now,
                 onClick: () => {
                   null
                 }
@@ -624,6 +628,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: '25.04.2023',
                 name: 'date',
                 type: 'date',
+                value: `${new Date().toISOString().split('T')[0]}`,
                 onClick: () => {
                   null
                 }
@@ -691,6 +696,7 @@ const Goal = ({ ...props }: IGoalData) => {
                 placeholder: `${goal.opening_date}`,
                 name: 'date',
                 type: 'date',
+                value: `${new Date().toISOString().split('T')[0]}`,
                 onClick: () => {
                   null
                 }

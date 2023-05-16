@@ -19,8 +19,6 @@ const Select = ({ ...props }: SelectProps) => {
   const [selectedType, setSelectedType] = useState('')
   const [value, setValue] = useState(props.value ?? '')
 
-  console.log(value)
-
   const handleTypeChange = (event: { target: { value: SetStateAction<string> } }) => {
     if (event.target.value === 'доходы' || event.target.value === 'расходы') {
       setSelectedType(event.target.value)
