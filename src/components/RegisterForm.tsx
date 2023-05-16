@@ -26,7 +26,7 @@ const RegisterForm = () => {
     watch,
     formState: { errors, isValid }
   } = useForm({
-    mode: 'onBlur',
+    mode: 'all',
     resolver: zodResolver(schema)
   })
 
