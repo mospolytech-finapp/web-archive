@@ -106,6 +106,8 @@ const ModalInputsBtns = ({ ...props }: ModalProps) => {
           <div className="flex flex-row justify-center">
             {props.buttons.map((button, index) => (
               <Button
+                margin=""
+                w=""
                 key={index}
                 background={button.background}
                 textColor={button.textColor}

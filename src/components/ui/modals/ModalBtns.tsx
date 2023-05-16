@@ -85,6 +85,8 @@ const ModalBtns = ({ ...props }: ModalProps) => {
         <form className={`flex ${props.direction} justify-center`} onSubmit={handleSubmit}>
           {props.buttons.map((button, index) => (
             <Button
+              margin=""
+              w=""
               key={index}
               background={button.background}
               textColor={button.textColor}

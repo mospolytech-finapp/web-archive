@@ -109,6 +109,8 @@ const AuthForm = () => {
             }}
           />
           <Button
+            margin=""
+            w=""
             background="from-light-green to-light-blue bg-gradient-to-r"
             disable={!isValid}
             textColor="text-white"
