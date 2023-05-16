@@ -23,7 +23,7 @@ const AuthForm = () => {
     watch,
     formState: { errors, isValid }
   } = useForm({
-    mode: 'onBlur',
+    mode: 'all',
     resolver: zodResolver(schema)
   })
   const [isModalOpen, setIsModalOpen] = useState(false)

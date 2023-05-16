@@ -26,7 +26,7 @@ const RegisterForm = () => {
     watch,
     formState: { errors, isValid }
   } = useForm({
-    mode: 'onBlur',
+    mode: 'all',
     resolver: zodResolver(schema)
   })
 
@@ -102,18 +102,6 @@ const RegisterForm = () => {
             }}
           />
           <Input
-            error={errors.password ? true : false}
-            id="password"
-            label="Пароль*"
-            name="password"
-            placeholder=""
-            register={register}
-            type="password"
-            onClick={() => {
-              null
-            }}
-          />
-          <Input
             error={errors.email ? true : false}
             id="email"
             label="E-mail*"
@@ -121,6 +109,18 @@ const RegisterForm = () => {
             placeholder=""
             register={register}
             type="email"
+            onClick={() => {
+              null
+            }}
+          />
+          <Input
+            error={errors.password ? true : false}
+            id="password"
+            label="Пароль*"
+            name="password"
+            placeholder=""
+            register={register}
+            type="password"
             onClick={() => {
               null
             }}
