@@ -35,14 +35,14 @@ const Header = () => {
         </Link>
         <div className="flex w-56 flex-row justify-between sm:w-full sm:max-w-sm  md:max-w-md lg:max-w-lg">
           <Link
-            className="flex h-8 flex-row items-center justify-center rounded-full bg-[#424242] px-2 text-xs text-white sm:w-40 sm:text-base"
+            className="flex h-8 flex-row items-center justify-center rounded-full bg-[#424242] px-1.5 sm:px-2 text-xs text-white sm:w-40 sm:text-base"
             to="/transactions"
           >
             <img alt="транзакции" className="mr-2" src={transactions} />
             Транзакции
           </Link>
           <Link
-            className="flex h-8 flex-row items-center justify-center rounded-full bg-[#424242] px-2 text-xs text-white sm:w-40 sm:text-base"
+            className="flex h-8 flex-row items-center justify-center rounded-full bg-[#424242] px-1.5 sm:px-2 text-xs text-white sm:w-40 sm:text-base"
             to="/profile"
           >
             <img alt="аккаунт" src={profile} />
