@@ -124,13 +124,13 @@ const Transactions = () => {
       const amountMax = updatedFilterMap.get('amount_max')
 
       if (amountMin !== undefined && amountMax !== undefined) {
-        updatedFilterMap.set('amount_min', -amountMax)
-        updatedFilterMap.set('amount_max', -amountMin)
+        updatedFilterMap.set('amount_min', -Math.abs(amountMax))
+        updatedFilterMap.set('amount_max', -Math.abs(amountMin))
       } else if (amountMin === undefined && amountMax !== undefined) {
-        updatedFilterMap.set('amount_min', -amountMax)
+        updatedFilterMap.set('amount_min', -Math.abs(amountMax))
         updatedFilterMap.delete('amount_max')
       } else if (amountMin !== undefined && amountMax === undefined) {
-        updatedFilterMap.set('amount_max', -amountMin)
+        updatedFilterMap.set('amount_max', -Math.abs(amountMin))
         updatedFilterMap.delete('amount_min')
       }
     }
