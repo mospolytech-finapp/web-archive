@@ -3,7 +3,7 @@ import ITransactionData from 'types/transaction'
 import http from '../services/http-common'
 
 class TransactionDataService {
-  async getAll(filter?: Map<string, string>) {
+  async getAll(filter?: Map<string, string | number>) {
     let filterString = ''
 
     if (filter != null) {

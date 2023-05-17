@@ -26,7 +26,7 @@ const RegisterForm = () => {
     watch,
     formState: { errors, isValid }
   } = useForm({
-    mode: 'onBlur',
+    mode: 'all',
     resolver: zodResolver(schema)
   })
 
@@ -104,18 +104,6 @@ const RegisterForm = () => {
             }}
           />
           <Input
-            error={errors.password ? true : false}
-            id="password"
-            label="Пароль*"
-            name="password"
-            placeholder=""
-            register={register}
-            type="password"
-            onClick={() => {
-              null
-            }}
-          />
-          <Input
             error={errors.email ? true : false}
             id="email"
             label="E-mail*"
@@ -123,6 +111,18 @@ const RegisterForm = () => {
             placeholder=""
             register={register}
             type="email"
+            onClick={() => {
+              null
+            }}
+          />
+          <Input
+            error={errors.password ? true : false}
+            id="password"
+            label="Пароль*"
+            name="password"
+            placeholder=""
+            register={register}
+            type="password"
             onClick={() => {
               null
             }}
@@ -141,7 +141,7 @@ const RegisterForm = () => {
           />
           {regError && <span className="text-xs text-[#FF6F6F] md:text-base">{regError}</span>}
           <span className="mb-4 text-sm text-[#7C7C7C] md:text-base">
-            *Обязательное поле для ввода
+            Регистрируясь в сервисе, вы принимаете условия пользовательского соглашения.
           </span>
           <Button
             background="from-light-green to-light-blue bg-gradient-to-r"
