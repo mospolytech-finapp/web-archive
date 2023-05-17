@@ -254,19 +254,6 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     }}
                   />
                 </div>
-                <div className="mb-2 flex w-24 flex-col sm:w-32">
-                  <Input
-                    error={false}
-                    id="time"
-                    label="Время"
-                    name="time"
-                    register={props.register}
-                    type="time"
-                    onClick={() => {
-                      null
-                    }}
-                  />
-                </div>
               </div>
             </>
           )}
