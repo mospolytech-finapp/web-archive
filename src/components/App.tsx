@@ -16,7 +16,8 @@ function App() {
   const location = useLocation()
   const isAuthRoute = location.pathname === '/auth'
   const isRegisterRoute = location.pathname === '/register'
-  const isToken = localStorage.getItem('token') !== null
+  const isToken =
+    localStorage.getItem('token') !== null && localStorage.getItem('token') !== 'undefined'
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -38,11 +39,9 @@ function App() {
         <section>
           {!isAuthRoute && !isRegisterRoute && <Header />}
           <Routes>
-            <Route element={<AuthForm />} path="/auth" />
-            <Route element={<RegisterForm />} path="/register" />
-            {isToken && (
+            {isToken ? (
               <>
-                <Route element={<Home />} path="/" />
+                {/* <Route element={<Home />} path="/" /> */}
                 <Route element={<Profile />} path="/profile" />
                 <Route
                   element={
@@ -59,9 +58,14 @@ function App() {
                 />
                 <Route element={<Transactions />} path="/transactions" />
               </>
+            ) : (
+              <>
+                <Route element={<AuthForm />} path="/auth" />
+                <Route element={<RegisterForm />} path="/register" />
+              </>
             )}
             {/* <Route element={<GoalDonutChart percent={100} />} path="/donut" /> */}
-            <Route element={<Error404 />} path="*" />
+            {/* <Route element={<Error404 />} path="*" /> */}
             {/* <Route
               element={
                 <div className="w-96">
