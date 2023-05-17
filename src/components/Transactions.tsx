@@ -134,6 +134,12 @@ const Transactions = () => {
         updatedFilterMap.delete('amount_min')
       }
     }
+
+    if (!isNegative) {
+      updatedFilterMap.set('amount_min', 0)
+    } else {
+      updatedFilterMap.set('amount_max', 0)
+    }
     setFilterMap(updatedFilterMap)
   }
 
@@ -173,7 +179,6 @@ const Transactions = () => {
   const createTransaction = async (data: FieldValues) => {
     try {
       const response = await TransactionDataService.create({
-        id: 0,
         name: data.name,
         amount: data.amount,
         date: data.date,
@@ -292,13 +297,13 @@ const Transactions = () => {
           >
             {'Добавить'}
           </Button>
-          <button
+          {/* <button
             onClick={() => {
               setIsModalSettingsOpen(true)
             }}
           >
             <img alt="параметры" className="mt-3 w-4" src={settings_img} />
-          </button>
+          </button> */}
         </div>
       </div>
       <ModalBtns
@@ -602,7 +607,7 @@ const Transactions = () => {
                       -parseInt(modalAddTransaction.watch('amount'), 10)
                     )
 
-                  editTransaction(selectedTransaction.id, modalAddTransaction.watch())
+                  editTransaction(selectedTransaction.id!, modalAddTransaction.watch())
                   modalAddTransaction.reset()
                   setIsModalMoreOpen(false)
                 }
@@ -676,7 +681,7 @@ const Transactions = () => {
                 textColor: 'text-white',
                 children: 'Да',
                 onClick: () => {
-                  deleteTransaction(selectedTransaction.id)
+                  deleteTransaction(selectedTransaction.id!)
                   handleModalClose()
                 }
               },

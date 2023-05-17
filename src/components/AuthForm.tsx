@@ -89,12 +89,12 @@ const AuthForm = () => {
                   loginError}
               </p>
             )}
-            <a
+            {/* <a
               className="focus:border-blue-focus text-xs text-[#7C7C7C] focus:border-2 focus:outline-0 md:text-base"
               href="#"
             >
               Забыли пароль?
-            </a>
+            </a> */}
           </div>
           <Input
             error={errors.password ? true : false}
