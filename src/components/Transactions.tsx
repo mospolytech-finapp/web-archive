@@ -260,7 +260,7 @@ const Transactions = () => {
               setIsModalSettingsOpen(true)
             }}
           >
-            <img alt="параметры" className="mt-3 w-4" src={settings_img} />
+            <img alt="параметры" className="w-4" src={settings_img} />
           </button>
         </div>
       </div>
