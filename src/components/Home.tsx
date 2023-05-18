@@ -111,7 +111,7 @@ const Home = () => {
           <div>
             <div className="flex justify-between gap-1">
               <div className="relative w-full">
-                <button
+                <Link
                   className="
         bg- bg-dark
         block w-full rounded-3xl
@@ -121,9 +121,10 @@ const Home = () => {
         text-xs text-white
         lg:text-lg
         "
+                  to="/transactions"
                 >
                   Фильтр
-                </button>
+                </Link>
                 <img
                   alt=""
                   className="absolute right-[20%] top-1.5 lg:top-1.5 lg:right-[10%] lg:h-5"
@@ -209,9 +210,12 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-              <button className="mx-auto block w-fit rounded-2xl border-2 border-black px-2 text-center font-bold lg:px-10 lg:py-2">
+              <Link
+                className="mx-auto block w-fit rounded-2xl border-2 border-black px-2 text-center font-bold lg:px-10 lg:py-2"
+                to="/transactions"
+              >
                 Все транзакции
-              </button>
+              </Link>
               <div className="mx-auto grid">
                 <Button
                   margin=''

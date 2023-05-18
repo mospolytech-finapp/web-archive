@@ -1,5 +1,5 @@
 export default interface ITransactionData {
-  id: number
+  id?: number
   name: string
   amount: string
   date: string
