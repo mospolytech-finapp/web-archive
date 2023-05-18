@@ -250,6 +250,10 @@ const Goal = ({ ...props }: IGoalData) => {
               className="
             text-3xl
             font-light
+            block
+            mb-2
+            lg:inline
+            lg:mx-6
             "
             >
               Осталось:
