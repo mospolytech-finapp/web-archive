@@ -179,11 +179,11 @@ const Transactions = () => {
   const createTransaction = async (data: FieldValues) => {
     try {
       const response = await TransactionDataService.create({
-        name: data.name,
+        name: data.name !== '' ? data.name : null,
         amount: data.amount,
         date: data.date,
-        time: data.time,
-        description: data.description,
+        time: data.time !== '' ? data.time : null,
+        description: data.description !== '' ? data.description : null,
         category: categories.find((category) => category.name == data.category)?.id ?? 0
       })
 
@@ -196,12 +196,11 @@ const Transactions = () => {
   const editTransaction = async (id: number, data: FieldValues) => {
     try {
       const response = await TransactionDataService.update(id, {
-        id,
-        name: data.name,
+        name: data.name !== '' ? data.name : null,
         amount: data.amount,
         date: data.date,
-        time: data.time,
-        description: data.description,
+        time: data.time !== '' ? data.time : null,
+        description: data.description !== '' ? data.description : null,
         category: categories.find((category) => category.name == data.category)?.id ?? 0
       })
 
