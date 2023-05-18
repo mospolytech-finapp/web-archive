@@ -301,7 +301,7 @@ const Transactions = () => {
           >
             {'Добавить'}
           </Button>
-          {/* <button
+          <button
             onClick={() => {
               setIsModalSettingsOpen(true)
             }}
