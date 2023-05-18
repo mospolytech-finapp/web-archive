@@ -119,27 +119,31 @@ const Transactions = () => {
         }, new Map())
     )
 
-    if (isNegative && updatedFilterMap !== undefined) {
-      const amountMin = updatedFilterMap.get('amount_min')
-      const amountMax = updatedFilterMap.get('amount_max')
+    if (updatedFilterMap !== undefined) {
+      if (isNegative) {
+        const amountMin = updatedFilterMap.get('amount_min')
+        const amountMax = updatedFilterMap.get('amount_max')
 
-      if (amountMin !== undefined && amountMax !== undefined) {
-        updatedFilterMap.set('amount_min', -Math.abs(amountMax))
-        updatedFilterMap.set('amount_max', -Math.abs(amountMin))
-      } else if (amountMin === undefined && amountMax !== undefined) {
-        updatedFilterMap.set('amount_min', -Math.abs(amountMax))
-        updatedFilterMap.delete('amount_max')
-      } else if (amountMin !== undefined && amountMax === undefined) {
-        updatedFilterMap.set('amount_max', -Math.abs(amountMin))
-        updatedFilterMap.delete('amount_min')
+        if (amountMin !== undefined && amountMax !== undefined) {
+          updatedFilterMap.set('amount_min', -Math.abs(amountMax))
+          updatedFilterMap.set('amount_max', -Math.abs(amountMin))
+        } else if (amountMin === undefined && amountMax !== undefined) {
+          updatedFilterMap.set('amount_min', -Math.abs(amountMax))
+          updatedFilterMap.delete('amount_max')
+        } else if (amountMin !== undefined && amountMax === undefined) {
+          updatedFilterMap.set('amount_max', -Math.abs(amountMin))
+          updatedFilterMap.delete('amount_min')
+        } else {
+          updatedFilterMap.set('amount_max', 0)
+        }
+      } else if (
+        modalFilterTransaction.watch('type') === 'доходы' &&
+        !updatedFilterMap.has('amount_min')
+      ) {
+        updatedFilterMap.set('amount_min', 0)
       }
     }
 
-    if (!isNegative) {
-      updatedFilterMap.set('amount_min', 0)
-    } else {
-      updatedFilterMap.set('amount_max', 0)
-    }
     setFilterMap(updatedFilterMap)
   }
 
