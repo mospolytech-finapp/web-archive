@@ -69,7 +69,7 @@ const ModalContact = ({ ...props }: ModalContact) => {
           <span className="bg-gradient-to-r from-[#C3FFED] to-[#AED8FF] bg-clip-text text-xl font-bold text-transparent">
             Почта
           </span>
-          <div className="flex gap-7 sm:gap-8">
+          <div className="flex gap-7 sm:gap-3">
             <a
               className="text-base font-normal text-white underline"
               href="mailto:HelpMe@FINAPP.COM"
@@ -91,7 +91,7 @@ const ModalContact = ({ ...props }: ModalContact) => {
           <span className="bg-gradient-to-r from-[#C3FFED] to-[#AED8FF] bg-clip-text text-xl font-bold text-transparent">
             Телефон
           </span>
-          <div className="flex gap-7 sm:gap-8">
+          <div className="flex gap-7 sm:gap-3">
             <a className="text-base font-normal text-white underline" href="tel:89996663132">
               89996663132
             </a>
