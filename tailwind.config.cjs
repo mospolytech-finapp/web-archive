@@ -4,6 +4,9 @@ module.exports = {
   content: ['./*.html', './src/**/*.{js,ts,jsx,tsx,css}'],
   theme: {
     extend: {
+      width: {
+        '100': '26rem',
+      },
       backgroundImage: {
         'goal-bg': "url('/src/assets/images/goal-bg.svg')"
       },

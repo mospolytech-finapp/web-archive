@@ -218,6 +218,8 @@ const Home = () => {
               </Link>
               <div className="mx-auto grid">
                 <Button
+                  margin=''
+                  w="w-full"
                   background="justify-self-center bg-gradient-to-r from-light-blue to-purple-active-link"
                   textColor="text-white"
                   onClick={() => null}

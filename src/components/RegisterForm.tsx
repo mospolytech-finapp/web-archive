@@ -144,6 +144,8 @@ const RegisterForm = () => {
             Регистрируясь в сервисе, вы принимаете условия пользовательского соглашения.
           </span>
           <Button
+            margin=""
+            w=""
             background="from-light-green to-light-blue bg-gradient-to-r"
             disable={!isValid}
             textColor="text-white"

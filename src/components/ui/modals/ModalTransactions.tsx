@@ -248,6 +248,8 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
           <div className="flex flex-row justify-center">
             {props.buttons.map((button, index) => (
               <Button
+                margin="mr-4 mb-3 md:mr-8"
+                w=""
                 key={index}
                 background={button.background}
                 textColor={button.textColor}
