@@ -245,7 +245,7 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                   <Input
                     error={false}
                     id="date_min"
-                    label="Дата"
+                    label="Дата(от):"
                     name="date_min"
                     register={props.register}
                     type="date"
@@ -254,6 +254,20 @@ const ModalTransactions = ({ ...props }: ModalProps) => {
                     }}
                   />
                 </div>
+              </div>
+              <div className="mb-2 flex w-24 flex-col sm:w-32">
+                <Input
+                  error={false}
+                  id="date_max"
+                  label="Дата(до):"
+                  name="date_max"
+                  register={props.register}
+                  type="date"
+                  value={new Date().toISOString().split('T')[0]}
+                  onClick={() => {
+                    null
+                  }}
+                />
               </div>
             </>
           )}
